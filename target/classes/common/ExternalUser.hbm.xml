@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration">
+
+<hibernate-mapping>
+    <class name="pojo.ExternalUser" table="ExternalUser" >
+		<id name="id" column="ID" type="long">
+			<generator class="increment"/>
+		</id>
+        <property name="uniqId" type="string" unique="true">
+            <column name="uniqid" length="20"/>
+            <!--<generator class="identity" />  -->
+        </property>
+        <property name="accountno" type="integer" unique="true">
+            <column name="accountno" not-null="true"/>
+        </property>
+        <property name="balance" type="float">
+            <column name="balance" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

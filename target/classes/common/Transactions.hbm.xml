@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration">
+
+<hibernate-mapping>
+    <class name="pojo.Transactions" table="transactions" >
+		<id name="id" column="ID" type="long">
+			<generator class="increment"/>
+		</id>
+        <property name="transactionType" type="string">
+            <column name="transactiontype" length="50"/>
+            <!--<generator class="identity" />  -->
+        </property>
+        <property name="description" type="string">
+            <column name="description" not-null="true"/>
+        </property>
+        <property name="balance" type="float">
+            <column name="balance" not-null="true"/>
+        </property>
+        <property name="uniqId" type="string" unique="true">
+            <column name="uniqid" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>
