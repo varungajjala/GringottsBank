@@ -17,7 +17,7 @@
         <property name="balance" type="float">
             <column name="balance" not-null="true"/>
         </property>
-        <property name="uniqId" type="string" unique="true">
+        <property name="uniqId" type="string">
             <column name="uniqid" not-null="true"/>
         </property>
     </class>

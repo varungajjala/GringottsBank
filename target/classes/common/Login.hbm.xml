@@ -7,7 +7,7 @@
 		<id name="id" column="ID" type="long">
 			<generator class="increment"/>
 		</id>
-        <property name="userId" type="string">
+        <property name="userId" type="string" unique="true">
             <column name="username" length="50"/>
             <!--<generator class="identity" />  -->
         </property>
@@ -17,7 +17,7 @@
         <property name="role" type="string">
             <column name="role" length="30" not-null="true"/>
         </property>
-        <property name="uniqId" type="string">
+        <property name="uniqId" type="string" unique="true">
             <column name="uniqid" length="20" not-null="true"/>
         </property>
     </class>
