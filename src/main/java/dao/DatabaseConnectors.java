@@ -5,12 +5,14 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.mapping.Property;
+import org.hibernate.property.access.spi.GetterMethodImpl;
 
 import javassist.bytecode.Descriptor.Iterator;
 import persistence.HibernateUtil;
 import pojo.ExternalUser;
 import pojo.InternalUser;
 import pojo.Login;
+import pojo.TempUserInfo;
 import pojo.Transactions;
 import pojo.UserInfo;
 
@@ -45,7 +47,21 @@ public class DatabaseConnectors {
 		 session.save(transaction);
 		 session.getTransaction().commit();
 	 }
-	 public String getUniqIdByUsername(String username) {
+	public void saveTempUserInfo(TempUserInfo tempUserInfo) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.save(tempUserInfo);
+		session.getTransaction().commit();
+	}
+	public void updateUserInfo(UserInfo userInfo) {
+		UserInfo tempUserInfo = getUserInfoByUniqId(userInfo.getUniqId());
+		userInfo.setId(tempUserInfo.getId());
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.saveOrUpdate(userInfo);
+		session.getTransaction().commit();
+	}
+	public String getUniqIdByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
 				 .add( Restrictions.like("userId", username)).uniqueResult();
@@ -69,6 +85,12 @@ public class DatabaseConnectors {
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return userInfo;
+	 }
+	 public TempUserInfo getTempUserInfoByUniqId(String uniqId) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 TempUserInfo tempUserInfo = (TempUserInfo)session.createCriteria(TempUserInfo.class)
+				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 return tempUserInfo;
 	 }
 	 public int getAccountNoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -96,5 +118,23 @@ public class DatabaseConnectors {
 			 return internalUser.getEmpId();
 		 }
 		 return 0;
+	 }
+	 public void deleteUserProfileByUniqId(String uniqId) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 String internalUser = "InternalUser";
+		 String externalUser = "ExternalUser";
+		 String userInfo = "UserInfo";
+		 String transactions = "Transactions";
+		 String login = "Login";
+		 String hql = "delete from "+internalUser+" where uniqId= :uniqId";
+		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
+		 hql = "delete from "+externalUser+" where uniqId= :uniqId";
+		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
+		 hql = "delete from "+userInfo+" where uniqId= :uniqId";
+		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
+		 hql = "delete from "+transactions+" where uniqId= :uniqId";
+		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
+		 hql = "delete from "+login+" where uniqId= :uniqId";
+		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
 	 }
 }

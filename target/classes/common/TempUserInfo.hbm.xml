@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-configuration">
+
+<hibernate-mapping>
+    <class name="pojo.TempUserInfo" table="userinfo" >
+		<id name="id" column="ID" type="long">
+			<generator class="increment"/>
+		</id>
+        <property name="uniqId" type="string" unique="true">
+            <column name="uniqid" length="20"/>
+            <!--<generator class="identity" />  -->
+        </property>
+        <property name="firstName" type="string" >
+            <column name="firstname" not-null="true"/>
+        </property>
+        <property name="lastName" type="string">
+            <column name="lastname" not-null="true"/>
+        </property>
+        <property name="username" type="string" unique="true">
+            <column name="username" not-null="true"/>
+        </property>
+        <property name="contactNo" type="string" unique="true">
+            <column name="contactno" not-null="true"/>
+        </property>
+        <property name="emailId" type="string" unique="true">
+            <column name="emailid" not-null="true"/>
+        </property>
+        <property name="address" type="string">
+            <column name="address" not-null="true"/>
+        </property>
+        <property name="state" type="string">
+            <column name="state" not-null="true"/>
+        </property>
+        <property name="city" type="string">
+            <column name="city" not-null="true"/>
+        </property>
+        <property name="country" type="string">
+            <column name="country" not-null="true"/>
+        </property>
+        <property name="zipcode" type="integer">
+            <column name="zipcode" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

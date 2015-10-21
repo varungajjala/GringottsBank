@@ -6,9 +6,9 @@
     <session-factory>
         <property name="hibernate.bytecode.use_reflection_optimizer">false</property>
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.password">admin</property>
+        <property name="hibernate.connection.password">root</property>
         <property name="hibernate.connection.url">jdbc:mysql://127.0.0.1:3307/GringottsBankdb</property>
-        <property name="hibernate.connection.username">dhanush</property>
+        <property name="hibernate.connection.username">root</property>
         <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
         <property name="show_sql">true</property>
         <mapping resource="common/Login.hbm.xml"></mapping>
@@ -16,5 +16,6 @@
         <mapping resource="common/ExternalUser.hbm.xml"></mapping>
         <mapping resource="common/UserInfo.hbm.xml"></mapping>
         <mapping resource="common/Transactions.hbm.xml"></mapping>
+        <mapping resource="common/TempUserInfo.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>

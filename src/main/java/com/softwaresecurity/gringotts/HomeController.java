@@ -2,6 +2,7 @@ package com.softwaresecurity.gringotts;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import org.slf4j.Logger;
@@ -10,6 +11,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import dao.DatabaseConnectors;
+import pojo.Transactions;
+import pojo.UserInfo;
 
 /**
  * Handles requests for the application home page.
@@ -33,12 +38,12 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+		
 		return "home";
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String register(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
-		
 		Date date = new Date();
 		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
@@ -48,5 +53,4 @@ public class HomeController {
 		
 		return "register";
 	}
-	
 }
