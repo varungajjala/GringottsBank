@@ -126,15 +126,18 @@ public class DatabaseConnectors {
 		 String userInfo = "UserInfo";
 		 String transactions = "Transactions";
 		 String login = "Login";
+		 session.beginTransaction();
 		 String hql = "delete from "+internalUser+" where uniqId= :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
-		 hql = "delete from "+externalUser+" where uniqId= :uniqId";
+		 hql = "delete from "+externalUser+" where uniqId like :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
-		 hql = "delete from "+userInfo+" where uniqId= :uniqId";
+		 hql = "delete from "+userInfo+" where uniqId like :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
-		 hql = "delete from "+transactions+" where uniqId= :uniqId";
+		 hql = "delete from "+transactions+" where uniqId like :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
-		 hql = "delete from "+login+" where uniqId= :uniqId";
+		 hql = "delete from "+login+" where uniqId like :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
+		 session.getTransaction().commit();
+		 
 	 }
 }
