@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
   <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Home</title>
+    <title>Administrator Home Page</title>
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -19,53 +21,57 @@
     
   </head>
   <body>
-  	<p></br></p>
+  	<nav class="navbar navbar-default">
+  	<div class="container-fluid">
+  	<ul class="nav navbar-nav">
+  	<li><a href="#">Profile</a></li>
+  	<li><a href="#">User Requests</a></li>
+  	<li><a href="#">View System Log</a></li>
+  	<li><a href="#">View PII</a></li>
+  	<li><a href="#">Modify User Accounts</a></li>
+  	<li><a href="#">Notifications</a></li>
+  	<li><a href="/gringotts/" role="button" class="btn btn-default pull-right">Logout</a></li>
+  	</ul>
+  	</div>
+  	</nav>	
+  	<h1 align="center" style="padding-top: 100px">Welcome Administrator</h1>
+<!-- 
   	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
     				<div class="page-header" style="margin-top: 5px;" align="center">
-    				<h3>Gringotts Bank <span class="glyphicon glyphicon-briefcase"></span></h3>
-    				</div>
-    				<form class="form-horizontal" action="register" method="get">
+    				<h3>Account Balance <span class="glyphicon glyphicon-equalizer"> </span></h3>
+    			</div>
+    			<form class="form-horizontal" action="register" method="get">
   						<div class="form-group">
-    						<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
     							<div class="col-sm-8">
     								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+										<label>${checkAccBal}</label>
       								</div>
     							</div>
   						</div>
   						<div class="form-group">
-    						<label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+    						<label for="inputPassword3" class="col-sm-3 control-label">Savings Account :</label>
    							<div class="col-sm-8">
    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-     									<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+									<label>${savingAccBal}</label>
    			 					</div>
    			 				</div>
   						</div>
-  						<div class="form-group">
-    						<div class="col-sm-offset-2 col-sm-10">
-    						<a href="register" role="button" class="btn btn-primary">Register</a>
-    						<a href="extUserHomePage" role="button" type="submit" class="btn btn-success">sign in</a>
-    						<h6><a href="forgotPass" role="button" class="btn btn-danger">Forgot Password?</a></h6>
-    						</div>
-  						</div>
-					</form>		
-  				</div>
-			</div>
-  		
-  		
-  		</div>
-  		<div class="col-md-2"></div>
-	</div>
-
+  						
+					</form>	
+    			</div>
+    		</div>
+    	</div>
+    </div>
+  --> 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    
   </body>
 </html>
