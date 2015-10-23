@@ -72,7 +72,7 @@ public class HomeController {
 		dbcon.saveUserInfo(uinfoget);
 //		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
 		logger.info("leaving post");
-		return "register";	
+		return "registrationSuccessful";	
 	}
 	@RequestMapping(value = "/registrationSuccessful", method = RequestMethod.POST)
 	public String regSuccess(Model model, HttpSession session) {
@@ -101,16 +101,8 @@ public class HomeController {
 		
 		return "intUserHomePage";
 	}
-	@RequestMapping(value = "/merchantHomePage", method = RequestMethod.GET)
-	public String merchUserHomePage(Locale locale, Model model, HttpSession session) {
-		
-		return "merchantHomePage";
-	}
-	@RequestMapping(value = "/managerHomePage", method = RequestMethod.GET)
-	public String mangrUserHomePage(Locale locale, Model model, HttpSession session) {
-		
-		return "managerHomePage";
-	}
+	
+
 	@RequestMapping(value = "/adminHomePage", method = RequestMethod.GET)
 	public String admUserHomePage(Locale locale, Model model, HttpSession session) {
 		
@@ -121,4 +113,5 @@ public class HomeController {
 		
 		return "test";
 	}
+
 }

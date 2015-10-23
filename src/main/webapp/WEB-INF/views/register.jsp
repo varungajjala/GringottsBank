@@ -26,9 +26,11 @@
     $(function () {
         $("input[name='chkUserType']").click(function () {
             if ($("#merchant").is(":checked")) {
-                $("#dvUserType").show();
-            } else {
-                $("#dvUserType").hide();
+                $("#dvMerchantID").show();
+                $("#dvPII").hide();
+            } else if ($("#singleUser").is(":checked")){
+                $("#dvPII").show();
+                $("#dvMerchantID").hide();
             }
         });
     });
@@ -41,7 +43,7 @@
     				<div class="page-header" style="margin-top: 5px;" align="center">
     				<h3>Registration</h3>
     				</div>
-    				<form:form class="form-horizontal" action = "registrationSuccessful" commandName="send" method="POST">
+    				<form:form class="form-horizontal" commandName="send" method="POST">
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">Username</label>
     							<div class="col-sm-8">
@@ -120,7 +122,7 @@
     							</div>
   						</div>
   						
-						<div class="form-group" id="dvUserType" style="display: none">
+						<div class="form-group" id="dvMerchantID" style="display: none">
     						<label for="inputContact" class="col-sm-2 control-label">Merchant ID</label>
     							<div class="col-sm-8">
     								<div class="input-group">
@@ -129,9 +131,18 @@
       								</div>
     							</div>
   						</div>
+  						<div class="form-group" id="dvPII" style="display: none">
+    						<label for="inputContact" class="col-sm-2 control-label">SSN</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
+      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="SSN"/>
+      								</div>
+    							</div>
+  						</div>
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
-    						<button type="submit" class="btn btn-success">Register</button>
+    						<button type="submit" class="btn btn-success" >Register</button>
      						
     						</div>
   						</div>

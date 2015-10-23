@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
@@ -7,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Merchant Home Page</title>
+    <title>Register</title>
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -21,31 +20,39 @@
     
   </head>
   <body>
-  	<nav class="navbar navbar-default">
-  	<div class="container-fluid">
-  	<ul class="nav navbar-nav">
-  	<li><a href="#">Profile</a></li>
-  	<li><a href="#">Accounts</a></li>
-  	<li><a href="#">Credit/Debit</a></li>
-  	<li><a href="#">Transfers</a></li>
-  	<li><a href="#">Transaction History</a></li>
-  	<li><a href="#">Manage Customers</a></li>
-  	<li><a href="#">Request Payment</a></li>
-  	<li><a href="#">Notifications</a></li>
-  	<li><a href="/gringotts/" role="button" class="btn btn-default pull-right">Logout</a></li>
-  	</ul>
-  	</div>
-  	</nav>	
-  	<h1 align="center">Welcome User</h1>
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+    
+    </script>
+  
+  	<p><br/></p>
+  	
   	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
-    				<div class="page-header" style="margin-top: 5px;" align="center">
-    				<h3>Account Balance <span class="glyphicon glyphicon-equalizer"> </span></h3>
-    			</div>
-    			<form class="form-horizontal" action="register" method="get">
+  					<ul class="nav nav-tabs" data-tabs="tabs">
+  						<li class="active"><a href="#Tab1" data-toggle="tab">Accounts</a></li>
+  						<li><a href="#Tab2" data-toggle="tab">Profile</a></li>
+  						<li><a href="#Tab3" data-toggle="tab">Credit</a></li>
+  						<li><a href="#Tab4" data-toggle="tab">Debit</a></li>
+  						<li><a href="#Tab5" data-toggle="tab">Transfers</a></li>
+  						<li><a href="#Tab6" data-toggle="tab">Transaction History</a></li>
+  						<li><a href="#Tab7" data-toggle="tab">Manage Customers</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Request Payment</a></li>
+  						
+					</ul>
+					
+        				</div>
+        			<div id="my-tab-content" class="tab-content">	
+        				<div class="tab-pane" id="Tab1">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Accounts</h3>
+    						</div>
+    						<form class="form-horizontal" action="register" method="get">
   						<div class="form-group">
     						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
     							<div class="col-sm-8">
@@ -64,15 +71,113 @@
   						</div>
   						
 					</form>	
-    			</div>
-    		</div>
-    	</div>
-    </div>
-  	
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
+        				</div>
+        				<div class="tab-pane" id="Tab2">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Profile</h3>
+    						</div>
+    						
+        				</div>
+        				
+        				<div class="tab-pane" id="Tab3">
+        					<form class="form-horizontal" action="debitmoney" method="get">
+  								<div class="form-group">
+    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<label for="displayAmount" class="col-lg2 control-label"></label>
+    									<div class="col-lg-10">
+    										<div class="col-xs-24">
+      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
+      										</div>
+    									</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
+   										<div class="col-lg-10">
+   											<div class="col-xs-24">
+     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
+   			 								</div>
+   			 							</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+   										<div class="col-lg-10">
+   											<div class="col-xs-24">
+     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 								</div>
+   			 							</div>
+  								</div>
+  								<div class="form-group">
+    								<div class="col-lg-offset-2 col-lg-10">
+    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+     										<button type="reset" class="btn btn-success">Cancel</button>
+    								</div>
+  								</div>
+							</form>
+        				</div>
+        				
+        				<div class="tab-pane" id="Tab4">
+        					<form class="form-horizontal" action="debitmoney" method="get">
+  								<div class="form-group">
+    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<label for="displayAmount" class="col-lg2 control-label"></label>
+    								<div class="col-lg-10">
+    									<div class="col-xs-24">
+      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
+      									</div>
+    								</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+   									<div class="col-lg-10">
+   										<div class="col-xs-24">
+     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 							</div>
+   			 						</div>
+  								</div>
+  								<div class="form-group">
+    								<div class="col-lg-offset-2 col-lg-10">
+    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+     										<button type="reset" class="btn btn-success">Cancel</button>
+    								</div>
+  								</div>
+							</form>
+        				</div>
+        				<div class="tab-pane" id="Tab5">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Transfers</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab6">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Transaction History</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab7">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Manage Customers</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab8">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Request Payment</h3>
+    						</div>
+    						
+        				</div>
+        				
+        				<!-- Sujata's work -->
+        				
+        				
+        				
+        				
+        				
+        				</div>	
+  					</div>
+				</div>
+  			</div>
+  			<div class="col-md-2"></div>
+	
   </body>
 </html>
