@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Merchant Home Page</title>
+    <title>Administrator Home Page</title>
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -25,18 +25,17 @@
   	<div class="container-fluid">
   	<ul class="nav navbar-nav">
   	<li><a href="#">Profile</a></li>
-  	<li><a href="#">Accounts</a></li>
-  	<li><a href="#">Credit/Debit</a></li>
-  	<li><a href="#">Transfers</a></li>
-  	<li><a href="#">Transaction History</a></li>
-  	<li><a href="#">Manage Customers</a></li>
-  	<li><a href="#">Request Payment</a></li>
+  	<li><a href="#">User Requests</a></li>
+  	<li><a href="#">View System Log</a></li>
+  	<li><a href="#">View PII</a></li>
+  	<li><a href="#">Modify User Accounts</a></li>
   	<li><a href="#">Notifications</a></li>
   	<li><a href="/gringotts/" role="button" class="btn btn-default pull-right">Logout</a></li>
   	</ul>
   	</div>
   	</nav>	
-  	<h1 align="center">Welcome User</h1>
+  	<h1 align="center" style="padding-top: 100px">Welcome Administrator</h1>
+<!-- 
   	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
@@ -68,7 +67,7 @@
     		</div>
     	</div>
     </div>
-  	
+  --> 	
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

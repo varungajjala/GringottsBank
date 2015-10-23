@@ -91,27 +91,4 @@ public class HomeController {
 		
 		return "forgotPass";
 	}
-	@RequestMapping(value = "/extUserHomePage", method = RequestMethod.GET)
-	public String externUserHomePage(Locale locale, Model model, HttpSession session) {
-		
-		return "extUserHomePage";
-	}
-	@RequestMapping(value = "/intUserHomePage", method = RequestMethod.GET)
-	public String internUserHomePage(Locale locale, Model model, HttpSession session) {
-		
-		return "intUserHomePage";
-	}
-	
-
-	@RequestMapping(value = "/adminHomePage", method = RequestMethod.GET)
-	public String admUserHomePage(Locale locale, Model model, HttpSession session) {
-		
-		return "adminHomePage";
-	}
-	@RequestMapping(value = "/test", method = RequestMethod.GET)
-	public String testPage(Locale locale, Model model, HttpSession session) {
-		
-		return "test";
-	}
-
 }

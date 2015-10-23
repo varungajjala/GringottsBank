@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html lang="en">
@@ -7,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Internal User Home Page</title>
+    <title>Register</title>
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -21,57 +20,76 @@
     
   </head>
   <body>
-  	<nav class="navbar navbar-default">
-  	<div class="container-fluid">
-  	<ul class="nav navbar-nav">
-  	<li><a href="#">Profile</a></li>
-  	<li><a href="#">Manage Users</a></li>
-  	<li><a href="#">Authorize Payment</a></li>
-  	<li><a href="#">View Critical Requests</a></li>
-  	<li><a href="#">Transaction History</a></li>
-  	<li><a href="#">Manage Transactions</a></li>
-  	<li><a href="#">Notifications</a></li>
-  	<li><a href="/gringotts/" role="button" class="btn btn-default pull-right">Logout</a></li>
-  	</ul>
-  	</div>
-  	</nav>	
-  	<h1 align="center" style="padding-top: 100px">Welcome User</h1>
-  	<!-- <div class="row">
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
+    
+    </script>
+  
+  	<p><br/></p>
+  	
+  	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
-    				<div class="page-header" style="margin-top: 5px;" align="center">
-    				<h3>Account Balance <span class="glyphicon glyphicon-equalizer"> </span></h3>
-    			</div>
-    			<form class="form-horizontal" action="register" method="get">
-  						<div class="form-group">
-    						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-										<label>${checkAccBal}</label>
-      								</div>
-    							</div>
-  						</div>
-  						<div class="form-group">
-    						<label for="inputPassword3" class="col-sm-3 control-label">Savings Account :</label>
-   							<div class="col-sm-8">
-   								<div class="input-group">
-									<label>${savingAccBal}</label>
-   			 					</div>
-   			 				</div>
-  						</div>
+  					<ul class="nav nav-tabs" data-tabs="tabs">
+  						<li class="active"><a href="#Tab1" data-toggle="tab">Profile</a></li>
+  						<li><a href="#Tab2" data-toggle="tab">Manage Users</a></li>
+  						<li><a href="#Tab3" data-toggle="tab">Authorize Payments</a></li>
+  						<li><a href="#Tab4" data-toggle="tab">View Critical Requests</a></li>
+  						<li><a href="#Tab5" data-toggle="tab">Transaction History</a></li>
+  						<li><a href="#Tab6" data-toggle="tab">Manage Transactions</a></li>
   						
-					</form>	
-    			</div>
-    		</div>
-    	</div>
-    </div>
-  	 -->
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-    
+  						
+					</ul>
+					
+					<div id="my-tab-content" class="tab-content">
+            			
+            			<div class="tab-pane active" id="Tab1">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Profile</h3>
+    						</div>
+    						
+        				</div>
+        				
+        				<div class="tab-pane" id="Tab2">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Manage User</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab3">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Authorize Payments</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab4">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>View Critical Requests</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab5">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Transaction History</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab6">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Manage Transactions</h3>
+    						</div>
+    	
+        			</div>	
+        				</div>
+				</div>
+  			</div>
+  			<div class="col-md-2"></div>
+		</div>
+	</div>
+	
   </body>
 </html>

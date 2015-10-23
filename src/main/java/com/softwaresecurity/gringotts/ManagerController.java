@@ -59,7 +59,7 @@ public class ManagerController {
 			ExternalUser EU = new ExternalUser();
 			model.put("send", EU);
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 		
 		@RequestMapping(value = "/delete_user", method = RequestMethod.POST)
@@ -78,7 +78,7 @@ public class ManagerController {
 			
 			logger.info("leaving delete User POST");
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 		
 		@RequestMapping(value = "/modify_user", method = RequestMethod.GET)
@@ -89,7 +89,7 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 		
 		@RequestMapping(value = "/modify_user", method = RequestMethod.POST)
@@ -104,7 +104,7 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 		
 		@RequestMapping(value = "/create_user", method = RequestMethod.GET)
@@ -115,7 +115,7 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 		
 		@RequestMapping(value = "/create_user", method = RequestMethod.POST)
@@ -130,7 +130,7 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
-			return "user_account_op";
+			return "managerHomePage";
 		}
 
 	

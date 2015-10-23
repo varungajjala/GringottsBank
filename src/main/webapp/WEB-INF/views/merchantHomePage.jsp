@@ -48,7 +48,7 @@
 					
         				</div>
         			<div id="my-tab-content" class="tab-content">	
-        				<div class="tab-pane" id="Tab1">
+        				<div class="tab-pane active" id="Tab1">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Accounts</h3>
     						</div>
