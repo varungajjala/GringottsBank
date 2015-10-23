@@ -35,18 +35,45 @@
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
   					<ul class="nav nav-tabs" data-tabs="tabs">
-  						<li><a href="#Tab4" data-toggle="tab">Profile</a></li>
-  						<li><a href="#Tab5" data-toggle="tab">User Requests</a></li>
-  						<li><a href="#Tab6" data-toggle="tab">Authorize Critical Transactions</a></li>
-  						<li><a href="#Tab8" data-toggle="tab">View Authorized Transactions</a></li>
-  						<li class="active"><a href="#Tab1" data-toggle="tab">Delete User</a></li>
-  						<li><a href="#Tab2" data-toggle="tab">Modify User</a></li>
-  						<li><a href="#Tab3" data-toggle="tab">Create User</a></li>
+  						<li><a href="#Tab1" data-toggle="tab">Profile</a></li>
+  						<li><a href="#Tab2" data-toggle="tab">User Requests</a></li>
+  						<li><a href="#Tab3" data-toggle="tab">Authorize Critical Transactions</a></li>
+  						<li><a href="#Tab4" data-toggle="tab">View Authorized Transactions</a></li>
+  						<li class="active"><a href="#Tab5" data-toggle="tab">Delete User</a></li>
+  						<li><a href="#Tab6" data-toggle="tab">Modify User</a></li>
+  						<li><a href="#Tab7" data-toggle="tab">Create User</a></li>
   						
 					</ul>
 					
 					<div id="my-tab-content" class="tab-content">
-            			<div class="tab-pane active" id="Tab1">
+            			
+            			<div class="tab-pane" id="Tab1">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Profile</h3>
+    						</div>
+    						
+        				</div>
+        				
+        				<div class="tab-pane" id="Tab2">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>User Requests</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab3">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Authorize Critical Transactions</h3>
+    						</div>
+    						
+        				</div>
+        				<div class="tab-pane" id="Tab4">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>View Authorized Transactions</h3>
+    						</div>
+    						
+        				</div>
+        				
+            			<div class="tab-pane active" id="Tab5">
         					<div class="page-header" style="margin-top: 5px;" align="center">
 								<h3>Delete User</h3>
     						</div>
@@ -106,7 +133,7 @@
 							</form:form>
         				</div>
         				
-        				<div class="tab-pane" id="Tab2">
+        				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Modify User</h3>
     						</div>
@@ -229,7 +256,7 @@
 							</form:form>
         				</div>
         				
-        				<div class="tab-pane" id="Tab3">
+        				<div class="tab-pane" id="Tab7">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Create User</h3>
     						</div>
@@ -357,7 +384,7 @@
         				
         				<!-- Sujata's work -->
         				
-        				
+  <!--       				
         				<div class="tab-pane" id="Tab4">
         					<form class="form-horizontal" action="debitmoney" method="get">
   								<div class="form-group">
@@ -393,7 +420,8 @@
   								</div>
 							</form>
         				</div>
-        				
+ -->       				
+  <!--       				
         				<div class="tab-pane" id="Tab5">
         					<form class="form-horizontal" action="debitmoney" method="get">
   								<div class="form-group">
@@ -422,7 +450,7 @@
 							</form>
         				</div>
         				
-        					
+        				-->	
   					</div>
 				</div>
   			</div>
