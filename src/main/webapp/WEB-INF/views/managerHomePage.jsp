@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>Register</title>
+    <title>Manager Home Page</title>
 
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
@@ -146,7 +146,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Lastname"/>
+      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Firstname"/>
       								</div>
     							</div>
   						</div>
@@ -155,7 +155,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Firstname"/>
+      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Lastname"/>
       								</div>
     							</div>
   						</div>
@@ -258,7 +258,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Lastname"/>
+      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Firstname"/>
       								</div>
     							</div>
   						</div>
@@ -267,7 +267,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Firstname"/>
+      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Lastname"/>
       								</div>
     							</div>
   						</div>

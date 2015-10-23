@@ -58,7 +58,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Lastname"/>
+      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Firstname"/>
       								</div>
     							</div>
   						</div>
@@ -67,7 +67,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Firstname"/>
+      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Lastname"/>
       								</div>
     							</div>
   						</div>
