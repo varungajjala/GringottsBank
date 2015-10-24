@@ -12,6 +12,7 @@ public class UserInfo {
 	private int zipcode;
 	private String state;
 	private String country;
+	private long identificationNo;
 	/**
 	 * @param firstName
 	 * @param lastName
@@ -24,9 +25,10 @@ public class UserInfo {
 	 * @param zipcode
 	 * @param state
 	 * @param country
+	 * @param identificationNo
 	 */
 	public UserInfo(String firstName, String lastName, String contactNo, String emailId, String username, String uniqId,
-			String address, String city, int zipcode, String state, String country) {
+			String address, String city, int zipcode, String state, String country, long identificationNo) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.contactNo = contactNo;
@@ -38,6 +40,7 @@ public class UserInfo {
 		this.zipcode = zipcode;
 		this.state = state;
 		this.country = country;
+		this.setIdentificationNo(identificationNo);
 	}
 	/**
 	 * 
@@ -188,6 +191,18 @@ public class UserInfo {
 	 */
 	public void setCountry(String country) {
 		this.country = country;
+	}
+	/**
+	 * @return the identificationNo
+	 */
+	public long getIdentificationNo() {
+		return identificationNo;
+	}
+	/**
+	 * @param identificationNo the identificationNo to set
+	 */
+	public void setIdentificationNo(long identificationNo) {
+		this.identificationNo = identificationNo;
 	}
 	
 }

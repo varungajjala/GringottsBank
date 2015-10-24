@@ -3,22 +3,24 @@
 "http://www.hibernate.org/dtd/hibernate-configuration">
 
 <hibernate-mapping>
-    <class name="pojo.ExternalUser" table="ExternalUser" >
+    <class name="pojo.TempTransactions" table="temptransactions" >
 		<id name="id" column="ID" type="long">
 			<generator class="increment"/>
 		</id>
-        <property name="uniqId" type="string" unique="true">
-            <column name="uniqid" length="20"/>
+        <property name="transactionType" type="string">
+            <column name="transactiontype" length="50"/>
             <!--<generator class="identity" />  -->
         </property>
-        <property name="accountno" type="integer" unique="true">
-            <column name="accountno" not-null="true"/>
+        <property name="description" type="string">
+            <column name="description" not-null="true"/>
         </property>
         <property name="balance" type="float">
             <column name="balance" not-null="true"/>
         </property>
-        <property name="status" type="string">
-            <column name="status" not-null="true"/>
+        <property name="uniqId" type="string">
+            <column name="uniqid" not-null="true"/>
+        </property>
+        <property name="date" type="timestamp">
         </property>
     </class>
 </hibernate-mapping>

@@ -5,16 +5,19 @@ public class ExternalUser {
 	private String uniqId;
 	private int accountno;
 	private float balance;
+	private String status;
 	/**
 	 * @param uniqId
 	 * @param accountno
 	 * @param balance
+	 * @param status
 	 */
-	public ExternalUser(String uniqId, int accountno, float balance) {
+	public ExternalUser(String uniqId, int accountno, float balance, String status) {
 		super();
 		this.uniqId = uniqId;
 		this.accountno = accountno;
 		this.balance = balance;
+		this.setStatus(status);
 	}
 	/**
 	 * @return the id
@@ -74,6 +77,18 @@ public class ExternalUser {
 	public void setBalance(double d) {
 		// TODO Auto-generated method stub
 		
+	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 }
 

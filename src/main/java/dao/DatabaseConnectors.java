@@ -12,6 +12,7 @@ import persistence.HibernateUtil;
 import pojo.ExternalUser;
 import pojo.InternalUser;
 import pojo.Login;
+import pojo.TempTransactions;
 import pojo.TempUserInfo;
 import pojo.Transactions;
 import pojo.UserInfo;
@@ -47,6 +48,12 @@ public class DatabaseConnectors {
 		 session.save(transaction);
 		 session.getTransaction().commit();
 	 }
+	public void saveTempTransaction(TempTransactions transaction) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 session.beginTransaction();
+		 session.save(transaction);
+		 session.getTransaction().commit();
+	 }
 	public void saveTempUserInfo(TempUserInfo tempUserInfo) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -69,7 +76,7 @@ public class DatabaseConnectors {
 			 return login.getUniqId();
 		 }
 		 return "";
-	 }
+	}
 	public List<Transactions> getTransactionsByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
@@ -85,6 +92,12 @@ public class DatabaseConnectors {
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return userInfo;
+	 }
+	 public TempTransactions getTempTransactionsById(long id) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 TempTransactions tempTransactions = (TempTransactions)session.createCriteria(TempTransactions.class)
+				 .add(Restrictions.eq("id", id)).uniqueResult();
+		 return tempTransactions;
 	 }
 	 public TempUserInfo getTempUserInfoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
