@@ -1,4 +1,6 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -46,13 +48,13 @@
     				<div class="page-header" style="margin-top: 5px;" align="center">
     				<h3>Gringotts Bank <span class="glyphicon glyphicon-briefcase"></span></h3>
     				</div>
-    				<form class="form-horizontal" action="register" method="get">
+    				<form:form class="form-horizontal" commandName="loginPage" method="POST">
   						<div class="form-group">
-    						<label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+    						<label for="inputEmail3" class="col-sm-2 control-label">Username</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<input type="email" class="form-control" id="inputEmail3" placeholder="Email">
+      									<form:input path = "userId" type="text" class="form-control" id="inputEmail3" placeholder="Username"/>
       								</div>
     							</div>
   						</div>
@@ -61,19 +63,26 @@
    							<div class="col-sm-8">
    								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-     									<input type="password" class="form-control" id="inputPassword3" placeholder="Password">
+     									<form:input path = "passwd" type="password" class="form-control" id="inputPassword3" placeholder="Password"/>
    			 					</div>
    			 				</div>
   						</div>
   						<div class="form-group">
     						<div class="col-sm-offset-2 col-sm-10">
     						<a href="register" role="button" class="btn btn-primary">Register</a>
-    						<a href="extUserHomePage" role="button" type="submit" class="btn btn-success">sign in</a>
+    						<button type="submit" class="btn btn-success" >Sign-in</button>
     						<h6><a href="forgotPass" role="button" class="btn btn-danger">Forgot Password?</a></h6>
     						</div>
   						</div>
-					</form>		
+					</form:form>		
   				</div>
+			</div>
+			
+			<div>
+			<p>
+			${message}
+			
+			</p>
 			</div>
   		
   		

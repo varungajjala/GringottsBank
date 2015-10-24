@@ -14,6 +14,7 @@ public class UserInfo {
 	private String country;
 	private long identificationNo;
 	private String utype;
+	private String passwd;
 	/**
 	 * @param firstName
 	 * @param lastName
@@ -61,6 +62,15 @@ public class UserInfo {
 	public void setutype(String utype) {
 		this.utype = utype;
 	}
+	
+	public String getPasswd() {
+		return this.passwd;
+	}
+
+	public void setPasswd(String passwd) {
+		this.passwd = passwd;
+	}
+
 	/**
 	 * @return the id
 	 */

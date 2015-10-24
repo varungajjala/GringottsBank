@@ -77,6 +77,35 @@ public class DatabaseConnectors {
 		 }
 		 return "";
 	}
+	
+	public String getPasswdByUsername(String username) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 Login login = (Login) session.createCriteria(Login.class)
+				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 if(login != null) {
+			 return login.getPasswd();
+		 }
+		 return "";
+	}
+	
+	public String getRoleByUsername(String username) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 Login login = (Login) session.createCriteria(Login.class)
+				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 if(login != null) {
+			 return login.getRole();
+		 }
+		 return "";
+	}
+	
+	public int checkLogin(String userid, String passwd){
+		String passFromDb = getPasswdByUsername(userid);
+		if (passFromDb != "" && passFromDb.equals(passwd)){
+			return 1;
+		}
+		return 0;
+	}
+	
 	public List<Transactions> getTransactionsByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")

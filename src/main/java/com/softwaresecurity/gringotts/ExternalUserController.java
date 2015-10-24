@@ -38,10 +38,23 @@ public class ExternalUserController {
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 			
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("admin")){
+					return "redirect:adminHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("ei")){
+					return "extUserHomePage";
+				}
+			}
 			
-			
-			
-		return "extUserHomePage";
+			return "redirect:home";
+		
 	}
 		
 			

@@ -42,7 +42,24 @@ public class AdminController {
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() ); 
 			
-		return "adminHomePage";
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("admin")){
+					return "adminHomePage";
+				}
+			}
+			
+			return "redirect:home";
+			
+		
 	}
 	
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.GET)

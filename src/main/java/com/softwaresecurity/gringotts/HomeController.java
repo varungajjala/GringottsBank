@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.mysql.jdbc.log.Log;
+
 /**
  * Handles requests for the application home page.
  */
@@ -37,23 +39,71 @@ public class HomeController {
 	 * Simply selects the home view to render by returning its name.
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String home(Locale locale, Model model, HttpSession session) {
+	public String home(Locale locale, ModelMap model, HttpSession session) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		
-		Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
 		
-		String formattedDate = dateFormat.format(date);
+		if(session.getAttribute("role") != null){
+			String role = session.getAttribute("role").toString();
+			if(role != null || role != ""){
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("admin")){
+					return "redirect:adminHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}
+			}
+		}
 		
-		model.addAttribute("serverTime", formattedDate );
 		
+		Login loginPageGet = new Login();
+		
+		model.put("loginPage",loginPageGet);
+		return "home";
+	}
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String homePost(@ModelAttribute("loginPage")Login loginPageSet, ModelMap model, HttpSession session) {
+		
+		DatabaseConnectors dbcon = new DatabaseConnectors();
+		
+		int result = dbcon.checkLogin(loginPageSet.getUserId(), loginPageSet.getPasswd());
+		
+		if(result==1)
+		{
+			String role = dbcon.getRoleByUsername(loginPageSet.getUserId());
+			 
+			session.setAttribute("username", loginPageSet.getUserId());
+			session.setAttribute("role", role);
+			if(role.equals("ei")){
+				return "redirect:extUserHomePage";
+			}else if(role.equals("admin")){
+				return "redirect:adminHomePage";
+			}else if(role.equals("em")){
+				return "redirect:merchantHomePage";
+			}else if(role.equals("im")){
+				return "redirect:managerHomePage";
+			}else if(role.equals("ir")){
+				return "redirect:intUserHomePage";
+			}
+			
+			
+		}
+		model.addAttribute("message","incorrect login details");
 		return "home";
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registerme(ModelMap model) {
 		logger.info("Entering get");	
 		UserInfo uinfoset = new UserInfo();
+		
 		model.put("send", uinfoset);
+		
+		
 		//DatabaseConnectors dbcon = new DatabaseConnectors();
 		//dbcon.saveUserInfo(uinfoset);
 		logger.info("leaving get");
@@ -62,6 +112,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m) {
+		Login uloginset = new Login();
 		logger.info("Entering post");
 		 logger.info("In registration POST");
 	        
@@ -94,9 +145,20 @@ public class HomeController {
 		String uniqId = userType+uniqIdVal;
 		
 		uinfoget.setUniqId(uniqId);
+		uloginset.setUserId(uinfoget.getUsername());
+		uloginset.setPasswd(uinfoget.getPasswd());
+		uloginset.setRole(userType);
+		uloginset.setUniqId(uinfoget.getUniqId());
+		logger.info("login userID" + uloginset.getUserId());
+		logger.info("login password" + uloginset.getPasswd());
+		logger.info("login role" + uloginset.getRole());
+		logger.info("login uniqId" + uloginset.getUniqId());
+		
 		//uinfoget.setUsername(uinfoget.getFirstName());
 		DatabaseConnectors dbcon = new DatabaseConnectors();
 		dbcon.saveUserInfo(uinfoget);
+		dbcon.saveLogin(uloginset);
+//		dbcon.saveLogin(userLogin);
 //		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
 		logger.info("leaving post");
 		return "registrationSuccessful";	

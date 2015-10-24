@@ -42,8 +42,23 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("admin")){
+					return "redirect:adminHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("im")){
+					return "managerHomePage";
+				}
+			}
 			
-		return "managerHomePage";
+			return "redirect:home";
+		
 	}
 		
 			
