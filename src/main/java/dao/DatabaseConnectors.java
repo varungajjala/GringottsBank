@@ -1,4 +1,6 @@
 package dao;
+import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import java.util.List;
 
 import org.hibernate.Session;
@@ -100,7 +102,8 @@ public class DatabaseConnectors {
 	
 	public int checkLogin(String userid, String passwd){
 		String passFromDb = getPasswdByUsername(userid);
-		if (passFromDb != "" && passFromDb.equals(passwd)){
+		//if (passFromDb != "" && passFromDb.equals(passwd)){
+		if (passFromDb !=""&& BCrypt.checkpw(passwd, passFromDb)){
 			return 1;
 		}
 		return 0;

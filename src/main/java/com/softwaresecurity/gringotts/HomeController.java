@@ -17,6 +17,7 @@ import org.junit.runner.Request;
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -113,6 +114,8 @@ public class HomeController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m) {
 		Login uloginset = new Login();
+		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
 		logger.info("Entering post");
 		 logger.info("In registration POST");
 	        
@@ -143,10 +146,10 @@ public class HomeController {
 		}
 		
 		String uniqId = userType+uniqIdVal;
-		
+		String hashedPassword = passwordEncoder.encode(uinfoget.getPasswd());
 		uinfoget.setUniqId(uniqId);
 		uloginset.setUserId(uinfoget.getUsername());
-		uloginset.setPasswd(uinfoget.getPasswd());
+		uloginset.setPasswd(hashedPassword);
 		uloginset.setRole(userType);
 		uloginset.setUniqId(uinfoget.getUniqId());
 		logger.info("login userID" + uloginset.getUserId());

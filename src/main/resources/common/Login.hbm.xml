@@ -12,7 +12,7 @@
             <!--<generator class="identity" />  -->
         </property>
         <property name="passwd" type="string">
-            <column name="password" length="50" not-null="true"/>
+            <column name="password" length="60" not-null="true"/>
         </property>
         <property name="role" type="string">
             <column name="role" length="30" not-null="true"/>
