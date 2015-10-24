@@ -65,7 +65,7 @@ public class AdminController {
 	}
 	
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.GET)
-		public String delete_user(ModelMap model) {
+		public String delete_user(ModelMap model, HttpSession session) {
 			logger.info("In delete User GET");
 			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
@@ -75,7 +75,23 @@ public class AdminController {
 			ExternalUser EU = new ExternalUser();
 			model.put("send", EU);
 			
-			return "adminHomePage";
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("admin")){
+					return "adminHomePage";
+				}
+			}
+			
+			return "redirect:home";
+			
 		}
 		
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.POST)
@@ -98,14 +114,30 @@ public class AdminController {
 		}
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.GET)
-		public String modify_user_get(ModelMap model) {
+		public String modify_user_get(ModelMap model, HttpSession session) {
 			logger.info("In modify User GET");
 			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
 			
-			return "adminrHomePage";
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("admin")){
+					return "adminHomePage";
+				}
+			}
+			
+			return "redirect:home";
+			
 		}
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.POST)
@@ -124,14 +156,30 @@ public class AdminController {
 		}
 		
 		@RequestMapping(value = "/create_user_internal", method = RequestMethod.GET)
-		public String create_user(ModelMap model) {
+		public String create_user(ModelMap model, HttpSession session) {
 			logger.info("In create user GET");
 			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
 			
-			return "adminHomePage";
+			if(session.getAttribute("role") != null){
+				String role = session.getAttribute("role").toString();
+				if(role.equals("ei")){
+					return "redirect:extUserHomePage";
+				}else if(role.equals("em")){
+					return "redirect:merchantHomePage";
+				}else if(role.equals("im")){
+					return "redirect:managerHomePage";
+				}else if(role.equals("ir")){
+					return "redirect:intUserHomePage";
+				}else if(role.equals("admin")){
+					return "adminHomePage";
+				}
+			}
+			
+			return "redirect:home";
+
 		}
 		
 		@RequestMapping(value = "/create_user_internal", method = RequestMethod.POST)
@@ -149,9 +197,6 @@ public class AdminController {
 			return "adminHomePage";
 		}
 
-	
-			
-			
 		
 	
 }

@@ -80,8 +80,72 @@
         				</div>
         				
         				<div class="tab-pane" id="Tab3">
-        					<form class="form-horizontal" action="debitmoney" method="get">
+        					<form class="form-horizontal" action="creditmoney" method="get">
+        						<div class="page-header" style="margin-top: 5px;" align="center">
+    								<h3>Credit Money</h3>
+    							</div>
   								<div class="form-group">
+    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<label for="displayAmount" class="col-lg2 control-label"></label>
+    								<div class="col-lg-10">
+    									<div class="col-xs-24">
+      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
+      									</div>
+    								</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+   									<div class="col-lg-10">
+   										<div class="col-xs-24">
+     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 							</div>
+   			 						</div>
+  								</div>
+  								<div class="form-group">
+    								<div class="col-lg-offset-2 col-lg-10">
+    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+     										<button type="reset" class="btn btn-success">Cancel</button>
+    								</div>
+  								</div>
+							</form>
+        				</div>
+        				
+        				<div class="tab-pane" id="Tab4">
+        					<form class="form-horizontal" action="debitmoney" method="get">
+        						<div class="page-header" style="margin-top: 5px;" align="center">
+    								<h3>Debit Money</h3>
+    							</div>
+  								<div class="form-group">
+    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<label for="displayAmount" class="col-lg2 control-label"></label>
+    								<div class="col-lg-10">
+    									<div class="col-xs-24">
+      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
+      									</div>
+    								</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+   									<div class="col-lg-10">
+   										<div class="col-xs-24">
+     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 							</div>
+   			 						</div>
+  								</div>
+  								<div class="form-group">
+    								<div class="col-lg-offset-2 col-lg-10">
+    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+     										<button type="reset" class="btn btn-success">Cancel</button>
+    								</div>
+  								</div>
+							</form>
+        				</div>
+        				<div class="tab-pane" id="Tab5">
+       					<form class="form-horizontal" action="transfers" method="get">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Transfers</h3>
+    						</div>
+    							<div class="form-group">
     								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
     								<label for="displayAmount" class="col-lg2 control-label"></label>
     									<div class="col-lg-10">
@@ -112,42 +176,10 @@
      										<button type="reset" class="btn btn-success">Cancel</button>
     								</div>
   								</div>
-							</form>
-        				</div>
-        				
-        				<div class="tab-pane" id="Tab4">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-  								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   									<div class="col-lg-10">
-   										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 							</div>
-   			 						</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
-        				</div>
-        				<div class="tab-pane" id="Tab5">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Transfers</h3>
+  								</form>
     						</div>
-    						
-        				</div>
+   							
+        		
         				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Transaction History</h3>
@@ -161,11 +193,44 @@
     						
         				</div>
         				<div class="tab-pane" id="Tab8">
+        				<form class="form-horizontal" action="reqpayment" method="get">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Request Payment</h3>
+   							</div>
+    							<div class="form-group">
+    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<label for="displayAmount" class="col-lg2 control-label"></label>
+    									<div class="col-lg-10">
+    										<div class="col-xs-24">
+      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
+      										</div>
+    									</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
+   										<div class="col-lg-10">
+   											<div class="col-xs-24">
+     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
+   			 								</div>
+   			 							</div>
+  								</div>
+  								<div class="form-group">
+    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+   										<div class="col-lg-10">
+   											<div class="col-xs-24">
+     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 								</div>
+   			 							</div>
+  								</div>
+  								<div class="form-group">
+    								<div class="col-lg-offset-2 col-lg-10">
+    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+     										<button type="reset" class="btn btn-success">Cancel</button>
+    								</div>
+  								</div>
+  								</form>
     						</div>
     						
-        				</div>
         				
         				<!-- Sujata's work -->
         				
