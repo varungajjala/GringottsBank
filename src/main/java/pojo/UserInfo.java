@@ -13,6 +13,7 @@ public class UserInfo {
 	private String state;
 	private String country;
 	private long identificationNo;
+	private String utype;
 	/**
 	 * @param firstName
 	 * @param lastName
@@ -42,11 +43,23 @@ public class UserInfo {
 		this.country = country;
 		this.setIdentificationNo(identificationNo);
 	}
+	
 	/**
 	 * 
 	 */
 	public UserInfo() {
 		super();
+	}
+	
+	
+	public String getutype() {
+		return utype;
+	}
+	/**
+	 * @param utype the utype to set
+	 */
+	public void setutype(String utype) {
+		this.utype = utype;
 	}
 	/**
 	 * @return the id

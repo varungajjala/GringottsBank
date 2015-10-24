@@ -41,5 +41,8 @@
         <property name="zipcode" type="integer">
             <column name="zipcode" not-null="true"/>
         </property>
+        <property name="identificationNo" type="long">
+            <column name="identificationNo" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

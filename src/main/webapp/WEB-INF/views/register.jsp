@@ -22,19 +22,23 @@
   </head>
   <body>
  <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<!-- 
 <script type="text/javascript">
     $(function () {
         $("input[name='chkUserType']").click(function () {
             if ($("#merchant").is(":checked")) {
-                $("#dvMerchantID").show();
+               $("#dvMerchantID").show();
                 $("#dvPII").hide();
-            } else if ($("#singleUser").is(":checked")){
+             //  $("#dvPII").children().attr("disabled","disabled");
+            } else {
                 $("#dvPII").show();
                 $("#dvMerchantID").hide();
+           // 	$("#dvmerchant").children().attr("disabled","disabled");
             }
         });
     });
 </script>
+ -->
   	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
@@ -91,7 +95,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" placeholder="zipcode"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value ="null" placeholder="zipcode"/>      									
      								</div>
     							</div>
     							
@@ -111,35 +115,38 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<input type="radio" id="singleUser" name="chkUserType" />
+						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" />
 						    				Single User  
 										</label>
 										<label for="chkNo">
-						    				<input type="radio" id="merchant" name="chkUserType" />
+						    				<form:radiobutton path = "utype" id="merchant" name="chkUserType" value="merchant"/>
 						   					 Merchant
 										</label> 
       								</div>
     							</div>
   						</div>
   						
-						<div class="form-group" id="dvMerchantID" style="display: none">
+						
+  						<div class="form-group" id="dvPII" >
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
+      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant"/>
+      								</div>
+    							</div>
+  						</div>
+  				<!-- 
+  						<div class="form-group" id="dvMerchantID" >
     						<label for="inputContact" class="col-sm-2 control-label">Merchant ID</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="Merchant ID"/>
+      									<form:input path="identificationNo" type="integer" class="form-control" id="inputContact" placeholder="Merchant ID"/>
       								</div>
     							</div>
   						</div>
-  						<div class="form-group" id="dvPII" style="display: none">
-    						<label for="inputContact" class="col-sm-2 control-label">SSN</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="SSN"/>
-      								</div>
-    							</div>
-  						</div>
+  						 -->
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" >Register</button>

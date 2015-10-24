@@ -12,6 +12,8 @@ import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
 
+import org.hibernate.validator.constraints.SafeHtml;
+import org.junit.runner.Request;
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,11 +63,36 @@ public class HomeController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m) {
 		logger.info("Entering post");
-		Random rand = new Random();
+		 logger.info("In registration POST");
+	        
+	        logger.info("uinfoget.getFirstName() - " + uinfoget.getFirstName());
+	        logger.info("uinfoget.getLastName() - " + uinfoget.getLastName());
+	        logger.info("uinfoget.getContactNo() - " + uinfoget.getContactNo());
+	        logger.info("uinfoget.getEmailId() - " + uinfoget.getEmailId());
+	        logger.info("uinfoget.getUsername() - " + uinfoget.getUsername());	  
+	        logger.info("uinfoget.getAddress() - " + uinfoget.getAddress());
+	        logger.info("uinfoget.getZipcode() - " + uinfoget.getZipcode());
+	        logger.info("uinfoget.getCity() - " + uinfoget.getCity());
+	        logger.info("uinfoget.getState() - " + uinfoget.getState());
+	        logger.info("uinfoget.getCountry() - " + uinfoget.getCountry());
+	        logger.info("uinfoget.getIdentification - " + uinfoget.getIdentificationNo());
+	        logger.info("uinfoget.getusertype - " + uinfoget.getutype());
+		
+	        Random rand = new Random();
 		int randId = rand.nextInt(1000);
 		String uniqIdVal = Integer.toString(randId);
-		String externUser = "ext";
-		String uniqId = externUser+uniqIdVal;
+		String userType = null;
+		if(uinfoget.getutype().equals("singleUser"))
+		{
+			userType="ei";
+		}
+		else if(uinfoget.getutype().equals("merchant"))
+		{
+			userType="em";
+		}
+		
+		String uniqId = userType+uniqIdVal;
+		
 		uinfoget.setUniqId(uniqId);
 		//uinfoget.setUsername(uinfoget.getFirstName());
 		DatabaseConnectors dbcon = new DatabaseConnectors();

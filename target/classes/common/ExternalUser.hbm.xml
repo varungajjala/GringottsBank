@@ -17,5 +17,8 @@
         <property name="balance" type="float">
             <column name="balance" not-null="true"/>
         </property>
+        <property name="status" type="string">
+            <column name="status" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>
