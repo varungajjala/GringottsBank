@@ -8,16 +8,18 @@ public class Login {
 	private String uniqId;
 	private long id;
 	private String status;
+	private int attempts;
 
 	public Login() {
 	}
 
-	public Login(String userId, String passwd, String role, String uniqId, String status) {
+	public Login(String userId, String passwd, String role, String uniqId, String status, int attempt) {
 		this.userId = userId;
 		this.passwd = passwd;
 		this.role = role;
 		this.uniqId = uniqId;
 		this.status = status;
+		this.setAttempts(attempt);
 	}
 	
 
@@ -84,6 +86,20 @@ public class Login {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	/**
+	 * @return the attempts
+	 */
+	public int getAttempts() {
+		return attempts;
+	}
+
+	/**
+	 * @param attempts the attempts to set
+	 */
+	public void setAttempts(int attempts) {
+		this.attempts = attempts;
 	}
 
 }
