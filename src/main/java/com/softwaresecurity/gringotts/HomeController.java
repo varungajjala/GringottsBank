@@ -183,4 +183,11 @@ public class HomeController {
 		
 		return "forgotPass";
 	}
+	
+	@RequestMapping(value = "/logout", method = RequestMethod.POST)
+	public String logoutpost(HttpSession session) {
+		session.invalidate();
+		
+		return "redirect:";
+	}
 }
