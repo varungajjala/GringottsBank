@@ -39,6 +39,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+	
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String home(Locale locale, ModelMap model, HttpSession session) {
 		logger.info("Welcome home! The client locale is {}.", locale);
@@ -166,6 +167,7 @@ public class HomeController {
 		uloginset.setPasswd(hashedPassword);
 		uloginset.setRole(userType);
 		uloginset.setUniqId(uinfoget.getUniqId());
+		uloginset.setStatus("Locked");
 		logger.info("login userID" + uloginset.getUserId());
 		logger.info("login password" + uloginset.getPasswd());
 		logger.info("login role" + uloginset.getRole());

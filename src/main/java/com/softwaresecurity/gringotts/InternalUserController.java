@@ -53,7 +53,7 @@ public class InternalUserController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 				
 
 	}

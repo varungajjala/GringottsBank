@@ -53,7 +53,7 @@ public class MerchantController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 			
 		
 	}

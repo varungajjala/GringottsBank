@@ -1,6 +1,8 @@
 package com.softwaresecurity.gringotts;
 //package org.springframework.security.crypto.password;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import pojo.*;
 import java.util.Random;
 import dao.*;
@@ -59,7 +61,7 @@ public class AdminController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 			
 		
 	}
@@ -90,7 +92,7 @@ public class AdminController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 			
 		}
 		
@@ -136,7 +138,7 @@ public class AdminController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 			
 		}
 		
@@ -144,13 +146,13 @@ public class AdminController {
 		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model) {
 			logger.info("In modify user POST");
 			
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			dbcon.saveUserInfo(UI);
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
 			
-			model.addAttribute("deleteOp", new ExternalUser() );
-			model.addAttribute("modifyOp", new UserInfo() );
-			model.addAttribute("createOp", new UserInfo() );
+			
 			
 			return "adminHomePage";
 		}
@@ -178,7 +180,7 @@ public class AdminController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 
 		}
 		
@@ -189,7 +191,34 @@ public class AdminController {
 			logger.info("UI.getAddress() - " + UI.getAddress());
 			logger.info("UI.getAddress() - " + UI.getFirstName());
 			logger.info("UI.getAddress() - " + UI.getLastName());
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			Login uloginset = new Login();
+			Random rand = new Random();
+			int randId = rand.nextInt(1000);
+			String uniqIdVal = Integer.toString(randId);
+			String userType = null;
+			if(UI.getutype().equals("internalUser"))
+			{
+				userType="ir";
+			}
+			else if(UI.getutype().equals("manager"))
+			{
+				userType="im";
+			}
 			
+			String uniqId = userType+uniqIdVal;
+			String hashedPassword = passwordEncoder.encode(UI.getPasswd());
+			UI.setUniqId(uniqId);
+			uloginset.setUserId(UI.getUsername());
+			uloginset.setPasswd(hashedPassword);
+			uloginset.setRole(userType);
+			uloginset.setUniqId(UI.getUniqId());
+			
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			dbcon.saveUserInfo(UI);
+			dbcon.saveLogin(uloginset);
+			System.out.println("ended the create");
+
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );

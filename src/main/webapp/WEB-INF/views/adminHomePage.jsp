@@ -26,41 +26,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
     
     </script>
-  <script type="text/javascript">
-    $(function () {
-        $("input[name='chkUserType']").click(function () {
-            if ($("#merchant").is(":checked")) {
-                $("#dvMerchantID").show();
-                $("#dvPII").hide();
-            } else if ($("#singleUser").is(":checked")){
-                $("#dvPII").show();
-                $("#dvMerchantID").hide();
-            }
-        });
-    });
-</script>
+ 
 
-<script type="text/javascript">
-    $(function () {
-        $("input[name='chkUserType2']").click(function () {
-            if ($("#merchant2").is(":checked")) {
-                $("#dvMerchantID2").show();
-                $("#dvPII2").hide();
-            } else if ($("#singleUser2").is(":checked")){
-                $("#dvPII2").show();
-                $("#dvMerchantID2").hide();
-            }
-        });
-    });
-</script>
+
   	<p><br/></p>
-  	
   	<div>
   		<form:form class="form-horizontal" action="logout" method="POST">
   			<button type="submit" class="btn btn-danger" style="float: right; margin-right: 50px;">Logout</button>
   		</form:form>
   	</div>
-  	
   	<div class="row">
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
@@ -115,7 +89,7 @@
     								<div class="col-sm-8">
     									<div class="input-group">
   											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      										<form:input path="uniqId" type="text" class="form-control" id="u_id_1" placeholder="Unique ID"/>
+      										<form:input path="uniqId" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
       									</div>
     								</div>
   								</div>
@@ -137,20 +111,11 @@
     						<form:form class="form-horizontal" action="modify_user_internal" commandName="modifyOp_internal" method="POST">
   					
   						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Username</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username"/>
-      								</div>
-    							</div>
-  						</div>
-  						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Firstname"/>
+      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -159,7 +124,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Lastname"/>
+      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -168,11 +133,28 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon">@</span>
-      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email"/>
+      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email" required="true"/>
       								</div>
     							</div>
   						</div>
-  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Username</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+      								</div>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="password" class="col-sm-2 control-label">Password</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+      									<form:input path="passwd" type="password" class="form-control" id="inputPassword" placeholder="Enter Password" required="true"/>
+      								</div>
+    							</div>
+  						</div>
   						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Address</label>
@@ -183,7 +165,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" placeholder="zipcode"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
      								</div>
     							</div>
     							
@@ -193,7 +175,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX"/>
+      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -203,32 +185,22 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<input type="radio" id="singleUser2" name="chkUserType2" />
+						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
 						    				Single User  
 										</label>
 										<label for="chkNo">
-						    				<input type="radio" id="merchant2" name="chkUserType2" />
+						    				<form:radiobutton path = "utype" id="merchant" name="chkUserType" value="merchant" required="true"/>
 						   					 Merchant
 										</label> 
       								</div>
     							</div>
   						</div>
-  						
-						<div class="form-group" id="dvMerchantID2" style="display: none">
-    						<label for="inputContact" class="col-sm-2 control-label">Merchant ID</label>
+						<div class="form-group" id="dvPII" >
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="Merchant ID"/>
-      								</div>
-    							</div>
-  						</div>
-  						<div class="form-group" id="dvPII2" style="display: none">
-    						<label for="inputContact" class="col-sm-2 control-label">SSN</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="SSN"/>
+      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -250,20 +222,11 @@
     						<form:form class="form-horizontal" action="create_user_internal" commandName="createOp_internal" method="POST">
   					
   						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Username</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username"/>
-      								</div>
-    							</div>
-  						</div>
-  						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="lastName" type="text" class="form-control" id="lastName" placeholder="Firstname"/>
+      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -272,7 +235,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="firstName" type="text" class="form-control" id="firstName" placeholder="Lastname"/>
+      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -281,11 +244,28 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon">@</span>
-      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email"/>
+      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email" required="true"/>
       								</div>
     							</div>
   						</div>
-  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Username</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+      								</div>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="password" class="col-sm-2 control-label">Password</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+      									<form:input path="passwd" type="password" class="form-control" id="inputPassword" placeholder="Enter Password" required="true"/>
+      								</div>
+    							</div>
+  						</div>
   						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Address</label>
@@ -296,7 +276,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" placeholder="zipcode"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
      								</div>
     							</div>
     							
@@ -306,7 +286,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX"/>
+      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -316,32 +296,22 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<input type="radio" id="singleUser" name="chkUserType" />
-						    				Single User  
+						    				<form:radiobutton path ="utype" id="internalUser" name="chkUserType" value="internalUser" required="true"/>
+						    				Internal User  
 										</label>
 										<label for="chkNo">
-						    				<input type="radio" id="merchant" name="chkUserType" />
-						   					 Merchant
+						    				<form:radiobutton path = "utype" id="manager" name="chkUserType" value="manager" required="true"/>
+						   					 Manager
 										</label> 
       								</div>
     							</div>
   						</div>
-  						
-						<div class="form-group" id="dvMerchantID" style="display: none">
-    						<label for="inputContact" class="col-sm-2 control-label">Merchant ID</label>
+						<div class="form-group" id="dvPII" >
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="Merchant ID"/>
-      								</div>
-    							</div>
-  						</div>
-  						<div class="form-group" id="dvPII" style="display: none">
-    						<label for="inputContact" class="col-sm-2 control-label">SSN</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input path="uniqId" type="text" class="form-control" id="inputContact" placeholder="SSN"/>
+      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN" required="true"/>
       								</div>
     							</div>
   						</div>
@@ -354,78 +324,7 @@
 					</form:form>
         				</div>
         				
-        				
-        				
-        				
-        				<!-- Sujata's work -->
-        				
-  <!--       				
-        				<div class="tab-pane" id="Tab4">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-  								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    									<div class="col-lg-10">
-    										<div class="col-xs-24">
-      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      										</div>
-    									</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
-        				</div>
- -->       				
-  <!--       				
-        				<div class="tab-pane" id="Tab5">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-  								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   									<div class="col-lg-10">
-   										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 							</div>
-   			 						</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
-        				</div>
-        				
-        				-->	
+ 
   					</div>
 				</div>
   			</div>

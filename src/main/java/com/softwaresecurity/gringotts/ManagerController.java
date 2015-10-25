@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -57,7 +58,7 @@ public class ManagerController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		
 	}
 		
@@ -93,7 +94,7 @@ public class ManagerController {
 			
 			
 			
-			return "redirect:home";
+			return "redirect:";
 		}
 		
 		@RequestMapping(value = "/delete_user", method = RequestMethod.POST)
@@ -140,7 +141,7 @@ public class ManagerController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		}
 		
 		@RequestMapping(value = "/modify_user", method = RequestMethod.POST)
@@ -150,7 +151,8 @@ public class ManagerController {
 			logger.info("UI.getAddress() - " + UI.getAddress());
 			logger.info("UI.getAddress() - " + UI.getFirstName());
 			logger.info("UI.getAddress() - " + UI.getLastName());
-			
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			dbcon.saveUserInfo(UI);
 			model.addAttribute("deleteOp", new ExternalUser() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
@@ -183,7 +185,7 @@ public class ManagerController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		}
 		
 		@RequestMapping(value = "/create_user", method = RequestMethod.POST)
@@ -193,6 +195,37 @@ public class ManagerController {
 			logger.info("UI.getAddress() - " + UI.getAddress());
 			logger.info("UI.getAddress() - " + UI.getFirstName());
 			logger.info("UI.getAddress() - " + UI.getLastName());
+
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			Login uloginset = new Login();
+			Random rand = new Random();
+			int randId = rand.nextInt(1000);
+			String uniqIdVal = Integer.toString(randId);
+			String userType = null;
+			if(UI.getutype().equals("singleUser"))
+			{
+				userType="ei";
+			}
+			else if(UI.getutype().equals("merchant"))
+			{
+				userType="em";
+			}
+			
+			String uniqId = userType+uniqIdVal;
+			String hashedPassword = passwordEncoder.encode(UI.getPasswd());
+			UI.setUniqId(uniqId);
+			uloginset.setUserId(UI.getUsername());
+			uloginset.setPasswd(hashedPassword);
+			uloginset.setRole(userType);
+			uloginset.setUniqId(UI.getUniqId());
+			uloginset.setStatus("Unlocked");
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			dbcon.saveUserInfo(UI);
+			dbcon.saveLogin(uloginset);
+			System.out.println("ended the create");
+			
+			
+			
 			
 			model.addAttribute("deleteOp", new ExternalUser() );
 			model.addAttribute("modifyOp", new UserInfo() );

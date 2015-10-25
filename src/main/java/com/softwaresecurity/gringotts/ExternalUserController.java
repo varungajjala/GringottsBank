@@ -53,7 +53,7 @@ public class ExternalUserController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		
 	}
 		
