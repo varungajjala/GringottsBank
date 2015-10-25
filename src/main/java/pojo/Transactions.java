@@ -7,16 +7,19 @@ public class Transactions {
 	private String description;
 	private float balance;
 	private Timestamp date;
+	private float transactionAmount;
 	/**
 	 * @param transactionType
 	 * @param uniqId
 	 * @param description
 	 * @param balance
+	 * @param transactionAmount
 	 */
-	public Transactions(String transactionType, String uniqId, String description, float balance) {
+	public Transactions(String transactionType, String uniqId, String description, float balance, float transactionAmount) {
 		this.transactionType = transactionType;
 		this.uniqId = uniqId;
 		this.description = description;
+		this.setTransactionAmount(transactionAmount);
 		this.balance = balance;
 	}
 	/**
@@ -95,6 +98,18 @@ public class Transactions {
 	 */
 	public void setDate(Timestamp date) {
 		this.date = date;
+	}
+	/**
+	 * @return the transactionAmount
+	 */
+	public float getTransactionAmount() {
+		return transactionAmount;
+	}
+	/**
+	 * @param transactionAmount the transactionAmount to set
+	 */
+	public void setTransactionAmount(float transactionAmount) {
+		this.transactionAmount = transactionAmount;
 	}
 	
 }
