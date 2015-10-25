@@ -80,6 +80,7 @@ public class HomeController {
 			 
 			session.setAttribute("username", loginPageSet.getUserId());
 			session.setAttribute("role", role);
+			session.setAttribute("uniqueid", dbcon.getUniqIdByUsername(loginPageSet.getUserId()));
 			if(role.equals("ei")){
 				return "redirect:extUserHomePage";
 			}else if(role.equals("admin")){
