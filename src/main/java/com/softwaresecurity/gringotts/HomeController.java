@@ -104,9 +104,12 @@ public class HomeController {
 			} else {
 				login.setStatus("Locked");
 				model.addAttribute("message","Account locked");
+				dbcon.updateLogin(login);
 				return "home";
 			}
 		}
+		
+		return "home";
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registerme(ModelMap model) {
