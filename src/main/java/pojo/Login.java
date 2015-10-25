@@ -7,15 +7,17 @@ public class Login {
 	private String role;
 	private String uniqId;
 	private long id;
+	private String status;
 
 	public Login() {
 	}
 
-	public Login(String userId, String passwd, String role, String uniqId) {
+	public Login(String userId, String passwd, String role, String uniqId, String status) {
 		this.userId = userId;
 		this.passwd = passwd;
 		this.role = role;
 		this.uniqId = uniqId;
+		this.status = status;
 	}
 	
 
@@ -70,6 +72,18 @@ public class Login {
 
 	public void setRole(String role) {
 		this.role = role;
+	}
+	/**
+	 * @return the status
+	 */
+	public String getStatus() {
+		return status;
+	}
+	/**
+	 * @param status the status to set
+	 */
+	public void setStatus(String status) {
+		this.status = status;
 	}
 
 }

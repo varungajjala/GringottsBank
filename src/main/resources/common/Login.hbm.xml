@@ -20,5 +20,8 @@
         <property name="uniqId" type="string" unique="true">
             <column name="uniqid" length="20" not-null="true"/>
         </property>
+        <property name="status" type="string">
+            <column name="status" length="20" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>
