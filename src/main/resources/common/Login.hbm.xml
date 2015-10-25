@@ -23,5 +23,8 @@
         <property name="status" type="string">
             <column name="status" length="20" not-null="true"/>
         </property>
+        <property name="attempts" type="int">
+            <column name="attempt" length="11" />
+        </property>
     </class>
 </hibernate-mapping>

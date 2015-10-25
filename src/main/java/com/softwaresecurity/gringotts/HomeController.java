@@ -73,9 +73,11 @@ public class HomeController {
 		DatabaseConnectors dbcon = new DatabaseConnectors();
 		
 		int result = dbcon.checkLogin(loginPageSet.getUserId(), loginPageSet.getPasswd());
-		
-		if(result==1)
+		Login login = dbcon.getLoginByUsername(loginPageSet.getUserId());
+		if( result==1 && !login.getStatus().equals("Locked") )
 		{
+			login.setAttempts(0);
+			dbcon.updateLogin(login);
 			String role = dbcon.getRoleByUsername(loginPageSet.getUserId());
 			 
 			session.setAttribute("username", loginPageSet.getUserId());
@@ -91,12 +93,20 @@ public class HomeController {
 				return "redirect:managerHomePage";
 			}else if(role.equals("ir")){
 				return "redirect:intUserHomePage";
-			}
-			
-			
+			}	
 		}
-		model.addAttribute("message","incorrect login details");
-		return "home";
+		else {
+			login.setAttempts(login.getAttempts()+1);
+			if( login.getAttempts() <4 ) {
+				dbcon.updateLogin(login);
+				model.addAttribute("message","incorrect login details");
+				return "home";
+			} else {
+				login.setStatus("Locked");
+				model.addAttribute("message","Account locked");
+				return "home";
+			}
+		}
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
 	public String registerme(ModelMap model) {

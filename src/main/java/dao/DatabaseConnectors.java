@@ -79,7 +79,15 @@ public class DatabaseConnectors {
 		 }
 		 return "";
 	}
-	
+	public Login getLoginByUsername(String username) {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			Login login = (Login) session.createCriteria(Login.class)
+				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 if(login != null) {
+			 return login;
+		 }
+		 return null;
+	}
 	public String getPasswdByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
@@ -161,6 +169,22 @@ public class DatabaseConnectors {
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 if( internalUser != null ) {
 			 return internalUser.getEmpId();
+		 }
+		 return 0;
+	 }
+	 public void updateLogin(Login login) {
+			Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.saveOrUpdate(login);
+			session.getTransaction().commit();
+		 
+	 }
+	 public int getAttemptsByUsername(String username) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 Login login = (Login)session.createCriteria(Login.class)
+				 .add(Restrictions.like("username", username)).uniqueResult();
+		 if( login != null ) {
+			 return login.getAttempts();
 		 }
 		 return 0;
 	 }
