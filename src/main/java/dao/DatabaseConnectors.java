@@ -113,7 +113,6 @@ public class DatabaseConnectors {
 	
 	public int checkLogin(String userid, String passwd){
 		String passFromDb = getPasswdByUsername(userid);
-		//if (passFromDb != "" && passFromDb.equals(passwd)){
 		if (passFromDb !=""&& BCrypt.checkpw(passwd, passFromDb)){
 			return 1;
 		}
@@ -187,7 +186,7 @@ public class DatabaseConnectors {
 		 Login login = (Login)session.createCriteria(Login.class)
 				 .add(Restrictions.like("username", username)).uniqueResult();
 		 if( login != null ) {
-			 return login.getAttempts();
+			 return login.getAttempt();
 		 }
 		 return 0;
 	 }

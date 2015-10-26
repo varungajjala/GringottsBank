@@ -45,7 +45,51 @@ public class AdminController {
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() ); 
-			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("userName",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
+						
 			if(session.getAttribute("role") != null){
 				String role = session.getAttribute("role").toString();
 				if(role.equals("ei")){
@@ -66,42 +110,13 @@ public class AdminController {
 		
 	}
 	
-		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.GET)
-		public String delete_user(ModelMap model, HttpSession session) {
-			logger.info("In delete User GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			ExternalUser EU = new ExternalUser();
-			model.put("send", EU);
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-			
-		}
 		
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.POST)
 		public String delete_user_post(@ModelAttribute("deleteOp_internal") ExternalUser EU, ModelMap model) {
 			logger.info("In delete User POST");
 			
 			logger.info("EU.getUniqId()" + EU.getUniqId());
-			model.put("send_d", EU);
+			//model.put("send_d", EU);
 			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.deleteUserProfileByUniqId(EU.getUniqId());
@@ -115,32 +130,6 @@ public class AdminController {
 			return "adminHomePage";
 		}
 		
-		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.GET)
-		public String modify_user_get(ModelMap model, HttpSession session) {
-			logger.info("In modify User GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-			
-		}
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.POST)
 		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model) {
@@ -157,32 +146,6 @@ public class AdminController {
 			return "adminHomePage";
 		}
 		
-		@RequestMapping(value = "/create_user_internal", method = RequestMethod.GET)
-		public String create_user(ModelMap model, HttpSession session) {
-			logger.info("In create user GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-
-		}
 		
 		@RequestMapping(value = "/create_user_internal", method = RequestMethod.POST)
 		public String create_user_post(@ModelAttribute("createOp_internal") UserInfo UI, Model model) {
@@ -213,7 +176,7 @@ public class AdminController {
 			uloginset.setPasswd(hashedPassword);
 			uloginset.setRole(userType);
 			uloginset.setUniqId(UI.getUniqId());
-			
+			uloginset.setStatus("Unlocked");
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.saveUserInfo(UI);
 			dbcon.saveLogin(uloginset);

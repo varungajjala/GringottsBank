@@ -60,6 +60,54 @@ public class ExternalUserController {
 
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
+			
+/**
+ * To display user profile			
+ */
+			UserInfo UI = new UserInfo();
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+			
+			String utype = null;
+			String str1 = (String)session.getAttribute("uniqueid");
+			System.out.println(str1);
+			String str2 = str1.substring(0,2);
+			
+			if(str2.equals("ei"))
+			{
+				utype = "Single User";
+			}
+			else if(str2.equals("em"))
+			{
+				utype = "Merchant";
+			}
+			else if(str2.equals("ir"))
+			{
+				utype = "Internal User";
+			}
+			else if(str2.equals("im"))
+			{
+				utype = "Manager";
+			}
+			else if(str2.equals("admin"))
+			{
+				utype = "Administrator";
+			}
+			
+			model.addAttribute("firstName",UI.getFirstName());
+			model.addAttribute("lastName",UI.getLastName());
+			model.addAttribute("userName",UI.getUsername());
+			model.addAttribute("email",UI.getEmailId());
+			model.addAttribute("streetAddress",UI.getAddress());
+			model.addAttribute("city",UI.getCity());
+			model.addAttribute("state",UI.getState());
+			model.addAttribute("country",UI.getCountry());
+			model.addAttribute("zip",UI.getZipcode());
+			model.addAttribute("contactNo",UI.getContactNo());
+			model.addAttribute("userType",utype);
+			
+			
+			
 			if(session.getAttribute("role") != null){
 				String role = session.getAttribute("role").toString();
 				if(role.equals("admin")){
@@ -75,7 +123,7 @@ public class ExternalUserController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		
 	}
 			
@@ -115,14 +163,9 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					model.addAttribute("transactionOp",temp);
-					
-
 
 					logger.info("Leaving debit money POST");
-					
-					return "extUserHomePage";
-				}
-			
+			}
 			
 			@RequestMapping(value = "/credit_money", method = RequestMethod.POST)
 			public String creditmoneyPageAction(@ModelAttribute("creditOp") Transactions transactionObj, Model model, HttpSession session){
@@ -288,7 +331,6 @@ public class ExternalUserController {
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
-					}
+				}
 			
-			
-			}
+}

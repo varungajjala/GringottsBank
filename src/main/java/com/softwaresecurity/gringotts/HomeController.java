@@ -16,7 +16,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.constraints.SafeHtml;
-import org.junit.runner.Request;
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -81,7 +80,7 @@ public class HomeController {
 		Login login = dbcon.getLoginByUsername(loginPageSet.getUserId());
 		if( result==1 && !login.getStatus().equals("Locked") )
 		{
-			login.setAttempts(0);
+			login.setAttempt(0);
 			dbcon.updateLogin(login);
 			String role = dbcon.getRoleByUsername(loginPageSet.getUserId());
 			 
@@ -101,8 +100,8 @@ public class HomeController {
 			}	
 		}
 		else {
-			login.setAttempts(login.getAttempts()+1);
-			if( login.getAttempts() <4 ) {
+			login.setAttempt(login.getAttempt()+1);
+			if( login.getAttempt() <4 ) {
 				dbcon.updateLogin(login);
 				model.addAttribute("message","incorrect login details");
 				return "home";
