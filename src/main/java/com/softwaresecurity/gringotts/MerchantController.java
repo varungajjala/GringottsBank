@@ -38,6 +38,53 @@ public class MerchantController {
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("userName",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
+						model.addAttribute("pii",UI.getIdentificationNo());
+						
+			
 			if(session.getAttribute("role") != null){
 				String role = session.getAttribute("role").toString();
 				if(role.equals("ei")){

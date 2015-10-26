@@ -41,11 +41,11 @@
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
   					<ul class="nav nav-tabs" data-tabs="tabs">
-  						<li><a href="#Tab1" data-toggle="tab">Profile</a></li>
+  						<li class="active"><a href="#Tab1" data-toggle="tab">Profile</a></li>
   						<li><a href="#Tab2" data-toggle="tab">User Requests</a></li>
   						<li><a href="#Tab3" data-toggle="tab">View System Log</a></li>
   						<li><a href="#Tab4" data-toggle="tab">View PII</a></li>
-  						<li class="active"><a href="#Tab5" data-toggle="tab">Delete User</a></li>
+  						<li><a href="#Tab5" data-toggle="tab">Delete User</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Modify User</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Create User</a></li>
   						
@@ -57,8 +57,113 @@
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>
     						</div>
-    						
+    						<form:form id="profileForm" class="form-horizontal" action="profile" commandName="profile" method="POST">
+  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">First Name</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${firstName}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Last Name</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${lastName}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${email}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Username</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${Username}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Street Address</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${streetAddress}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">City</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${city}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">State</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${state}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Country</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${country}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Zipcode</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${zip}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputContact" class="col-sm-2 control-label">Contact Number</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${contactNo}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="inputContact" class="col-sm-2 control-label">User Type</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${userType}
+    								</p>
+    							</div>
+  						</div>
+						
+  						<div class="form-group" id="dvPII" >
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${pii}
+    								</p>
+    							</div>
+  						</div>
+  				
+  						
+					</form:form>
         				</div>
+        				
         				
         				<div class="tab-pane" id="Tab2">
         					<div class="page-header" style="margin-top: 5px;" align="center">
@@ -83,7 +188,7 @@
         					<div class="page-header" style="margin-top: 5px;" align="center">
 								<h3>Delete User</h3>
     						</div>
-    						<form:form class="form-horizontal" action="delete_user_admin" commandName="deleteOp_internal" method="POST">
+    						<form:form class="form-horizontal" action="delete_user_internal" commandName="deleteOp_internal" method="POST">
   								<div class="form-group">
     								<label for="Uniuqe id" class="col-sm-2 control-label">Unique ID</label>
     								<div class="col-sm-8">

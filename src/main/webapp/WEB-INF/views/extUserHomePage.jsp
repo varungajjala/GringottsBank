@@ -82,8 +82,113 @@
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>
     						</div>
-    						
+    						<form:form id="profileForm" class="form-horizontal" action="profile" commandName="profile" method="POST">
+  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">First Name</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${firstName}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Last Name</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${lastName}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${email}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Username</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${Username}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Street Address</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${streetAddress}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">City</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${city}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">State</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${state}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Country</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${country}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputAddress" class="col-sm-2 control-label">Zipcode</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${zip}
+    								</p>
+    							</div>
+  						</div>
+  						<div class="form-group">
+    						<label for="inputContact" class="col-sm-2 control-label">Contact Number</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${contactNo}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
+    						<label for="inputContact" class="col-sm-2 control-label">User Type</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${userType}
+    								</p>
+    							</div>
+  						</div>
+						
+  						<div class="form-group" id="dvPII" >
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${pii}
+    								</p>
+    							</div>
+  						</div>
+  				
+  						
+					</form:form>
         				</div>
+        				
         				
         				<div class="tab-pane" id="Tab3">
         					<form:form class="form-horizontal" action="credit_money" commandName="creditOp" method="POST">
@@ -243,5 +348,10 @@
 	    							</div>
     						</form:form>
 	</div>
+	</div>
+	</div>
+	</div>
+	</div>
+	
   </body>
 </html>
