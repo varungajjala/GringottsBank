@@ -113,7 +113,6 @@ public class DatabaseConnectors {
 	
 	public int checkLogin(String userid, String passwd){
 		String passFromDb = getPasswdByUsername(userid);
-		//if (passFromDb != "" && passFromDb.equals(passwd)){
 		if (passFromDb !=""&& BCrypt.checkpw(passwd, passFromDb)){
 			return 1;
 		}
