@@ -86,103 +86,111 @@
         				</div>
         				
         				<div class="tab-pane" id="Tab3">
-        					<form class="form-horizontal" action="creditmoney" method="get">
+        					<form:form class="form-horizontal" action="credit_money" commandName="creditOp" method="POST">
   								<div class="page-header" style="margin-top: 5px;" align="center">
     								<h3>Credit Money</h3>
     							</div>
   								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${creditOp.getBalance()}</form:label>
   								</div>
   								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+    								<label for="inputCreditAmount" class="col-lg-2 control-label">Amount</label>
    									<div class="col-lg-10">
    										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 							<form:input path="transactionAmount" type="text" class="form-control" id="inputcredit" placeholder="Enter Amount"/>
    			 							</div>
    			 						</div>
   								</div>
   								<div class="form-group">
     								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
+    									<button type="submit" class="btn btn-primary">Submit</button>
      										<button type="reset" class="btn btn-success">Cancel</button>
     								</div>
   								</div>
-							</form>
+							</form:form>
         				</div>
         				
+        				<!-- Tab for Debit Operation -->
         				<div class="tab-pane" id="Tab4">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-  								<div class="page-header" style="margin-top: 5px;" align="center">
-    								<h3>Debit Money</h3>
-    							</div>
-  								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
+    							
+    							<form:form class="form-horizontal" action="debit_money" commandName="debitOp" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Debit Money</h3>
+	    							</div>
+	    							<div class="form-group">
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${debitOp.getBalance()}</form:label>
   								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   									<div class="col-lg-10">
-   										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 							</div>
-   			 						</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
+  					
+  								
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+    						</form:form>
+    						
+    						
         				</div>
+        				
+        					
+        				<!-- Tab for transferring money -->
+        				
         				<div class="tab-pane" id="Tab5">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Transfers</h3>
-    						</div>
-    							<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    									<div class="col-lg-10">
-    										<div class="col-xs-24">
-      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      										</div>
-    									</div>
+    							
+    							<form:form class="form-horizontal" action="transfer_money" commandName="transferOp" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Transfer Money</h3>
+	    							</div>
+	    							<div class="form-group">
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${transferOp.getBalance()}</form:label>
   								</div>
+  								
   								<div class="form-group">
-    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
+	    								<label for="inputAmount" class="col-lg-2 control-label">Account Number</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Account Number" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+  					
+  								
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+    						</form:form>
+  								
     						
         				</div>
         				<div class="tab-pane" id="Tab6">
@@ -191,48 +199,49 @@
     						</div>
     						
         				</div>
+        				
+        				<!-- Tab for pay merchant -->
+        				
         				<div class="tab-pane" id="Tab7">
-						<form class="form-horizontal" action="paymerchant" method="get">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Pay Merchant</h3>
-   							</div>
-    							<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    									<div class="col-lg-10">
-    										<div class="col-xs-24">
-      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      										</div>
-    									</div>
+    							
+    							<form:form class="form-horizontal" action="pay_merchant" commandName="paymerchantOp" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Pay Merchant</h3>
+	    							</div>
+	    							<div class="form-group">
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${debitOp.getBalance()}</form:label>
   								</div>
-  								<div class="form-group">
-    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-  								</form>	
-        				</div>	
-  					</div>
-				</div>
-  			</div>
-  			<div class="col-md-2"></div>
-	
+  					
+  									<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Account Number</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Account Number" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+  								
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+    						</form:form>
+	</div>
   </body>
 </html>

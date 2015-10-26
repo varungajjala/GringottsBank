@@ -21,6 +21,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Handles requests for the application home page.
@@ -34,10 +35,22 @@ public class ExternalUserController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+		DatabaseConnectors databaseConnector = new DatabaseConnectors();
 		@RequestMapping(value = "/extUserHomePage", method = RequestMethod.GET)
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
-			
+			ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
+			Transactions transObj = new Transactions();
+			transObj.setBalance(extUser.getBalance());
+			model.addAttribute("creditOp", transObj );
+			model.addAttribute("debitOp", transObj );
+			model.addAttribute("transferOp",transObj);
+			model.addAttribute("paymerchantOp",transObj);
+			model.addAttribute("checkAccBal", transObj.getBalance() );
+			model.addAttribute("savingAccBal", "500" );
+
+			logger.info("Trans Obj:",transObj);
+			logger.info("Current Balance"+extUser.getBalance());
 			if(session.getAttribute("role") != null){
 				String role = session.getAttribute("role").toString();
 				if(role.equals("admin")){
@@ -53,14 +66,113 @@ public class ExternalUserController {
 				}
 			}
 			
-			return "redirect:";
+			return "redirect:home";
 		
 	}
-		
-			
-			
-		
 
+				@RequestMapping(value = "/debit_money", method = RequestMethod.GET)
+				public String debitmoneyPageGet(ModelMap model, HttpSession session){
+					logger.info("In debit money get");
+					ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
+					Transactions transObj = new Transactions();
+					transObj.setBalance(extUser.getBalance());
+					model.addAttribute("debitOp", transObj );
+					model.addAttribute("creditOp",transObj);
+
+					logger.info("Trans Obj:",transObj);
+					logger.info("Current Balance"+extUser.getBalance());
+
+					return "extUserHomePage";
+				}
+			
+			@RequestMapping(value = "/debit_money", method = RequestMethod.POST)
+			public String debitmoneyPageAction(@ModelAttribute("debitOp") Transactions transPost, Model model, HttpSession session){
+					logger.info("Inside debit money op POST");
+					@SuppressWarnings("deprecation")
+					//String uniqId= (String)session.getAttribute("UniqueID");
+					String uniqID ="EM123";
+					ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqID);
+					transPost.setBalance(extUser.getBalance());
+					float amount = transPost.getTransactionAmount();
+					float currentBalance = transPost.getBalance();
+					
+					
+					
+					if(currentBalance >= amount){
+					logger.info("EU.getBalance" + transPost.getBalance());
+					//debit amount from current account balance		
+					transPost.setUniqId(uniqID);
+					transPost.setDescription("debited amount: "+amount);
+					transPost.setTransactionAmount(amount);
+					transPost.setTransactionType("debit");
+					transPost.setBalance(currentBalance-amount);
+				
+					extUser.setBalance(currentBalance-amount);
+					databaseConnector.updateExternalUser(extUser);
+					databaseConnector.saveTransaction(transPost);
+					
+					}
+					
+					model.addAttribute("debitOp", transPost );
+					model.addAttribute("creditOp",transPost);
+					model.addAttribute("checkAccBal", transPost.getBalance() );
+					model.addAttribute("savingAccBal", "500" );
+					model.addAttribute("transferOp",transPost);
+					model.addAttribute("paymerchantOp",transPost);
+					
+
+
+					logger.info("Leaving debit money POST");
+					
+					return "extUserHomePage";
+				}
+			
+			@RequestMapping(value = "/credit_money", method = RequestMethod.GET)
+			public String creditmoneyPageGet(ModelMap model, HttpSession session){
+			ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
+			Transactions transObj = new Transactions();
+			transObj.setBalance(extUser.getBalance());
+			model.addAttribute("creditOp", transObj );
+			model.addAttribute("debitOp",transObj);
+
+			logger.info("Trans Obj:",transObj);
+			logger.info("Current Balance in credit money"+extUser.getBalance());
+
+			return "extUserHomePage";
+			}
+				
+			@RequestMapping(value = "/credit_money", method = RequestMethod.POST)
+			public String creditmoneyPageAction(@ModelAttribute("creditOp") Transactions transactionObj, Model model, HttpSession session){
+					logger.info("Inside credit money op POST");
+					logger.info("Current Balance" + transactionObj.getBalance());
+					//String uniqueID = (String) session.getAttribute("UniqueID");
+					String uniqueID ="EM123";
+					ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
+					transactionObj.setBalance(extUser.getBalance());
+					float amount = transactionObj.getTransactionAmount();
+					float currentBalance = transactionObj.getBalance();
+					logger.info("balance :",currentBalance);
+					//credit amount from current account balance		
+					transactionObj.setUniqId(uniqueID);
+					transactionObj.setDescription("credited amount: "+amount);
+					transactionObj.setTransactionType("credit");
+					transactionObj.setBalance(currentBalance+amount);
+					extUser.setBalance(currentBalance+amount);
+					databaseConnector.updateExternalUser(extUser);
+					databaseConnector.saveTransaction(transactionObj);
 	
-	
-}
+
+					model.addAttribute("debitOp", transactionObj );
+					model.addAttribute("creditOp",transactionObj);
+					model.addAttribute("checkAccBal", transactionObj.getBalance() );
+					model.addAttribute("savingAccBal", "500" );
+					model.addAttribute("transferOp",transactionObj);
+					model.addAttribute("paymerchantOp",transactionObj);
+					model.addAttribute("checkAccBal", transactionObj.getBalance() );
+					model.addAttribute("savingAccBal", "500" );
+
+
+					logger.info("Leaving credit money POST");
+					return "extUserHomePage";
+					}	
+			}

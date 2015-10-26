@@ -19,6 +19,7 @@ import pojo.TempUserInfo;
 import pojo.Transactions;
 import pojo.UserInfo;
 
+
 public class DatabaseConnectors {
 	 public void saveLogin(Login login) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -97,6 +98,8 @@ public class DatabaseConnectors {
 		 }
 		 return "";
 	}
+	
+	
 	
 	public String getRoleByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -208,5 +211,18 @@ public class DatabaseConnectors {
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
 		 session.getTransaction().commit();
 		 
+	 }
+	 
+	 public void updateExternalUser(ExternalUser extUser){
+		 	Session session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			session.saveOrUpdate(extUser);
+			session.getTransaction().commit();
+	 }
+	 public ExternalUser getExternalUserByUniqId(String uniqId) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
+				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 return externalUser;
 	 }
 }
