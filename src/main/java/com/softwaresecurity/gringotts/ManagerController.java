@@ -87,7 +87,6 @@ public class ManagerController {
 						model.addAttribute("zip",UI.getZipcode());
 						model.addAttribute("contactNo",UI.getContactNo());
 						model.addAttribute("userType",utype);
-						model.addAttribute("pii",UI.getIdentificationNo());
 						
 			
 			if(session.getAttribute("role") != null){

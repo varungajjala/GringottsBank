@@ -89,7 +89,6 @@ public class AdminController {
 						model.addAttribute("zip",UI.getZipcode());
 						model.addAttribute("contactNo",UI.getContactNo());
 						model.addAttribute("userType",utype);
-						model.addAttribute("pii",UI.getIdentificationNo());
 						
 			if(session.getAttribute("role") != null){
 				String role = session.getAttribute("role").toString();

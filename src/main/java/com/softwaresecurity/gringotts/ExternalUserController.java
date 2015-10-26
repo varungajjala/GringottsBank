@@ -96,7 +96,6 @@ public class ExternalUserController {
 			model.addAttribute("zip",UI.getZipcode());
 			model.addAttribute("contactNo",UI.getContactNo());
 			model.addAttribute("userType",utype);
-			model.addAttribute("pii",UI.getIdentificationNo());
 			
 			
 			
