@@ -66,113 +66,85 @@ public class ExternalUserController {
 				}
 			}
 			
-			return "redirect:home";
+			return "redirect:";
 		
 	}
 
-				@RequestMapping(value = "/debit_money", method = RequestMethod.GET)
-				public String debitmoneyPageGet(ModelMap model, HttpSession session){
-					logger.info("In debit money get");
-					ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
-					Transactions transObj = new Transactions();
-					transObj.setBalance(extUser.getBalance());
-					model.addAttribute("debitOp", transObj );
-					model.addAttribute("creditOp",transObj);
-
-					logger.info("Trans Obj:",transObj);
-					logger.info("Current Balance"+extUser.getBalance());
-
-					return "extUserHomePage";
-				}
 			
-			@RequestMapping(value = "/debit_money", method = RequestMethod.POST)
-			public String debitmoneyPageAction(@ModelAttribute("debitOp") Transactions transPost, Model model, HttpSession session){
-					logger.info("Inside debit money op POST");
-					@SuppressWarnings("deprecation")
-					//String uniqId= (String)session.getAttribute("UniqueID");
-					String uniqID ="EM123";
-					ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqID);
-					transPost.setBalance(extUser.getBalance());
-					float amount = transPost.getTransactionAmount();
-					float currentBalance = transPost.getBalance();
-					
-					
-					
-					if(currentBalance >= amount){
-					logger.info("EU.getBalance" + transPost.getBalance());
-					//debit amount from current account balance		
-					transPost.setUniqId(uniqID);
-					transPost.setDescription("debited amount: "+amount);
-					transPost.setTransactionAmount(amount);
-					transPost.setTransactionType("debit");
-					transPost.setBalance(currentBalance-amount);
-				
-					extUser.setBalance(currentBalance-amount);
-					databaseConnector.updateExternalUser(extUser);
-					databaseConnector.saveTransaction(transPost);
-					
-					}
-					
-					model.addAttribute("debitOp", transPost );
-					model.addAttribute("creditOp",transPost);
-					model.addAttribute("checkAccBal", transPost.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
-					model.addAttribute("transferOp",transPost);
-					model.addAttribute("paymerchantOp",transPost);
-					
-
-
-					logger.info("Leaving debit money POST");
-					
-					return "extUserHomePage";
-				}
+	@RequestMapping(value = "/debit_money", method = RequestMethod.POST)
+	public String debitmoneyPageAction(@ModelAttribute("debitOp") Transactions transPost, Model model, HttpSession session){
+			logger.info("Inside debit money op POST");
+			@SuppressWarnings("deprecation")
+			//String uniqId= (String)session.getAttribute("UniqueID");
+			String uniqID ="EM123";
+			ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqID);
+			transPost.setBalance(extUser.getBalance());
+			float amount = transPost.getTransactionAmount();
+			float currentBalance = transPost.getBalance();			
 			
-			@RequestMapping(value = "/credit_money", method = RequestMethod.GET)
-			public String creditmoneyPageGet(ModelMap model, HttpSession session){
-			ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
-			Transactions transObj = new Transactions();
-			transObj.setBalance(extUser.getBalance());
-			model.addAttribute("creditOp", transObj );
-			model.addAttribute("debitOp",transObj);
+			
+			if(currentBalance >= amount){
+				logger.info("EU.getBalance" + transPost.getBalance());
+				//debit amount from current account balance		
+				transPost.setUniqId(uniqID);
+				transPost.setDescription("debited amount: "+amount);
+				transPost.setTransactionAmount(amount);
+				transPost.setTransactionType("debit");
+				transPost.setBalance(currentBalance-amount);
+			
+				extUser.setBalance(currentBalance-amount);
+				databaseConnector.updateExternalUser(extUser);
+				databaseConnector.saveTransaction(transPost);
+			
+			}
+			
+			model.addAttribute("debitOp", transPost );
+			model.addAttribute("creditOp",transPost);
+			model.addAttribute("checkAccBal", transPost.getBalance() );
+			model.addAttribute("savingAccBal", "500" );
+			model.addAttribute("transferOp",transPost);
+			model.addAttribute("paymerchantOp",transPost);
+			
 
-			logger.info("Trans Obj:",transObj);
-			logger.info("Current Balance in credit money"+extUser.getBalance());
 
+			logger.info("Leaving debit money POST");
+			
 			return "extUserHomePage";
-			}
-				
-			@RequestMapping(value = "/credit_money", method = RequestMethod.POST)
-			public String creditmoneyPageAction(@ModelAttribute("creditOp") Transactions transactionObj, Model model, HttpSession session){
-					logger.info("Inside credit money op POST");
-					logger.info("Current Balance" + transactionObj.getBalance());
-					//String uniqueID = (String) session.getAttribute("UniqueID");
-					String uniqueID ="EM123";
-					ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
-					transactionObj.setBalance(extUser.getBalance());
-					float amount = transactionObj.getTransactionAmount();
-					float currentBalance = transactionObj.getBalance();
-					logger.info("balance :",currentBalance);
-					//credit amount from current account balance		
-					transactionObj.setUniqId(uniqueID);
-					transactionObj.setDescription("credited amount: "+amount);
-					transactionObj.setTransactionType("credit");
-					transactionObj.setBalance(currentBalance+amount);
-					extUser.setBalance(currentBalance+amount);
-					databaseConnector.updateExternalUser(extUser);
-					databaseConnector.saveTransaction(transactionObj);
-	
-
-					model.addAttribute("debitOp", transactionObj );
-					model.addAttribute("creditOp",transactionObj);
-					model.addAttribute("checkAccBal", transactionObj.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
-					model.addAttribute("transferOp",transactionObj);
-					model.addAttribute("paymerchantOp",transactionObj);
-					model.addAttribute("checkAccBal", transactionObj.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
+	}
+			
+			
+	@RequestMapping(value = "/credit_money", method = RequestMethod.POST)
+	public String creditmoneyPageAction(@ModelAttribute("creditOp") Transactions transactionObj, Model model, HttpSession session){
+			logger.info("Inside credit money op POST");
+			logger.info("Current Balance" + transactionObj.getBalance());
+			//String uniqueID = (String) session.getAttribute("UniqueID");
+			String uniqueID ="EM123";
+			ExternalUser extUser = databaseConnector.getExternalUserByUniqId("EM123");
+			transactionObj.setBalance(extUser.getBalance());
+			float amount = transactionObj.getTransactionAmount();
+			float currentBalance = transactionObj.getBalance();
+			logger.info("balance :",currentBalance);
+			//credit amount from current account balance		
+			transactionObj.setUniqId(uniqueID);
+			transactionObj.setDescription("credited amount: "+amount);
+			transactionObj.setTransactionType("credit");
+			transactionObj.setBalance(currentBalance+amount);
+			extUser.setBalance(currentBalance+amount);
+			databaseConnector.updateExternalUser(extUser);
+			databaseConnector.saveTransaction(transactionObj);
 
 
-					logger.info("Leaving credit money POST");
-					return "extUserHomePage";
-					}	
-			}
+			model.addAttribute("debitOp", transactionObj );
+			model.addAttribute("creditOp",transactionObj);
+			model.addAttribute("checkAccBal", transactionObj.getBalance() );
+			model.addAttribute("savingAccBal", "500" );
+			model.addAttribute("transferOp",transactionObj);
+			model.addAttribute("paymerchantOp",transactionObj);
+			model.addAttribute("checkAccBal", transactionObj.getBalance() );
+			model.addAttribute("savingAccBal", "500" );
+
+
+			logger.info("Leaving credit money POST");
+			return "extUserHomePage";
+		}	
+}

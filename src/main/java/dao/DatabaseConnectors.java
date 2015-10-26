@@ -186,7 +186,7 @@ public class DatabaseConnectors {
 		 Login login = (Login)session.createCriteria(Login.class)
 				 .add(Restrictions.like("username", username)).uniqueResult();
 		 if( login != null ) {
-			 return login.getAttempts();
+			 return login.getAttempt();
 		 }
 		 return 0;
 	 }

@@ -77,7 +77,7 @@ public class HomeController {
 		Login login = dbcon.getLoginByUsername(loginPageSet.getUserId());
 		if( result==1 && !login.getStatus().equals("Locked") )
 		{
-			login.setAttempts(0);
+			login.setAttempt(0);
 			dbcon.updateLogin(login);
 			String role = dbcon.getRoleByUsername(loginPageSet.getUserId());
 			 
@@ -97,8 +97,8 @@ public class HomeController {
 			}	
 		}
 		else {
-			login.setAttempts(login.getAttempts()+1);
-			if( login.getAttempts() <4 ) {
+			login.setAttempt(login.getAttempt()+1);
+			if( login.getAttempt() <4 ) {
 				dbcon.updateLogin(login);
 				model.addAttribute("message","incorrect login details");
 				return "home";

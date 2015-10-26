@@ -8,7 +8,7 @@ public class Login {
 	private String uniqId;
 	private long id;
 	private String status;
-	private int attempts;
+	private int attempt;
 
 	public Login() {
 	}
@@ -19,7 +19,7 @@ public class Login {
 		this.role = role;
 		this.uniqId = uniqId;
 		this.status = status;
-		this.setAttempts(attempt);
+		this.setAttempt(attempt);
 	}
 	
 
@@ -91,15 +91,15 @@ public class Login {
 	/**
 	 * @return the attempts
 	 */
-	public int getAttempts() {
-		return attempts;
+	public int getAttempt() {
+		return attempt;
 	}
 
 	/**
 	 * @param attempts the attempts to set
 	 */
-	public void setAttempts(int attempts) {
-		this.attempts = attempts;
+	public void setAttempt(int attempt) {
+		this.attempt = attempt;
 	}
 
 }

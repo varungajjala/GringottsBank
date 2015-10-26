@@ -66,35 +66,6 @@ public class AdminController {
 		
 	}
 	
-		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.GET)
-		public String delete_user(ModelMap model, HttpSession session) {
-			logger.info("In delete User GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			ExternalUser EU = new ExternalUser();
-			model.put("send", EU);
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-			
-		}
 		
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.POST)
 		public String delete_user_post(@ModelAttribute("deleteOp_internal") ExternalUser EU, ModelMap model) {
@@ -115,32 +86,6 @@ public class AdminController {
 			return "adminHomePage";
 		}
 		
-		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.GET)
-		public String modify_user_get(ModelMap model, HttpSession session) {
-			logger.info("In modify User GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-			
-		}
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.POST)
 		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model) {
@@ -157,32 +102,6 @@ public class AdminController {
 			return "adminHomePage";
 		}
 		
-		@RequestMapping(value = "/create_user_internal", method = RequestMethod.GET)
-		public String create_user(ModelMap model, HttpSession session) {
-			logger.info("In create user GET");
-			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
-			if(session.getAttribute("role") != null){
-				String role = session.getAttribute("role").toString();
-				if(role.equals("ei")){
-					return "redirect:extUserHomePage";
-				}else if(role.equals("em")){
-					return "redirect:merchantHomePage";
-				}else if(role.equals("im")){
-					return "redirect:managerHomePage";
-				}else if(role.equals("ir")){
-					return "redirect:intUserHomePage";
-				}else if(role.equals("admin")){
-					return "adminHomePage";
-				}
-			}
-			
-			return "redirect:";
-
-		}
 		
 		@RequestMapping(value = "/create_user_internal", method = RequestMethod.POST)
 		public String create_user_post(@ModelAttribute("createOp_internal") UserInfo UI, Model model) {
