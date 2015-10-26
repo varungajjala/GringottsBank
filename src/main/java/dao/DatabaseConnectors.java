@@ -225,4 +225,11 @@ public class DatabaseConnectors {
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return externalUser;
 	 }
+	 
+	 public ExternalUser getExternalUserByAccNum(int accountno) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
+				 .add(Restrictions.like("accountno",accountno )).uniqueResult();
+		 return externalUser;
+	 }
 }

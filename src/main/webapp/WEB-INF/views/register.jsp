@@ -1,14 +1,22 @@
 
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptcha" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaFactory" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaImpl" %>
+<%@ page import="net.tanesha.recaptcha.ReCaptchaResponse" %>
 <html lang="en">
   <head>
+  
+  
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>Register</title>
-
+	<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+	
     <!-- Bootstrap -->
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
 
@@ -151,12 +159,24 @@
   						</div>
   						 -->
   						 
+  						 <div class="form-group" id="captcha">
+  						 <label for="captcha" class="col-sm-2 control-label">Are you a human?</label>
+					        
+					        
+					        
+					       <div class="g-recaptcha" data-sitekey="6Lc_0f4SAAAAAF9ZA_d7Dxi9qRbPMMNW-tLSvhe6"></div>
+					        
+  						 </div>
+  						 <br>
+  						 <br>
+  						 
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" onsubmit="return myFunction()" >Register</button>
      						
     						</div>
   						</div>
+  						
 					</form:form>		
   				</div>
 			</div>

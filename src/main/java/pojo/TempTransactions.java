@@ -8,18 +8,20 @@ public class TempTransactions {
 	private float balance;
 	private Timestamp date;
 	private float transactionAmount;
+	private int accountno;
 	/**
 	 * @param transactionType
 	 * @param uniqId
 	 * @param description
 	 * @param balance
 	 */
-	public TempTransactions(String transactionType, String uniqId, String description, float balance, float transactionAmount) {
+	public TempTransactions(String transactionType, String uniqId, String description, float balance, float transactionAmount,int accountno) {
 		this.transactionType = transactionType;
 		this.uniqId = uniqId;
 		this.description = description;
 		this.setTransactionAmount(transactionAmount);
 		this.balance = balance;
+		this.accountno = accountno;
 	}
 	/**
 	 * 
@@ -110,5 +112,13 @@ public class TempTransactions {
 	public void setTransactionAmount(float transactionAmount) {
 		this.transactionAmount = transactionAmount;
 	}
-	
+	public int getAccountno() {
+		return accountno;
+	}
+	/**
+	 * @param accountno the accountno to set
+	 */
+	public void setAccountno(int accountno) {
+		this.accountno = accountno;
+	}
 }

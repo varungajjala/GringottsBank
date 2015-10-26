@@ -162,11 +162,11 @@
   								</div>
   								
   								<div class="form-group">
-	    								<label for="inputAmount" class="col-lg-2 control-label">Account Number</label>
+	    								<label for="inputAccountNumber" class="col-lg-2 control-label">Account Number</label>
 	   										<div class="col-sm-10">
 	   											<div class="col-sm-24">
 	     										
-	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Account Number" />
+	     										<form:input path="accountno" type="number" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number" />
 	     											
 	   			 								</div>
 	   			 							</div>
@@ -193,9 +193,24 @@
   								
     						
         				</div>
+        				
+        				<!-- Tab for transactions history -->
         				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Transaction History</h3>
+    							<!--  
+    							<form:form class="form-horizontal" action="transactions" commandName="transactionOp" method="POST">
+    							<c:forEach items="${transactionOp}" var="transactionOp">     
+  								 <c:out value="${transactionOp.getId()}"/>
+  								 <c:out value="${transactionOp.getTransactionType()}"/>
+  								 <c:out value="${transactionOp.getUniqId()}"/>
+  								 <c:out value="${transactionOp.getDescription()}"/>
+  								 <c:out value="${transactionOp.getBalance()}"/>
+  								 <c:out value="${transactionOp.getDate()}"/>
+  								 <c:out value="${transactionOp.getTransactionAmount()}"/>
+								</c:forEach>
+    							</form:form>
+    							-->
     						</div>
     						
         				</div>
@@ -215,16 +230,15 @@
   								</div>
   					
   									<div class="form-group">
-	    								<label for="inputAmount" class="col-lg-2 control-label">Account Number</label>
+	    								<label for="inputAccountNumber" class="col-lg-2 control-label">Account Number</label>
 	   										<div class="col-sm-10">
 	   											<div class="col-sm-24">
 	     										
-	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Account Number" />
+	     										<form:input path="accountno" type="number" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number of Merchant" />
 	     											
 	   			 								</div>
 	   			 							</div>
 	  								</div>
-  								
 	  								<div class="form-group">
 	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
 	   										<div class="col-sm-10">
@@ -241,7 +255,10 @@
 	     										<button type="reset" class="btn btn-success">Cancel</button>
 	    								</div>
 	    							</div>
-    						</form:form>
+	    							</form:form>
+	    				</div>			</div>
+    						</div>
+    						</div>
 	</div>
   </body>
 </html>

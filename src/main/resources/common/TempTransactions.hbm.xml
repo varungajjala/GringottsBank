@@ -25,5 +25,8 @@
         </property>
         <property name="date" type="timestamp">
         </property>
+        <property name="accountno" type="int">
+        <column name="accountno" not-null="true"/>
+        </property>
     </class>
 </hibernate-mapping>

@@ -2,6 +2,8 @@ package com.softwaresecurity.gringotts;
 import pojo.*;
 import java.util.Random;
 import dao.*;
+import net.tanesha.recaptcha.ReCaptchaImpl;
+import net.tanesha.recaptcha.ReCaptchaResponse;
 
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
@@ -10,6 +12,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.constraints.SafeHtml;
@@ -24,6 +27,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.mysql.jdbc.log.Log;
 
@@ -147,40 +151,42 @@ public class HomeController {
 	        logger.info("uinfoget.getIdentification - " + uinfoget.getIdentificationNo());
 	        logger.info("uinfoget.getusertype - " + uinfoget.getutype());
 		
-	        Random rand = new Random();
-		int randId = rand.nextInt(1000);
-		String uniqIdVal = Integer.toString(randId);
-		String userType = null;
-		if(uinfoget.getutype().equals("singleUser"))
-		{
-			userType="ei";
-		}
-		else if(uinfoget.getutype().equals("merchant"))
-		{
-			userType="em";
-		}
-		
-		String uniqId = userType+uniqIdVal;
-		String hashedPassword = passwordEncoder.encode(uinfoget.getPasswd());
-		uinfoget.setUniqId(uniqId);
-		uloginset.setUserId(uinfoget.getUsername());
-		uloginset.setPasswd(hashedPassword);
-		uloginset.setRole(userType);
-		uloginset.setUniqId(uinfoget.getUniqId());
-		uloginset.setStatus("Locked");
-		logger.info("login userID" + uloginset.getUserId());
-		logger.info("login password" + uloginset.getPasswd());
-		logger.info("login role" + uloginset.getRole());
-		logger.info("login uniqId" + uloginset.getUniqId());
-		
-		//uinfoget.setUsername(uinfoget.getFirstName());
-		DatabaseConnectors dbcon = new DatabaseConnectors();
-		dbcon.saveUserInfo(uinfoget);
-		dbcon.saveLogin(uloginset);
-//		dbcon.saveLogin(userLogin);
-//		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
-		logger.info("leaving post");
-		return "registrationSuccessful";	
+	        
+	    	Random rand = new Random();
+			int randId = rand.nextInt(1000);
+			String uniqIdVal = Integer.toString(randId);
+			String userType = null;
+			if(uinfoget.getutype().equals("singleUser"))
+			{
+				userType="ei";
+			}
+			else if(uinfoget.getutype().equals("merchant"))
+			{
+				userType="em";
+			}
+			
+			String uniqId = userType+uniqIdVal;
+			String hashedPassword = passwordEncoder.encode(uinfoget.getPasswd());
+			uinfoget.setUniqId(uniqId);
+			uloginset.setUserId(uinfoget.getUsername());
+			uloginset.setPasswd(hashedPassword);
+			uloginset.setRole(userType);
+			uloginset.setUniqId(uinfoget.getUniqId());
+			uloginset.setStatus("Locked");
+			logger.info("login userID" + uloginset.getUserId());
+			logger.info("login password" + uloginset.getPasswd());
+			logger.info("login role" + uloginset.getRole());
+			logger.info("login uniqId" + uloginset.getUniqId());
+			
+			//uinfoget.setUsername(uinfoget.getFirstName());
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			dbcon.saveUserInfo(uinfoget);
+			dbcon.saveLogin(uloginset);
+	//		dbcon.saveLogin(userLogin);
+	//		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
+			logger.info("leaving post");
+			return "registrationSuccessful";
+	    
 	}
 	@RequestMapping(value = "/registrationSuccessful", method = RequestMethod.POST)
 	public String regSuccess(Model model, HttpSession session) {
