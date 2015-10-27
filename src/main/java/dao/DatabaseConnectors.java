@@ -14,6 +14,7 @@ import persistence.HibernateUtil;
 import pojo.ExternalUser;
 import pojo.InternalUser;
 import pojo.Login;
+import pojo.OtpTransactions;
 import pojo.TempTransactions;
 import pojo.TempUserInfo;
 import pojo.Transactions;
@@ -116,7 +117,28 @@ public class DatabaseConnectors {
 		}
 		return 0;
 	}
-	
+	public void saveOtpTransaction(OtpTransactions otpTransaction) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 session.beginTransaction();
+		 session.save(otpTransaction);
+		 session.getTransaction().commit();
+	}
+	public OtpTransactions getOtpTransactionById(long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 OtpTransactions tempTransactions = (OtpTransactions)session.createCriteria(OtpTransactions.class)
+				 .add(Restrictions.eq("id", id)).uniqueResult();
+		 return tempTransactions;
+	}
+	public List<OtpTransactions> getOtpTransactionsByUniqId(String uniqId) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		List<OtpTransactions> results = (List<OtpTransactions>) session.createCriteria(OtpTransactions.class)
+				 .add( Restrictions.like("uniqId", uniqId)).addOrder(Order.desc("date")).list();
+		 if(results != null) {
+			 return (List<OtpTransactions>)results;
+		 }
+		 return null;
+	}
 	public List<Transactions> getTransactionsByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")

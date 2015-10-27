@@ -3,7 +3,7 @@
 "http://www.hibernate.org/dtd/hibernate-configuration">
 
 <hibernate-mapping>
-    <class name="pojo.Transactions" table="transactions" >
+    <class name="pojo.OtpTransactions" table="otptransactions" >
 		<id name="id" column="ID" type="long">
 			<generator class="increment"/>
 		</id>
