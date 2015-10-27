@@ -165,6 +165,8 @@ public class ExternalUserController {
 					model.addAttribute("transactionOp",temp);
 
 					logger.info("Leaving debit money POST");
+					
+					return "extUserHomePage";
 			}
 			
 			@RequestMapping(value = "/credit_money", method = RequestMethod.POST)
