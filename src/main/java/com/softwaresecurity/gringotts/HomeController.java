@@ -99,7 +99,7 @@ public class HomeController {
 				return "redirect:intUserHomePage";
 			}	
 		}
-		else {
+		else if(login != null){
 			login.setAttempt(login.getAttempt()+1);
 			if( login.getAttempt() <4 ) {
 				dbcon.updateLogin(login);
@@ -112,7 +112,7 @@ public class HomeController {
 				return "home";
 			}
 		}
-		
+		model.addAttribute("message","incorrect login details");
 		return "home";
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
