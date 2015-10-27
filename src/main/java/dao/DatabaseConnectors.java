@@ -14,6 +14,7 @@ import persistence.HibernateUtil;
 import pojo.ExternalUser;
 import pojo.InternalUser;
 import pojo.Login;
+import pojo.OneTimePass;
 import pojo.TempTransactions;
 import pojo.TempUserInfo;
 import pojo.Transactions;
@@ -80,6 +81,20 @@ public class DatabaseConnectors {
 		 }
 		 return "";
 	}
+	
+	public OneTimePass getOneTimePassByUsername(String username) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 OneTimePass otp = (OneTimePass)session.createCriteria(OneTimePass.class)
+				 .add(Restrictions.like("username", username)).uniqueResult();
+		 return otp;
+	 }
+	public void saveOTP(OneTimePass otp) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 session.beginTransaction();
+		 session.save(otp);
+		 session.getTransaction().commit();
+	 }
+	
 	public Login getLoginByUsername(String username) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Login login = (Login) session.createCriteria(Login.class)
