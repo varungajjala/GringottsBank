@@ -15,11 +15,11 @@ import pojo.ExternalUser;
 import pojo.InternalUser;
 import pojo.Login;
 import pojo.OneTimePass;
+import pojo.OtpTransactions;
 import pojo.TempTransactions;
 import pojo.TempUserInfo;
 import pojo.Transactions;
 import pojo.UserInfo;
-
 
 public class DatabaseConnectors {
 	 public void saveLogin(Login login) {
@@ -81,20 +81,6 @@ public class DatabaseConnectors {
 		 }
 		 return "";
 	}
-	
-	public OneTimePass getOneTimePassByUsername(String username) {
-		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 OneTimePass otp = (OneTimePass)session.createCriteria(OneTimePass.class)
-				 .add(Restrictions.like("username", username)).uniqueResult();
-		 return otp;
-	 }
-	public void saveOTP(OneTimePass otp) {
-		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 session.beginTransaction();
-		 session.save(otp);
-		 session.getTransaction().commit();
-	 }
-	
 	public Login getLoginByUsername(String username) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Login login = (Login) session.createCriteria(Login.class)
@@ -114,8 +100,6 @@ public class DatabaseConnectors {
 		 return "";
 	}
 	
-	
-	
 	public String getRoleByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
@@ -128,12 +112,34 @@ public class DatabaseConnectors {
 	
 	public int checkLogin(String userid, String passwd){
 		String passFromDb = getPasswdByUsername(userid);
+		//if (passFromDb != "" && passFromDb.equals(passwd)){
 		if (passFromDb !=""&& BCrypt.checkpw(passwd, passFromDb)){
 			return 1;
 		}
 		return 0;
 	}
-	
+	public void saveOtpTransaction(OtpTransactions otpTransaction) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 session.beginTransaction();
+		 session.save(otpTransaction);
+		 session.getTransaction().commit();
+	}
+	public OtpTransactions getOtpTransactionById(long id) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 OtpTransactions tempTransactions = (OtpTransactions)session.createCriteria(OtpTransactions.class)
+				 .add(Restrictions.eq("id", id)).uniqueResult();
+		 return tempTransactions;
+	}
+	public List<OtpTransactions> getOtpTransactionsByUniqId(String uniqId) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		List<OtpTransactions> results = (List<OtpTransactions>) session.createCriteria(OtpTransactions.class)
+				 .add( Restrictions.like("uniqId", uniqId)).addOrder(Order.desc("date")).list();
+		 if(results != null) {
+			 return (List<OtpTransactions>)results;
+		 }
+		 return null;
+	}
 	public List<Transactions> getTransactionsByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
@@ -162,7 +168,7 @@ public class DatabaseConnectors {
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return tempUserInfo;
 	 }
-	 public int getAccountNoByUniqId(String uniqId) {
+	 public long getAccountNoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
@@ -180,7 +186,7 @@ public class DatabaseConnectors {
 		 }
 		 return 0;
 	 }
-	 public int getEmployeeIdByUniqId(String uniqId) {
+	 public long getEmployeeIdByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 InternalUser internalUser = (InternalUser)session.createCriteria(InternalUser.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
@@ -227,23 +233,37 @@ public class DatabaseConnectors {
 		 
 	 }
 	 
-	 public void updateExternalUser(ExternalUser extUser){
-		 	Session session = HibernateUtil.getSessionFactory().openSession();
-			session.beginTransaction();
-			session.saveOrUpdate(extUser);
-			session.getTransaction().commit();
-	 }
-	 public ExternalUser getExternalUserByUniqId(String uniqId) {
+	 public void saveOTP(OneTimePass otp) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
-				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
-		 return externalUser;
+		 session.beginTransaction();
+		 session.save(otp);
+		 session.getTransaction().commit();
 	 }
 	 
-	 public ExternalUser getExternalUserByAccNum(int accountno) {
+	 public OneTimePass getOneTimePassByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
-		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
-				 .add(Restrictions.like("accountno",accountno )).uniqueResult();
-		 return externalUser;
+		 OneTimePass otp = (OneTimePass)session.createCriteria(OneTimePass.class)
+				 .add(Restrictions.like("username", username)).uniqueResult();
+		 return otp;
 	 }
+	 
+	 public void updateExternalUser(ExternalUser extUser){
+         Session session = HibernateUtil.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.saveOrUpdate(extUser);
+        session.getTransaction().commit();
+ }
+ public ExternalUser getExternalUserByUniqId(String uniqId) {
+     Session session = HibernateUtil.getSessionFactory().openSession();
+     ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
+             .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+     return externalUser;
+ }
+ 
+ public ExternalUser getExternalUserByAccNum(long accountno) {
+     Session session = HibernateUtil.getSessionFactory().openSession();
+     ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
+             .add(Restrictions.like("accountno",accountno )).uniqueResult();
+     return externalUser;
+ }
 }

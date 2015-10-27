@@ -41,6 +41,11 @@ public class MerchantController {
 			/**
 			 * To display user profile			
 			 */
+			
+			if(session.getAttribute("uniqueid") == null){
+				return "redirect:";
+			}
+			
 						UserInfo UI = new UserInfo();
 						DatabaseConnectors dbcon = new DatabaseConnectors();
 						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));

@@ -38,6 +38,10 @@ public class InternalUserController {
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 
+			if(session.getAttribute("uniqueid") == null){
+				return "redirect:";
+			}
+			
 			/**
 			 * To display user profile			
 			 */

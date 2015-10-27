@@ -43,6 +43,10 @@ public class ManagerController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
+			if(session.getAttribute("uniqueid") == null){
+				return "redirect:";
+			}
+			
 			/**
 			 * To display user profile			
 			 */

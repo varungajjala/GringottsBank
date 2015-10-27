@@ -11,7 +11,7 @@
             <column name="uniqid" length="20"/>
             <!--<generator class="identity" />  -->
         </property>
-        <property name="accountno" type="integer" unique="true">
+        <property name="accountno" type="long" unique="true">
             <column name="accountno" not-null="true"/>
         </property>
         <property name="balance" type="float">

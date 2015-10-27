@@ -2,12 +2,12 @@ package pojo;
 public class InternalUser {
 	private long id;
 	private String uniqId;
-	private int empId;
+	private long empId;
 	/**
 	 * @param uniqId
 	 * @param empId
 	 */
-	public InternalUser(String uniqId, int empId) {
+	public InternalUser(String uniqId, long empId) {
 		super();
 		this.uniqId = uniqId;
 		this.empId = empId;
@@ -44,13 +44,13 @@ public class InternalUser {
 	/**
 	 * @return the empId
 	 */
-	public int getEmpId() {
+	public long getEmpId() {
 		return empId;
 	}
 	/**
 	 * @param empId the empId to set
 	 */
-	public void setEmpId(int empId) {
+	public void setEmpId(long empId) {
 		this.empId = empId;
 	}
 	
