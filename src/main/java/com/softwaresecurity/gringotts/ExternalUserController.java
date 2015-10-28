@@ -8,9 +8,18 @@ import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
 	
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -23,6 +32,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+
+import com.softwaresecurity.util.GenerateOtp;
 
 /**
  * Handles requests for the application home page.
@@ -40,6 +51,9 @@ public class ExternalUserController {
 		@RequestMapping(value = "/extUserHomePage", method = RequestMethod.GET)
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
+			if(session.getAttribute("uniqueid") == null){
+				return "redirect:";
+			}
 			String uniqueid = session.getAttribute("uniqueid").toString();
 			logger.info("Unique ID "+uniqueid);
 			ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueid);
@@ -208,7 +222,7 @@ public class ExternalUserController {
 			
 			
 			@RequestMapping(value = "/transfer_money", method = RequestMethod.POST)
-			public String transfermoneyPageAction(@ModelAttribute("transferOp") TempTransactions transObj, Model model, HttpSession session){
+			public String transfermoneyPageAction(@ModelAttribute("transferOp") TempTransactions transObj, Model model, HttpSession session) throws Exception{
 				logger.info("Inside transfer money op POST");
 				@SuppressWarnings("deprecation")
 				String uniqId= (String)session.getAttribute("uniqueid");
@@ -236,6 +250,8 @@ public class ExternalUserController {
 				databaseConnector.saveTransaction(transPost);
 				
 				}
+				
+				session.setAttribute("transAccntNo", transObj.getAccountno());
 				
 				logger.info("Inside credit part of transfer money op POST");
 				//String uniqueID = (String)session.getAttribute("uniqueid");
@@ -265,11 +281,86 @@ public class ExternalUserController {
 				model.addAttribute("paymerchantOp",transObj);
 				model.addAttribute("transactionOp",transObj);
 				
+				/* Send otp on clickin gthe button */
+				/* OTP */	
+				//Start with initialization vector : 
+				Random rand = new Random();
+				int randomNum = rand.nextInt(737568)+256846;
+				String IV = Integer.toString(randomNum);
+				System.out.println("Random number (IV): "+ IV);
+				//String IVtest = "123456";
+				
+				//String test2 = "5aba1db3b561abe65a12fd109b50ca5ecfc88e5d106d4b511c7653b843d0e3d4";
+			 	//SecureRandom randomGenerator = new SecureRandom();
+				//byte[] randomNumber = new byte[20];
+				//randomGenerator.nextBytes(randomNumber);
+			 	String app1Hash;
+				
+				String app1Password;
+
+			 	//counter starts at 0 - no clicks yet
+				int app1Counter=0;
+				 
+				Hashtable<String,Integer> h = new Hashtable<String, Integer>();
+
+				//do first run with intialization vector
+				GenerateOtp firstApp = new GenerateOtp();
+			 	app1Hash = firstApp.genHash(IV);
+				app1Password = firstApp.genPassword(app1Hash); 	
+
+				
+				System.out.println(IV);
+			for(int i = 0; i < 1; i++) {
+			 		app1Hash = firstApp.genHash(app1Hash); //send old hash as seed for next sha hash
+					app1Password = firstApp.genPassword(app1Hash); //new OTP will be calculated using the new hash
+					
+					if(!h.containsKey(app1Password)){
+						h.put(app1Password, 0);
+						app1Counter++;
+					}	
+					System.out.println("app1 OTP: " + app1Password);
+					System.out.println(app1Counter);
+				}
+			Properties props = new Properties();
+			props.put("mail.smtp.host", "smtp.gmail.com");
+			props.put("mail.smtp.socketFactory.port", "465");
+			props.put("mail.smtp.socketFactory.class",
+					"javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.auth", "true");
+			props.put("mail.smtp.port", "465");
+
+			Session session1 = Session.getDefaultInstance(props,
+				new javax.mail.Authenticator() {
+					protected PasswordAuthentication getPasswordAuthentication() {
+						return new PasswordAuthentication("gringottsbank14@gmail.com","softwaresecurity");
+					}
+				});
+			
+
+			try {
+
+				Message message = new MimeMessage(session1);
+				message.setFrom(new InternetAddress("gringottsbank14@gmail.com"));
+				message.setRecipients(Message.RecipientType.TO,
+						InternetAddress.parse("gajjala.varun@gmail.com"));
+				message.setSubject("One Time Password - Gringotts Bank");
+				message.setText("Dear User,"+
+						"\n\n OTP for your account is as follows:"+" "+app1Password+"."+"\n\n Regards,"+"\n\n Gringotts Bank");
+
+				Transport.send(message);
+
+
+			} catch (MessagingException e) {
+				throw new RuntimeException(e);
+			}
+			
+			/* code for sending otp on button click ends here */
+				
 
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
-					}
+			}
 			
 			
 			
@@ -286,6 +377,7 @@ public class ExternalUserController {
 					logger.info("Leaving transactions op POST");
 					return transactionObj;
 					}
+
 			
 			@RequestMapping(value = "/pay_merchant", method = RequestMethod.POST)
 			public String paymerchantPageAction(@ModelAttribute("paymerchantOp") TempTransactions transactionObj, Model model, HttpSession session){
@@ -325,6 +417,6 @@ public class ExternalUserController {
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
-				}
+			}
 			
 }

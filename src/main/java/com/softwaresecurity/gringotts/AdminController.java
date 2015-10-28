@@ -26,6 +26,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.softwaresecurity.util.GeneralUtils;
+
 /**
  * Handles requests for the application home page.
  */
@@ -45,6 +47,11 @@ public class AdminController {
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() ); 
+			
+			if(session.getAttribute("uniqueid") == null){
+				return "redirect:";
+			}
+			
 			/**
 			 * To display user profile			
 			 */
@@ -177,9 +184,17 @@ public class AdminController {
 			uloginset.setRole(userType);
 			uloginset.setUniqId(UI.getUniqId());
 			uloginset.setStatus("Unlocked");
+			
+			long empid = GeneralUtils.createRandomInteger("internal");
+			
+			InternalUser intUser = new InternalUser();
+			intUser.setEmpId(empid);
+			intUser.setUniqId(uniqId);
+			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.saveUserInfo(UI);
 			dbcon.saveLogin(uloginset);
+			dbcon.saveInternalUser(intUser);
 			System.out.println("ended the create");
 
 			model.addAttribute("deleteOp_internal", new ExternalUser() );

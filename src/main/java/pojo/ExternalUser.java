@@ -3,14 +3,14 @@ package pojo;
 public class ExternalUser {
 	private long id;
 	private String uniqId;
-	private int accountno;
+	private long accountno;
 	private float balance;
 	/**
 	 * @param uniqId
 	 * @param accountno
 	 * @param balance
 	 */
-	public ExternalUser(String uniqId, int accountno, float balance) {
+	public ExternalUser(String uniqId, long accountno, float balance) {
 		super();
 		this.uniqId = uniqId;
 		this.accountno = accountno;
@@ -43,13 +43,13 @@ public class ExternalUser {
 	/**
 	 * @return the accountno
 	 */
-	public int getAccountno() {
+	public long getAccountno() {
 		return accountno;
 	}
 	/**
 	 * @param accountno the accountno to set
 	 */
-	public void setAccountno(int accountno) {
+	public void setAccountno(long accountno) {
 		this.accountno = accountno;
 	}
 	/**
@@ -70,9 +70,5 @@ public class ExternalUser {
 	public ExternalUser() {
 		
 		// TODO Auto-generated constructor stub
-	}
-	public void setBalance(double d) {
-		// TODO Auto-generated method stub
-		
 	}
 }

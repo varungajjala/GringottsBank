@@ -1,6 +1,6 @@
 package pojo;
 import java.sql.Timestamp;
-public class Transactions {
+public class OtpTransactions {
 	private long id;
 	private String transactionType;
 	private String uniqId;
@@ -16,7 +16,7 @@ public class Transactions {
 	 * @param balance
 	 * @param transactionAmount
 	 */
-	public Transactions(String transactionType, String uniqId, String description, float balance, float transactionAmount, String status) {
+	public OtpTransactions(String transactionType, String uniqId, String description, float balance, float transactionAmount, String status) {
 		this.transactionType = transactionType;
 		this.uniqId = uniqId;
 		this.description = description;
@@ -27,7 +27,7 @@ public class Transactions {
 	/**
 	 * 
 	 */
-	public Transactions() {
+	public OtpTransactions() {
 	}
 	/**
 	 * @return the id

@@ -1,4 +1,5 @@
 package com.softwaresecurity.gringotts;
+import com.softwaresecurity.util.*;
 import pojo.*;
 import java.util.Random;
 import dao.*;
@@ -99,7 +100,7 @@ public class HomeController {
 				return "redirect:intUserHomePage";
 			}	
 		}
-		else {
+		else if(login != null){
 			login.setAttempt(login.getAttempt()+1);
 			if( login.getAttempt() <4 ) {
 				dbcon.updateLogin(login);
@@ -112,7 +113,7 @@ public class HomeController {
 				return "home";
 			}
 		}
-		
+		model.addAttribute("message","incorrect login details");
 		return "home";
 	}
 	@RequestMapping(value = "/register", method = RequestMethod.GET)
@@ -132,6 +133,7 @@ public class HomeController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m) {
 		Login uloginset = new Login();
+		ExternalUser extUser = new ExternalUser();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
 		logger.info("Entering post");
@@ -177,10 +179,19 @@ public class HomeController {
 			logger.info("login role" + uloginset.getRole());
 			logger.info("login uniqId" + uloginset.getUniqId());
 			
+			long accntNo = GeneralUtils.createRandomInteger("external");
+			
+			extUser.setBalance(0.0f);
+			extUser.setUniqId(uniqId);
+			extUser.setAccountno(accntNo);
+			
+			
+			
 			//uinfoget.setUsername(uinfoget.getFirstName());
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.saveUserInfo(uinfoget);
 			dbcon.saveLogin(uloginset);
+			dbcon.saveExternalUser(extUser);
 	//		dbcon.saveLogin(userLogin);
 	//		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
 			logger.info("leaving post");
