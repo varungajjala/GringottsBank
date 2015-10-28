@@ -20,13 +20,17 @@
     
   </head>
   <body>
+ 
+    
   	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js">
     
     </script>
-  
+   
+  	<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
   	<p><br/></p>
   	
   	<div>
@@ -39,7 +43,10 @@
   		<div class="col-md-3"></div>
   		<div class="col-md-6" style="padding-top: 40px">
   			<div class="panel panel-default" style="background: #eee">
+  				
+  				
   				<div class="panel-body" >
+  					
   					<ul class="nav nav-tabs" data-tabs="tabs">
   						<li class="active"><a href="#Tab1" data-toggle="tab">Accounts</a></li>
   						<li><a href="#Tab2" data-toggle="tab">Profile</a></li>
@@ -52,13 +59,19 @@
   						
 					</ul>
 					
-        				</div>
-        			<div id="my-tab-content" class="tab-content">	
-        				<div class="tab-pane active" id="Tab1">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
+        		</div>
+        		
+        		
+        		<div id="my-tab-content" class="tab-content">	
+        		
+        				
+        			<div class="tab-pane active" id="Tab1">
+        				<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Accounts</h3>
-    						</div>
-    						<form class="form-horizontal" action="register" method="get">
+    					</div>
+    				
+    				<form class="form-horizontal" action="register" method="get">
+    						
   						<div class="form-group">
     						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
     							<div class="col-sm-8">
@@ -67,6 +80,7 @@
       								</div>
     							</div>
   						</div>
+  						
   						<div class="form-group">
     						<label for="inputPassword3" class="col-sm-3 control-label">Savings Account :</label>
    							<div class="col-sm-8">
@@ -77,7 +91,8 @@
   						</div>
   						
 					</form>	
-        				</div>
+        			</div>
+        				
         				<div class="tab-pane" id="Tab2">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>
@@ -86,12 +101,13 @@
   						
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
-    							<div class="col-sm-8">
+    					<div class="col-sm-8">
     								<p>
     								${firstName}
     								</p>
-    							</div>
-  						</div>
+    					</div>
+   						</div>
+   						
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">Last Name</label>
     							<div class="col-sm-8">
@@ -126,6 +142,7 @@
     								</p>
     							</div>
   						</div>
+  						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">City</label>
     							<div class="col-sm-8">
@@ -134,6 +151,7 @@
     								</p>
     							</div>
   						</div>
+  						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">State</label>
     							<div class="col-sm-8">
@@ -142,6 +160,7 @@
     								</p>
     							</div>
   						</div>
+  						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Country</label>
     							<div class="col-sm-8">
@@ -150,6 +169,7 @@
     								</p>
     							</div>
   						</div>
+  						
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Zipcode</label>
     							<div class="col-sm-8">
@@ -202,7 +222,7 @@
   								<div class="form-group">
     								<div class="col-lg-offset-2 col-lg-10">
     									<button type="submit" class="btn btn-primary">Submit</button>
-     										<button type="reset" class="btn btn-success">Cancel</button>
+     									<button type="reset" class="btn btn-success">Cancel</button>
     								</div>
   								</div>
 							</form:form>
@@ -216,10 +236,11 @@
 	        						<div class="page-header" style="margin-top: 5px;" align="center">
 	    								<h3>Debit Money</h3>
 	    							</div>
+	    							
 	    							<div class="form-group">
     								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
     								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${debitOp.getBalance()}</form:label>
-  								</div>
+  									</div>
   					
   								
 	  								<div class="form-group">
@@ -232,6 +253,7 @@
 	   			 								</div>
 	   			 							</div>
 	  								</div>
+	  								
 	  								<div class="form-group">
 	    								<div class="col-lg-offset-2 col-lg-10">
 	    									<button type="submit" class="btn btn-primary">Submit</button>
@@ -253,6 +275,7 @@
 	        						<div class="page-header" style="margin-top: 5px;" align="center">
 	    								<h3>Transfer Money</h3>
 	    							</div>
+	    							
 	    							<div class="form-group">
     								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
     								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${transferOp.getBalance()}</form:label>
@@ -276,6 +299,7 @@
 	   											<div class="col-sm-24">
 	     										
 	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     										
 	     											
 	   			 								</div>
 	   			 							</div>
@@ -291,26 +315,43 @@
     						
         				</div>
         				
-        				<!-- Tab for transactions history -->
+        				 
+        			
         				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Transaction History</h3>
-    							<!--  
-    							<form:form class="form-horizontal" action="transactions" commandName="transactionOp" method="POST">
+    							
+    							
+								<h3>Transaction History</h3>
+								
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							</tr>
+    							
     							<c:forEach items="${transactionOp}" var="transactionOp">     
-  								 <c:out value="${transactionOp.getId()}"/>
-  								 <c:out value="${transactionOp.getTransactionType()}"/>
-  								 <c:out value="${transactionOp.getUniqId()}"/>
-  								 <c:out value="${transactionOp.getDescription()}"/>
-  								 <c:out value="${transactionOp.getBalance()}"/>
-  								 <c:out value="${transactionOp.getDate()}"/>
-  								 <c:out value="${transactionOp.getTransactionAmount()}"/>
+    							<tr>
+  								
+  								 <td align="center"><c:out value="${transactionOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
+  								 </tr>
 								</c:forEach>
-    							</form:form>
-    							-->
+								
+    							</table>
+    							
     						</div>
     						
         				</div>
+        				
+        				
         				
         				<!-- Tab for pay merchant -->
         				
@@ -353,14 +394,13 @@
 	    								</div>
 	    							</div>
 	    							</form:form>
-	    				</div>			</div>
-    						</div>
-    						</div>
+	    				</div>			
+    			</div>
+    		</div>
+    						
+    	</div>
 	</div>
-	</div>
-	</div>
-	</div>
-	</div>
+	
 	
   </body>
 </html>

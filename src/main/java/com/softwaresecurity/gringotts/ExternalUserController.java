@@ -54,10 +54,10 @@ public class ExternalUserController {
 			model.addAttribute("debitOp", transObj );
 			model.addAttribute("transferOp",temp);
 			model.addAttribute("paymerchantOp",temp);
-			model.addAttribute("transactionOp",temp);
 			model.addAttribute("checkAccBal", temp.getBalance() );
 			model.addAttribute("savingAccBal", "500" );
-
+			List<Transactions> obj= displaytransaction(session);
+			model.addAttribute("transactionOp",obj);
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
 			
@@ -272,27 +272,19 @@ public class ExternalUserController {
 					}
 			
 			
-			@RequestMapping(value = "/transactions", method = RequestMethod.POST)
-			public String displaytransactionPageAction(@ModelAttribute("transactionOp") List<Transactions> transactionObj, Model model, HttpSession session){
-					logger.info("Inside transactions op POST");
-					logger.info("Current Balance" + transactionObj.get(transactionObj.size()-1).getBalance());
+			
+			public List<Transactions> displaytransaction(HttpSession session){
+					logger.info("Inside transactions op get");
+					List<Transactions> transactionObj;
 					String uniqueID = (String) session.getAttribute("uniqueid");
 					//String uniqueID ="EM123";
 					transactionObj = databaseConnector.getTransactionsByUniqId(uniqueID);
-					
+					logger.info("Length of list :",transactionObj.size());
 					Transactions temp = new Transactions();
 					temp.setBalance(transactionObj.get(transactionObj.size()-1).getBalance());
-					model.addAttribute("debitOp", temp );
-					model.addAttribute("creditOp",temp);
-					model.addAttribute("checkAccBal", temp.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
-					model.addAttribute("transactionOp",transactionObj);
-					model.addAttribute("transferOp",transactionObj.get(transactionObj.size()-1));
-					model.addAttribute("paymerchantOp",transactionObj.get(transactionObj.size()-1));
-
-
+				
 					logger.info("Leaving transactions op POST");
-					return "extUserHomePage";
+					return transactionObj;
 					}
 			
 			@RequestMapping(value = "/pay_merchant", method = RequestMethod.POST)
