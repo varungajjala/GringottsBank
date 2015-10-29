@@ -310,7 +310,7 @@ public class DatabaseConnectors {
  public void deleteOtpTransactionById(String uniqueid) {
 	 Session session = HibernateUtil.getSessionFactory().openSession();
 	 session.beginTransaction();
-	 String hql = "delete from otpTransactions where uniqid= :uniqueid";
+	 String hql = "delete from OtpTransactions where uniqid= :uniqueid";
 	 session.createQuery(hql).setString("uniqueid", uniqueid).executeUpdate();
 	 session.getTransaction().commit();
  }

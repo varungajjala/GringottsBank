@@ -2,8 +2,11 @@ package com.softwaresecurity.gringotts;
 
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +18,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import dao.DatabaseConnectors;
 import pojo.OtpInput;
+import pojo.TempTransactions;
+import pojo.Transactions;
+import pojo.ExternalUser;
 import pojo.OneTimePass;
 
 /**
@@ -31,7 +37,7 @@ public class OtpConfirmController {
 	}
 	
 	@RequestMapping(value ="/confirmOtp", method = RequestMethod.POST)
-	public String displaypwd(@ModelAttribute("input")OtpInput name,ModelMap model, HttpSession session) {
+	public String displaypwd(@ModelAttribute("input")OtpInput name,ModelMap model, HttpSession session) throws ParseException {
 		//model.addAttribute("message", name.getName());
 		String username=session.getAttribute("username").toString();
 		
@@ -43,9 +49,6 @@ public class OtpConfirmController {
 		String sentdate=datesplittime[0]; //date
 		
 		String hoursmin=datesplittime[1];
-		String[] hourssplitmin=hoursmin.split(":");
-		String senthours=hourssplitmin[0]; //hours
-		String sentmin=hourssplitmin[1]; //min
 		
 		
 		// Current System Date
@@ -57,13 +60,24 @@ public class OtpConfirmController {
 		String currdate=curdatesplittime[0]; //current date
 		
 		String currenthoursmin=curdatesplittime[1];
-		String[] curhourssplitmin=currenthoursmin.split(":");
-		String currenthours=curhourssplitmin[0]; //current hours
-		String currentmin=curhourssplitmin[1]; //current min
+
 		
+		SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+		Date date_db = format.parse(hoursmin);
+		Date date_current = format.parse(currenthoursmin);
+		long difference =  date_db.getTime() - date_current.getTime(); 
+		long diff_minutes = TimeUnit.MILLISECONDS.toMinutes(difference);
 		
-		if( (name.getPassword().equals(String.valueOf(l.getPasswd())))  && (sentdate.equals(currdate)) && (currenthours.equals(senthours)) && ((Integer.parseInt(sentmin)-Integer.parseInt(currentmin))>=0))
+		System.out.println(date_db);
+		System.out.println(date_current);
+		System.out.println(diff_minutes);
+		if( diff_minutes >= 0){
+			System.out.println("Yes");
+		}
+		
+		if( (name.getPassword().equals(String.valueOf(l.getPasswd())))  && (sentdate.equals(currdate)) && (difference >=0))
 		{
+			System.out.println("In this");
 			String accountno = session.getAttribute("transAccntNo").toString();
 			
 			String sender=session.getAttribute("uniqueid").toString();
@@ -73,7 +87,35 @@ public class OtpConfirmController {
 			//d.deleteOtpTransactionById(recipient);
 			d.saveOtpTransactionToTransactionById(recipient);
 			
-			return "extUserHomePage";
+			ExternalUser extUser = d.getExternalUserByUniqId(sender);
+			TempTransactions transactionObj = new TempTransactions();
+			transactionObj.setBalance(extUser.getBalance());
+			
+			float amount = transactionObj.getTransactionAmount();
+			float currentBalance = transactionObj.getBalance();
+			
+			//credit amount from current account balance	
+	
+			transactionObj.setUniqId(sender);
+			transactionObj.setDescription("transferred amount: "+amount);
+			transactionObj.setTransactionType("tranfer");
+			transactionObj.setBalance(currentBalance-amount);
+			
+			
+			extUser.setBalance(currentBalance-amount);
+
+			Transactions temp = new Transactions();
+			temp.setBalance(transactionObj.getBalance());
+			model.addAttribute("debitOp", temp );
+			model.addAttribute("creditOp",temp);
+			model.addAttribute("checkAccBal", temp.getBalance() );
+			model.addAttribute("savingAccBal", "500" );
+			model.addAttribute("transferOp",transactionObj);
+			model.addAttribute("paymerchantOp",transactionObj);
+			List<Transactions> obj= null;
+			model.addAttribute("transactionOp",obj);
+			
+			return "redirect:extUserHomePage";
 		}
 		
 		

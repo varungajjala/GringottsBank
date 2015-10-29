@@ -6,11 +6,8 @@ import dao.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-<<<<<<< .merge_file_WC5cj0
 import java.text.SimpleDateFormat;
-=======
 import java.util.ArrayList;
->>>>>>> .merge_file_nD6mgl
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -311,15 +308,12 @@ public class ExternalUserController {
 				}
 				else{
 				model.addAttribute("transactionOp",obj);
-<<<<<<< .merge_file_WC5cj0
 				
-			
+				}
 				/* OTP */	
 				Random randomnumber = new Random();
 				int RandNum = randomnumber.nextInt(737568)+256846;
 				String IV = Integer.toString(RandNum);
-=======
-				}
 				/* Send otp on clickin gthe button */
 				/* OTP */	
 				//Start with initialization vector : 
@@ -334,7 +328,6 @@ public class ExternalUserController {
 			 	//SecureRandom randomGenerator = new SecureRandom();
 				//byte[] randomNumber = new byte[20];
 				//randomGenerator.nextBytes(randomNumber);
->>>>>>> .merge_file_nD6mgl
 			 	String app1Hash;
 				String app1Password;
 
