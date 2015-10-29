@@ -178,7 +178,8 @@ public class ExternalUserController {
 					model.addAttribute("savingAccBal", "500" );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
-					model.addAttribute("transactionOp",temp);
+					List<Transactions> obj= displaytransaction(session);
+					model.addAttribute("transactionOp",obj);
 
 					logger.info("Leaving debit money POST");
 					
@@ -214,7 +215,8 @@ public class ExternalUserController {
 					model.addAttribute("savingAccBal", "500" );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
-					model.addAttribute("transactionOp",temp);
+					List<Transactions> obj= displaytransaction(session);
+					model.addAttribute("transactionOp",obj);
 					
 
 
@@ -283,7 +285,8 @@ public class ExternalUserController {
 				model.addAttribute("savingAccBal", "500" );
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
-				model.addAttribute("transactionOp",transObj);
+				List<Transactions> obj= displaytransaction(session);
+				model.addAttribute("transactionOp",obj);
 				
 			
 				/* OTP */	
@@ -431,7 +434,8 @@ public class ExternalUserController {
 				model.addAttribute("savingAccBal", "500" );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
-				model.addAttribute("transactionOp",transactionObj);
+				List<Transactions> obj= displaytransaction(session);
+				model.addAttribute("transactionOp",obj);
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";

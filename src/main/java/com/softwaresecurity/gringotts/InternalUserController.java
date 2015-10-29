@@ -6,10 +6,12 @@ import dao.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-	
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -21,6 +23,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * Handles requests for the application home page.
@@ -30,7 +33,7 @@ public class InternalUserController {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(InternalUserController.class);
-	
+	private DatabaseConnectors db = new DatabaseConnectors();
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -74,7 +77,12 @@ public class InternalUserController {
 						{
 							utype = "Administrator";
 						}
-						
+						List<TempTransactions> pending;
+						pending = displaytransaction(session);
+//						System.out.println("Temp objects size"+pending.size());
+//						System.out.println("temp obj 1 data"+pending.get(0).getUniqId());
+//						System.out.println("temp obj 2 data"+pending.get(1).getUniqId());
+						model.addAttribute("transactionOp", pending);
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("userName",UI.getUsername());
@@ -99,6 +107,7 @@ public class InternalUserController {
 				}else if(role.equals("im")){
 					return "redirect:managerHomePage";
 				}else if( role.equals("ir")){
+					
 					return "intUserHomePage";
 				}
 			}
@@ -107,5 +116,71 @@ public class InternalUserController {
 				
 
 	}
+		public List<TempTransactions> displaytransaction(HttpSession session){
 			
+			logger.info("Inside transactions op get");
+			
+			List<TempTransactions> transactionObj = new ArrayList<TempTransactions>();
+			transactionObj	=	db.getTempTransactions();
+			System.out.println("In transactions:"+transactionObj.toString());
+			System.out.println("transaction size"+transactionObj.size());
+			
+			return transactionObj;
+			}
+		
+
+		
+			@RequestMapping(value = "/authorization", method = RequestMethod.GET)
+		public String authorizeTransactions(HttpServletRequest request, HttpSession session){
+			
+				
+				
+				int size = Integer.parseInt(request.getParameter("size"));
+				for(int i=0;i<size;i++){
+				String action = request.getParameter("radioValues"+i);
+				//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
+				
+				//System.out.println("Inside authorize transactions");
+				
+				if(action.contains("approve"))
+					approveTransaction(session);
+				else
+					rejectTransaction(session);
+				}
+				return "redirect:";
+				
+			}
+			
+		public void approveTransaction(HttpSession session){
+			//System.out.println("substring value"+tNum);
+//			int transactionNum = Integer.parseInt(tNum.substring(7));
+//			System.out.println("transaction num"+transactionNum);
+			TempTransactions approve = new TempTransactions();
+			approve = displaytransaction(session).get(0);
+			Transactions approved = new Transactions();
+			approved.setBalance(approve.getBalance());
+			approved.setDescription(approve.getDescription());
+			approved.setTransactionAmount(approve.getTransactionAmount());
+			approved.setTransactionType(approve.getTransactionType());
+			approved.setUniqId(approve.getUniqId());
+			db.saveTransaction(approved);
+			db.removeTempTransaction(approve);
+			
+		}
+		
+		public void rejectTransaction(HttpSession session){
+			//int transactionNum = Integer.parseInt(tNum.substring(6));
+			//System.out.println("transaction num"+transactionNum);
+			TempTransactions reject = new TempTransactions();
+			reject = displaytransaction(session).get(0);
+			ExternalUser extUser = db.getExternalUserByUniqId(reject.getUniqId());
+			if(reject.getTransactionType().equals("credit")){
+			extUser.setBalance(extUser.getBalance()-reject.getTransactionAmount());
+			}
+			else{
+				extUser.setBalance(extUser.getBalance()+reject.getTransactionAmount());
+			}
+			db.removeTempTransaction(reject);
+		}
+		
 }

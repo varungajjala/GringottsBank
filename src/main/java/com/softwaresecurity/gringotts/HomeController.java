@@ -257,6 +257,26 @@ public class HomeController {
 		return "forgotPass";
 	}
 	
+	public String updatePassPost(@ModelAttribute("updatePassword")Login loginSet,String newPass,ModelMap model,HttpSession session){
+		DatabaseConnectors dbcon = new DatabaseConnectors();
+		int result = dbcon.checkLogin(loginSet.getUserId(), loginSet.getPasswd());
+	
+		if(result == 1){
+			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+			String hashedPassword = passwordEncoder.encode(newPass);
+			loginSet.setPasswd(hashedPassword);
+			dbcon.updateLogin(loginSet);
+			
+			model.addAttribute("message","Password updated");
+			
+		}
+		else
+		{
+			model.addAttribute("message","Password entered does not match the stored password");
+		}
+		return "home";
+	}
+	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logoutpost(HttpSession session) {
 		

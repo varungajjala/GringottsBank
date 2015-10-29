@@ -20,6 +20,8 @@
     
   </head>
   <body>
+  	<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
   	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -167,6 +169,41 @@
         				<div class="tab-pane" id="Tab3">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Authorize Payments</h3>
+    							
+    							<table align="center" border="1">
+    							<tr>
+    							
+    							<th align="center">Unique ID</th>
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Approve</th>
+    							<th align="center">Reject</th>
+    							</tr>
+    							<% int i = 0; %>
+    							<form:form action="authorization" commandName="approveOp" method="GET">
+    							<c:forEach items="${transactionOp}" var="transactionOp">     
+    							<tr>
+  								 
+  								 <td align="center"><c:out value="${transactionOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
+  								 
+  								<td><input type="radio"  value="approve"<%=i %> name="radioValues<%=i %>"/>radioValues<%=i %></td>	
+  								<td><input type="radio" value="reject"<%=i %> name="radioValues<%=i %>"/></td>					 
+  								 </tr>
+  								 <% i = i+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=i %> name="size"/>
+								<button type="submit">Submit For Approval</button>
+								</form:form>
+    							</table>
+    							
     						</div>
     						
         				</div>
