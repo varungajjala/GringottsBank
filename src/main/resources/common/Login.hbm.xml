@@ -26,5 +26,11 @@
         <property name="attempt" type="int">
             <column name="attempt" length="11" />
         </property>
+        <property name="loginstatus" type="int">
+            <column name="loginstatus" length="1" />
+        </property>
+        <property name="logintime" type="string">
+            <column name="logintime" not-null="false"/>
+        </property>
     </class>
 </hibernate-mapping>

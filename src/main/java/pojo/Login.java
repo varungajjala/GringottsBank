@@ -1,5 +1,7 @@
 package pojo;
 
+import java.util.Date;
+
 public class Login {
 
 	private String userId;
@@ -9,17 +11,21 @@ public class Login {
 	private long id;
 	private String status;
 	private int attempt;
+	private int loginstatus;
+	private String logintime;
 
 	public Login() {
 	}
 
-	public Login(String userId, String passwd, String role, String uniqId, String status, int attempt) {
+	public Login(String userId, String passwd, String role, String uniqId, String status, int attempt, int loginstatus, String logintime) {
 		this.userId = userId;
 		this.passwd = passwd;
 		this.role = role;
 		this.uniqId = uniqId;
 		this.status = status;
 		this.setAttempt(attempt);
+		this.loginstatus = loginstatus;
+		this.logintime = logintime;
 	}
 	
 
@@ -102,4 +108,19 @@ public class Login {
 		this.attempt = attempt;
 	}
 
+	public int getLoginstatus(){
+		return this.loginstatus;
+	}
+	
+	public void setLoginstatus(int loginstatus){
+		this.loginstatus = loginstatus;
+	}
+	
+	public String getLogintime(){
+		return this.logintime;
+	}
+	
+	public void setLogintime(String logintime){
+		this.logintime = logintime;
+	}
 }

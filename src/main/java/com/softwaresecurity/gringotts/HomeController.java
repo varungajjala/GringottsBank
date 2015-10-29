@@ -9,7 +9,7 @@ import net.tanesha.recaptcha.ReCaptchaResponse;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-	
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
@@ -79,9 +79,47 @@ public class HomeController {
 		
 		int result = dbcon.checkLogin(loginPageSet.getUserId(), loginPageSet.getPasswd());
 		Login login = dbcon.getLoginByUsername(loginPageSet.getUserId());
-		if( result==1 && !login.getStatus().equals("Locked") )
+		
+		if(login.getLoginstatus() == 1){
+			String existingtime = login.getLogintime();
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date = new Date();
+			String currenttime = dateFormat.format(date);
+			String[] currentsplittime=currenttime.split(" ");
+			String currdate=currentsplittime[0]; //current date
+			
+			String currenthoursmin=currentsplittime[1];
+			String[] curhourssplitmin=currenthoursmin.split(":");
+			String currenthours=curhourssplitmin[0]; //current hours
+			String currentmin=curhourssplitmin[1]; //current min
+			
+			String[] datesplittime=existingtime.split(" ");
+			String existingdate=datesplittime[0]; //date
+			
+			String hoursmin=datesplittime[1];
+			String[] hourssplitmin=hoursmin.split(":");
+			String existinghours=hourssplitmin[0]; //hours
+			String existingmin=hourssplitmin[1]; //min
+			if( currdate.equals(existingdate) && currenthours.equals(existinghours) && ((Integer.parseInt(currentmin) - Integer.parseInt(existingmin)) >= 10))
+			{
+				login.setLoginstatus(0);
+				dbcon.updateLogin(login);
+			}
+			
+			
+		}
+		
+		
+		
+		if( result==1 && !login.getStatus().equals("Locked") && login.getLoginstatus() == 0)
 		{
+			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date1 = new Date();
+			String logintime = dateFormat.format(date1);
+			
 			login.setAttempt(0);
+			login.setLoginstatus(1);
+			login.setLogintime(logintime);
 			dbcon.updateLogin(login);
 			String role = dbcon.getRoleByUsername(loginPageSet.getUserId());
 			 
@@ -99,6 +137,9 @@ public class HomeController {
 			}else if(role.equals("ir")){
 				return "redirect:intUserHomePage";
 			}	
+		}else if(login!= null && login.getLoginstatus() == 1){
+			model.addAttribute("message","You are already logged in or did not securely log out");
+			return "home";
 		}
 		else if(login != null){
 			login.setAttempt(login.getAttempt()+1);
@@ -218,6 +259,13 @@ public class HomeController {
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)
 	public String logoutpost(HttpSession session) {
+		
+		String username = session.getAttribute("username").toString();
+		
+		DatabaseConnectors dbcon = new DatabaseConnectors();
+		Login login = dbcon.getLoginByUsername(username);
+		login.setLoginstatus(0);
+		dbcon.updateLogin(login);
 		session.invalidate();
 		
 		return "redirect:";

@@ -17,5 +17,7 @@
         <mapping resource="common/UserInfo.hbm.xml"></mapping>
         <mapping resource="common/Transactions.hbm.xml"></mapping>
         <mapping resource="common/TempUserInfo.hbm.xml"></mapping>
+        <mapping resource="common/TempTransactions.hbm.xml"></mapping>
+        <mapping resource="common/OtpTransactions.hbm.xml"></mapping>
     </session-factory>
 </hibernate-configuration>
