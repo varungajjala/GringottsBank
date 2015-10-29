@@ -6,7 +6,11 @@ import dao.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
+<<<<<<< .merge_file_WC5cj0
 import java.text.SimpleDateFormat;
+=======
+import java.util.ArrayList;
+>>>>>>> .merge_file_nD6mgl
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -74,7 +78,12 @@ public class ExternalUserController {
 			model.addAttribute("checkAccBal", temp.getBalance() );
 			model.addAttribute("savingAccBal", "500" );
 			List<Transactions> obj= displaytransaction(session);
+			if(obj == null){
+				model.addAttribute("transactionOp",null);
+			}
+			else{
 			model.addAttribute("transactionOp",obj);
+			}
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
 			
@@ -180,7 +189,12 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
+					if(obj == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
 					model.addAttribute("transactionOp",obj);
+					}
 
 					logger.info("Leaving debit money POST");
 					
@@ -217,7 +231,12 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
+					if(obj == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
 					model.addAttribute("transactionOp",obj);
+					}
 					
 
 
@@ -255,7 +274,7 @@ public class ExternalUserController {
 					databaseConnector.updateExternalUser(extUser);
 					databaseConnector.saveOtpTransaction(transPost);
 				
-				}
+				
 				
 				session.setAttribute("transAccntNo", transObj.getAccountno());
 				
@@ -287,13 +306,35 @@ public class ExternalUserController {
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
 				List<Transactions> obj= displaytransaction(session);
+				if(obj == null){
+					model.addAttribute("transactionOp",null);
+				}
+				else{
 				model.addAttribute("transactionOp",obj);
+<<<<<<< .merge_file_WC5cj0
 				
 			
 				/* OTP */	
 				Random randomnumber = new Random();
 				int RandNum = randomnumber.nextInt(737568)+256846;
 				String IV = Integer.toString(RandNum);
+=======
+				}
+				/* Send otp on clickin gthe button */
+				/* OTP */	
+				//Start with initialization vector : 
+				}
+				Random rand = new Random();
+				int randomNum = rand.nextInt(737568)+256846;
+				String IV = Integer.toString(randomNum);
+				System.out.println("Random number (IV): "+ IV);
+				//String IVtest = "123456";
+				
+				//String test2 = "5aba1db3b561abe65a12fd109b50ca5ecfc88e5d106d4b511c7653b843d0e3d4";
+			 	//SecureRandom randomGenerator = new SecureRandom();
+				//byte[] randomNumber = new byte[20];
+				//randomGenerator.nextBytes(randomNumber);
+>>>>>>> .merge_file_nD6mgl
 			 	String app1Hash;
 				String app1Password;
 
@@ -388,10 +429,19 @@ public class ExternalUserController {
 			
 			public List<Transactions> displaytransaction(HttpSession session){
 					logger.info("Inside transactions op get");
-					List<Transactions> transactionObj;
+					
 					String uniqueID = (String) session.getAttribute("uniqueid");
+					System.out.println("uniqueID"+uniqueID);
 					//String uniqueID ="EM123";
+					List<Transactions> transactionObj = new ArrayList<Transactions>();
 					transactionObj = databaseConnector.getTransactionsByUniqId(uniqueID);
+					System.out.println(transactionObj.size());
+					System.out.println("transactionObj"+transactionObj.toString());
+					
+					if(transactionObj.size() == 0){
+						return null;
+					}
+					
 					logger.info("Length of list :",transactionObj.size());
 					Transactions temp = new Transactions();
 					temp.setBalance(transactionObj.get(transactionObj.size()-1).getBalance());
@@ -436,7 +486,12 @@ public class ExternalUserController {
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
 				List<Transactions> obj= displaytransaction(session);
+				if(obj == null){
+					model.addAttribute("transactionOp",null);
+				}
+				else{
 				model.addAttribute("transactionOp",obj);
+				}
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";

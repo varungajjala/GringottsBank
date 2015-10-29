@@ -334,8 +334,9 @@
     							<th align="center">Date</th>
     							<th align="center">Transaction Amount</th>
     							</tr>
-    							
-    							<c:forEach items="${transactionOp}" var="transactionOp">     
+  
+  								<c:if test="${transactionOp != null}">  						
+      							<c:forEach items="${transactionOp}" var="transactionOp">     
     							<tr>
   								
   								 <td align="center"><c:out value="${transactionOp.getTransactionType()}"/></td>
@@ -345,6 +346,7 @@
   								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
   								 </tr>
 								</c:forEach>
+								</c:if>
 								
     							</table>
     							
