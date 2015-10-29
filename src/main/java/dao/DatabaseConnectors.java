@@ -130,13 +130,13 @@ public class DatabaseConnectors {
 				 .add(Restrictions.eq("id", id)).uniqueResult();
 		 return tempTransactions;
 	}
-	public List<OtpTransactions> getOtpTransactionsByUniqId(String uniqId) {
+	public OtpTransactions getOtpTransactionsByUniqId(String uniqId) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
-		List<OtpTransactions> results = (List<OtpTransactions>) session.createCriteria(OtpTransactions.class)
-				 .add( Restrictions.like("uniqId", uniqId)).addOrder(Order.desc("date")).list();
+		OtpTransactions results = (OtpTransactions) session.createCriteria(OtpTransactions.class)
+				 .add( Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 if(results != null) {
-			 return (List<OtpTransactions>)results;
+			 return results;
 		 }
 		 return null;
 	}
@@ -265,5 +265,28 @@ public class DatabaseConnectors {
      ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
              .add(Restrictions.like("accountno",accountno )).uniqueResult();
      return externalUser;
+ }
+ 
+ public void deleteOtpTempTransByUniqId(String username) {
+	 Session session = HibernateUtil.getSessionFactory().openSession();
+	 session.beginTransaction();
+	 String hql = "delete from OneTimePass where username= :username";
+	 session.createQuery(hql).setString("username", username).executeUpdate();
+	 session.getTransaction().commit();
+ }
+ 
+ public void deleteOtpTransactionById(String uniqueid) {
+	 Session session = HibernateUtil.getSessionFactory().openSession();
+	 session.beginTransaction();
+	 String hql = "delete from otpTransactions where uniqid= :uniqueid";
+	 session.createQuery(hql).setString("uniqueid", uniqueid).executeUpdate();
+	 session.getTransaction().commit();
+ }
+ public void saveOtpTransactionToTransactionById(String uniqueid){
+	 OtpTransactions oT = getOtpTransactionsByUniqId(uniqueid);
+	 Transactions transaction = new Transactions(oT.getTransactionType(), oT.getUniqId(), oT.getDescription(), oT.getBalance(), oT.getTransactionAmount(),oT.getStatus());
+	 transaction.setDate(oT.getDate());
+	 deleteOtpTransactionById(uniqueid);
+	 saveTransaction(transaction); 
  }
 }
