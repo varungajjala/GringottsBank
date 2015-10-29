@@ -20,6 +20,12 @@
         <property name="uniqId" type="string">
             <column name="uniqid" not-null="true"/>
         </property>
+        <property name="transactionAmount" type="float">
+            <column name="transactionAmount" not-null="true"/>
+        </property>
+        <property name="status" type="string">
+            <column name="status" not-null="true"/>
+        </property>
         <property name="date" type="timestamp">
         </property>
     </class>

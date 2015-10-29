@@ -118,6 +118,8 @@ public class DatabaseConnectors {
 		}
 		return 0;
 	}
+	
+	
 	public void saveOtpTransaction(OtpTransactions otpTransaction) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
@@ -150,6 +152,27 @@ public class DatabaseConnectors {
 		 }
 		 return null;
 	 }
+	
+	public List<TempTransactions> getTempTransactions() {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		List<TempTransactions> results = (List<TempTransactions>) session.createCriteria(TempTransactions.class).list();
+		 System.out.println("result"+results.size());
+		 System.out.println("result obj:"+results.toString());
+		 if(results != null) {
+			System.out.println("Returning temp transactions");
+			 return (List<TempTransactions>)results;
+			 
+		 }
+		 return null;
+	 }
+	public void removeTempTransaction(TempTransactions remove){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String hql = "delete from TempTransactions where Id= :Id";
+		session.beginTransaction();
+		 session.createQuery(hql).setString("Id", remove.getId()+"").executeUpdate();
+		session.getTransaction().commit();
+	}
 	 public UserInfo getUserInfoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)

@@ -11,7 +11,7 @@
             <column name="uniqid" length="20"/>
             <!--<generator class="identity" />  -->
         </property>
-        <property name="empId" type="integer" unique="true">
+        <property name="empId" type="long" unique="true">
             <column name="empid" not-null="true"/>
         </property>
     </class>
