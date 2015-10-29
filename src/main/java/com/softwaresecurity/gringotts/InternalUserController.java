@@ -79,10 +79,13 @@ public class InternalUserController {
 						}
 						List<TempTransactions> pending;
 						pending = displaytransaction(session);
-//						System.out.println("Temp objects size"+pending.size());
-//						System.out.println("temp obj 1 data"+pending.get(0).getUniqId());
-//						System.out.println("temp obj 2 data"+pending.get(1).getUniqId());
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
 						model.addAttribute("transactionOp", pending);
+						}
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("userName",UI.getUsername());
@@ -122,6 +125,7 @@ public class InternalUserController {
 			
 			List<TempTransactions> transactionObj = new ArrayList<TempTransactions>();
 			transactionObj	=	db.getTempTransactions();
+			
 			System.out.println("In transactions:"+transactionObj.toString());
 			System.out.println("transaction size"+transactionObj.size());
 			

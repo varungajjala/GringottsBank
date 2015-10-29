@@ -6,7 +6,7 @@ import dao.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-	
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -71,7 +71,12 @@ public class ExternalUserController {
 			model.addAttribute("checkAccBal", temp.getBalance() );
 			model.addAttribute("savingAccBal", "500" );
 			List<Transactions> obj= displaytransaction(session);
+			if(obj == null){
+				model.addAttribute("transactionOp",null);
+			}
+			else{
 			model.addAttribute("transactionOp",obj);
+			}
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
 			
@@ -177,7 +182,12 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
+					if(obj == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
 					model.addAttribute("transactionOp",obj);
+					}
 
 					logger.info("Leaving debit money POST");
 					
@@ -214,7 +224,12 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
+					if(obj == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
 					model.addAttribute("transactionOp",obj);
+					}
 					
 
 
@@ -233,6 +248,7 @@ public class ExternalUserController {
 				
 				Transactions transPost = new Transactions();
 				transPost.setBalance(extUser.getBalance());
+				transObj.setBalance(extUser.getBalance());
 				float amount = transObj.getTransactionAmount();
 				float currentBalance = transObj.getBalance();
 				
@@ -251,7 +267,7 @@ public class ExternalUserController {
 				databaseConnector.updateExternalUser(extUser);
 				databaseConnector.saveTransaction(transPost);
 				
-				}
+				
 				
 				session.setAttribute("transAccntNo", transObj.getAccountno());
 				
@@ -282,11 +298,16 @@ public class ExternalUserController {
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
 				List<Transactions> obj= displaytransaction(session);
+				if(obj == null){
+					model.addAttribute("transactionOp",null);
+				}
+				else{
 				model.addAttribute("transactionOp",obj);
-				
+				}
 				/* Send otp on clickin gthe button */
 				/* OTP */	
 				//Start with initialization vector : 
+				}
 				Random rand = new Random();
 				int randomNum = rand.nextInt(737568)+256846;
 				String IV = Integer.toString(randomNum);
@@ -369,10 +390,19 @@ public class ExternalUserController {
 			
 			public List<Transactions> displaytransaction(HttpSession session){
 					logger.info("Inside transactions op get");
-					List<Transactions> transactionObj;
+					
 					String uniqueID = (String) session.getAttribute("uniqueid");
+					System.out.println("uniqueID"+uniqueID);
 					//String uniqueID ="EM123";
+					List<Transactions> transactionObj = new ArrayList<Transactions>();
 					transactionObj = databaseConnector.getTransactionsByUniqId(uniqueID);
+					System.out.println(transactionObj.size());
+					System.out.println("transactionObj"+transactionObj.toString());
+					
+					if(transactionObj.size() == 0){
+						return null;
+					}
+					
 					logger.info("Length of list :",transactionObj.size());
 					Transactions temp = new Transactions();
 					temp.setBalance(transactionObj.get(transactionObj.size()-1).getBalance());
@@ -417,7 +447,12 @@ public class ExternalUserController {
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
 				List<Transactions> obj= displaytransaction(session);
+				if(obj == null){
+					model.addAttribute("transactionOp",null);
+				}
+				else{
 				model.addAttribute("transactionOp",obj);
+				}
 
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
