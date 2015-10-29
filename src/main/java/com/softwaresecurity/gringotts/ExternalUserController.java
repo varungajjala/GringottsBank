@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.softwaresecurity.util.GenerateOtp;
+import com.softwaresecurity.util.StatementGenerator;
 
 /**
  * Handles requests for the application home page.
@@ -440,5 +441,40 @@ public class ExternalUserController {
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
 			}
-			
+			@RequestMapping(value = "/download", method = RequestMethod.GET)
+			public String downloadStatement(Model model, HttpSession session){
+				String uniqId = session.getAttribute("uniqueid").toString();
+				StatementGenerator statementGenerator = new StatementGenerator();
+				statementGenerator.statementbyuniqid(uniqId);
+				
+				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				TempTransactions transactionObj = new TempTransactions();
+				transactionObj.setBalance(extUser.getBalance());
+				logger.info("Current Balance" + transactionObj.getBalance());
+				float amount = transactionObj.getTransactionAmount();
+				float currentBalance = transactionObj.getBalance();
+				logger.info("balance :",currentBalance);
+				logger.info("account number ",transactionObj.getAccountno());
+				//credit amount from current account balance	
+		
+				transactionObj.setUniqId(uniqId);
+				transactionObj.setDescription("transferred amount: "+amount);
+				transactionObj.setTransactionType("tranfer");
+				transactionObj.setBalance(currentBalance-amount);
+				
+				
+				extUser.setBalance(currentBalance-amount);
+
+				Transactions temp = new Transactions();
+				temp.setBalance(transactionObj.getBalance());
+				model.addAttribute("debitOp", temp );
+				model.addAttribute("creditOp",temp);
+				model.addAttribute("checkAccBal", temp.getBalance() );
+				model.addAttribute("savingAccBal", "500" );
+				model.addAttribute("transferOp",transactionObj);
+				model.addAttribute("paymerchantOp",transactionObj);
+				List<Transactions> obj= displaytransaction(session);
+				model.addAttribute("transactionOp",obj);
+				return "redirect:extUserHomePage";
+			}
 }

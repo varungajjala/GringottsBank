@@ -323,6 +323,7 @@
     							
 								<h3>Transaction History</h3>
 								
+								<form action="download" method="get"><button type="submit">Download</button></form>
     							<table align="center" border="1">
     							<tr>
     							
