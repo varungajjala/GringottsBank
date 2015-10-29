@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+
+<hibernate-mapping>
+    <class name="pojo.OneTimePass" table="oneTimePass" >
+		<id name="id" column="ID" type="long">
+			<generator class="increment"/>
+		</id>
+        <property name="username" type="string" >
+            <column name="username" length="30" not-null="true"/>
+            <!--<generator class="identity" />  -->
+        </property>
+        <property name="inittime" type="string">
+            <column name="inittime" not-null="true"/>
+        </property>
+        <property name="exptime" type="string">
+            <column name="exptime" not-null="true"/>
+        </property>
+        <property name="passwd" type="int">
+            <column name="passwd" not-null="true"/>
+        </property>
+    </class>
+</hibernate-mapping>

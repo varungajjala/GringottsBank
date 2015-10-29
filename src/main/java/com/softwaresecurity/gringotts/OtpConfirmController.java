@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import dao.DatabaseConnectors;
-import pojo.HelloName;
+import pojo.OtpInput;
 import pojo.OneTimePass;
 
 /**
@@ -23,17 +23,18 @@ import pojo.OneTimePass;
 @Controller
 
 public class OtpConfirmController {
-	@RequestMapping(value ="/confirmotp", method = RequestMethod.GET)
+	@RequestMapping(value ="/confirmOtp", method = RequestMethod.GET)
 	public String hello(ModelMap model) {
-		HelloName hn = new HelloName();
-		model.put("send", hn);
-		return "confirmotp";
+		OtpInput otpinp = new OtpInput();
+		model.put("input", otpinp);
+		return "confirmOtp";
 	}
 	
-	@RequestMapping(value ="/confirmotp", method = RequestMethod.POST)
-	public String displaypwd(@ModelAttribute("send")HelloName name,ModelMap model, HttpSession session) {
-		model.addAttribute("message", name.getName());
-		String username="gvarun";
+	@RequestMapping(value ="/confirmOtp", method = RequestMethod.POST)
+	public String displaypwd(@ModelAttribute("input")OtpInput name,ModelMap model, HttpSession session) {
+		//model.addAttribute("message", name.getName());
+		String username=session.getAttribute("username").toString();
+		
 		
 		DatabaseConnectors d = new DatabaseConnectors();
 		OneTimePass l = d.getOneTimePassByUsername(username);
@@ -61,15 +62,22 @@ public class OtpConfirmController {
 		String currentmin=curhourssplitmin[1]; //current min
 		
 		
-		if( (name.getName().equals(String.valueOf(l.getPasswd())))  && (sentdate.equals(currdate)) && (currenthours.equals(senthours)) && ((Integer.parseInt(sentmin)-Integer.parseInt(currentmin))>=0))
+		if( (name.getPassword().equals(String.valueOf(l.getPasswd())))  && (sentdate.equals(currdate)) && (currenthours.equals(senthours)) && ((Integer.parseInt(sentmin)-Integer.parseInt(currentmin))>=0))
 		{
 			String accountno = session.getAttribute("transAccntNo").toString();
+			
+			String sender=session.getAttribute("uniqueid").toString();
+			
+			d.saveOtpTransactionToTransactionById(sender);
+			String recipient=session.getAttribute("recipient").toString();
+			//d.deleteOtpTransactionById(recipient);
+			d.saveOtpTransactionToTransactionById(recipient);
 			
 			return "extUserHomePage";
 		}
 		
 		
-		return "confirmotp";
+		return "confirmOtp";
 	}
 }
 

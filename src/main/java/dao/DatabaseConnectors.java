@@ -259,6 +259,15 @@ public class DatabaseConnectors {
              .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
      return externalUser;
  }
+ public void deleteOtpByUsername(String username)
+ {
+	  Session session = HibernateUtil.getSessionFactory().openSession();
+      session.beginTransaction();
+      String hql="delete from OneTimePass where username=:username";
+      session.createQuery(hql).setString("username", username).executeUpdate();
+      session.getTransaction().commit();
+	 
+ }
  
  public ExternalUser getExternalUserByAccNum(long accountno) {
      Session session = HibernateUtil.getSessionFactory().openSession();

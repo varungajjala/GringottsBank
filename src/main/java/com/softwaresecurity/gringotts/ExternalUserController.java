@@ -6,7 +6,7 @@ import dao.*;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-	
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Hashtable;
 import java.util.List;
@@ -43,6 +43,8 @@ public class ExternalUserController {
 	
 	
 	private static final Logger logger = LoggerFactory.getLogger(ExternalUserController.class);
+
+	private static final int ONE_MINUTE_IN_MILLIS = 60000;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -229,25 +231,26 @@ public class ExternalUserController {
 				
 				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
 				
-				Transactions transPost = new Transactions();
+				OtpTransactions transPost = new OtpTransactions();
 				transPost.setBalance(extUser.getBalance());
+				transObj.setBalance(extUser.getBalance());
 				float amount = transObj.getTransactionAmount();
 				float currentBalance = transObj.getBalance();
 				
 				
 				
 				if(currentBalance >= amount){
-				logger.info("EU.getBalance" + transPost.getBalance());
-				//debit amount from current account balance		
-				transPost.setUniqId(uniqId);
-				transPost.setDescription("debited amount: "+amount);
-				transPost.setTransactionAmount(amount);
-				transPost.setTransactionType("debit");
-				transPost.setBalance(currentBalance-amount);
-			
-				extUser.setBalance(currentBalance-amount);
-				databaseConnector.updateExternalUser(extUser);
-				databaseConnector.saveTransaction(transPost);
+					logger.info("EU.getBalance" + transPost.getBalance());
+					//debit amount from current account balance		
+					transPost.setUniqId(uniqId);
+					transPost.setDescription("debited amount: "+amount);
+					transPost.setTransactionAmount(amount);
+					transPost.setTransactionType("debit");
+					transPost.setBalance(currentBalance-amount);
+				
+					extUser.setBalance(currentBalance-amount);
+					databaseConnector.updateExternalUser(extUser);
+					databaseConnector.saveOtpTransaction(transPost);
 				
 				}
 				
@@ -256,8 +259,9 @@ public class ExternalUserController {
 				logger.info("Inside credit part of transfer money op POST");
 				//String uniqueID = (String)session.getAttribute("uniqueid");
 				//String uniqueID ="EM123";
-				Transactions transPost2 = new Transactions();
+				OtpTransactions transPost2 = new OtpTransactions();
 				ExternalUser extUser2 = databaseConnector.getExternalUserByAccNum(transObj.getAccountno());
+				session.setAttribute("recipient", extUser2.getUniqId().toString());
 				float currentBalance1 = extUser2.getBalance();
 				logger.info("Current Balance" + currentBalance1);
 				transPost2.setBalance(extUser.getBalance());
@@ -270,7 +274,7 @@ public class ExternalUserController {
 				transPost2.setBalance(currentBalance1+amount);
 				extUser2.setBalance(currentBalance1+amount);
 				databaseConnector.updateExternalUser(extUser2);
-				databaseConnector.saveTransaction(transPost2);
+				databaseConnector.saveOtpTransaction(transPost2);
 				
 
 				model.addAttribute("debitOp", transPost );
@@ -281,21 +285,12 @@ public class ExternalUserController {
 				model.addAttribute("paymerchantOp",transObj);
 				model.addAttribute("transactionOp",transObj);
 				
-				/* Send otp on clickin gthe button */
+			
 				/* OTP */	
-				//Start with initialization vector : 
-				Random rand = new Random();
-				int randomNum = rand.nextInt(737568)+256846;
-				String IV = Integer.toString(randomNum);
-				System.out.println("Random number (IV): "+ IV);
-				//String IVtest = "123456";
-				
-				//String test2 = "5aba1db3b561abe65a12fd109b50ca5ecfc88e5d106d4b511c7653b843d0e3d4";
-			 	//SecureRandom randomGenerator = new SecureRandom();
-				//byte[] randomNumber = new byte[20];
-				//randomGenerator.nextBytes(randomNumber);
+				Random randomnumber = new Random();
+				int RandNum = randomnumber.nextInt(737568)+256846;
+				String IV = Integer.toString(RandNum);
 			 	String app1Hash;
-				
 				String app1Password;
 
 			 	//counter starts at 0 - no clicks yet
@@ -355,11 +350,34 @@ public class ExternalUserController {
 			}
 			
 			/* code for sending otp on button click ends here */
+			
+			/* Code for saving OTP */
+			
+			
+			DateFormat dateFormat1 = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			Date date1 = new Date();
+			String initdate = dateFormat1.format(date1);
+				
+			long t=date1.getTime();
+			Date afterAddingTenMins=new Date(t + (10 * ONE_MINUTE_IN_MILLIS));
+			String exptime = dateFormat1.format(afterAddingTenMins);
+			
+			String username = session.getAttribute("username").toString();
+			
+			//System.out.println(dateFormat1.format(date1)); //2014/08/06 15:59:48
+				
+				OneTimePass l = new OneTimePass(username,initdate,exptime,Integer.parseInt(app1Password));
+				DatabaseConnectors d = new DatabaseConnectors();
+				
+				d.deleteOtpByUsername(username);
+				d.saveOTP(l);
+				
+				/* CODE FOR SAVING OTP */
 				
 
 
 				logger.info("Leaving transfer money POST");
-				return "extUserHomePage";
+				return "redirect:confirmOtp";
 			}
 			
 			

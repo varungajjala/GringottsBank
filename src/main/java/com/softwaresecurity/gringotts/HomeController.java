@@ -82,7 +82,7 @@ public class HomeController {
 		
 		if(login.getLoginstatus() == 1){
 			String existingtime = login.getLogintime();
-			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
 			String currenttime = dateFormat.format(date);
 			String[] currentsplittime=currenttime.split(" ");
@@ -100,7 +100,7 @@ public class HomeController {
 			String[] hourssplitmin=hoursmin.split(":");
 			String existinghours=hourssplitmin[0]; //hours
 			String existingmin=hourssplitmin[1]; //min
-			if( currdate.equals(existingdate) && currenthours.equals(existinghours) && ((Integer.parseInt(currentmin) - Integer.parseInt(existingmin)) >= 10))
+			if( !currdate.equals(existingdate) || !currenthours.equals(existinghours) || ((Integer.parseInt(currentmin) - Integer.parseInt(existingmin)) >= 10))
 			{
 				login.setLoginstatus(0);
 				dbcon.updateLogin(login);

@@ -16,26 +16,20 @@
   			<div class="panel panel-default" style="background: #eee">
   				<div class="panel-body" >
     				<div class="page-header" style="margin-top: 5px;" align="center">
-           <h2>Confirm your One Time Password</h2>
+           				<h2>Confirm your One Time Password</h2>
 					</div>
-<form:form method="POST" action="confirmotp" commandName="send" class="form-horizontal">
-  
-        <label for="name" class="col-sm-2 control-label">One Time Password</label>
-        <form:input path="name" />
-    
-       <input class="btn btn-default" id="subbtn" value="confirm" type="submit"/>
- 
- 
-    	
- 
-</form:form>
+				<form:form  action="confirmOtp" commandName="input" class="form-horizontal" method="POST">
+  				<div class="col-sm-8">
+        			<label class="col-sm-2 control-label">One Time Password</label>
+        			<form:input path="password" type="text" class="form-control" id="password" placeholder="password" required="true"/>
+        
+    			 	<button type="submit" class="btn btn-success" >Confirm</button>
+    			</div> 	
+				</form:form>
+			</div>
+		</div>
+	</div>
 </div>
-</div>
-</div>
-<div class="col-md-2"></div>
-</div>
-
-
 
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
