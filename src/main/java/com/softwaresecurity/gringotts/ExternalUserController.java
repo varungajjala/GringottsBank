@@ -246,6 +246,17 @@ public class ExternalUserController {
 				String uniqId= (String)session.getAttribute("uniqueid");
 				
 				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				UserInfo extInfo = databaseConnector.getUserInfoByUniqId(extUser.getUniqId());
+				
+session.setAttribute("transAccntNo", transObj.getAccountno());
+				
+				logger.info("Inside credit part of transfer money op POST");
+				//String uniqueID = (String)session.getAttribute("uniqueid");
+				//String uniqueID ="EM123";
+				OtpTransactions transPost2 = new OtpTransactions();
+				ExternalUser extUser2 = databaseConnector.getExternalUserByAccNum(transObj.getAccountno());
+				
+				
 				
 				OtpTransactions transPost = new OtpTransactions();
 				transPost.setBalance(extUser.getBalance());
@@ -253,7 +264,23 @@ public class ExternalUserController {
 				float amount = transObj.getTransactionAmount();
 				float currentBalance = transObj.getBalance();
 				
-				
+				if(extUser2 == null){
+					model.addAttribute("message","Account number not found");
+					model.addAttribute("debitOp", transPost );
+					model.addAttribute("creditOp",transPost);
+					model.addAttribute("checkAccBal", extUser.getBalance() );
+					model.addAttribute("transferOp",transObj);
+					model.addAttribute("paymerchantOp",transObj);
+					List<Transactions> obj= displaytransaction(session);
+					if(obj == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+					model.addAttribute("transactionOp",obj);
+					
+					}
+					return "extUserHomePage";
+				}
 				
 				if(currentBalance >= amount){
 					logger.info("EU.getBalance" + transPost.getBalance());
@@ -270,13 +297,7 @@ public class ExternalUserController {
 				
 				
 				
-				session.setAttribute("transAccntNo", transObj.getAccountno());
 				
-				logger.info("Inside credit part of transfer money op POST");
-				//String uniqueID = (String)session.getAttribute("uniqueid");
-				//String uniqueID ="EM123";
-				OtpTransactions transPost2 = new OtpTransactions();
-				ExternalUser extUser2 = databaseConnector.getExternalUserByAccNum(transObj.getAccountno());
 				session.setAttribute("recipient", extUser2.getUniqId().toString());
 				float currentBalance1 = extUser2.getBalance();
 				logger.info("Current Balance" + currentBalance1);
@@ -307,6 +328,8 @@ public class ExternalUserController {
 				
 				}
 				
+				}else{
+					model.addAttribute("message","Amount cannot be more than the balance");
 				}
 				Random rand = new Random();
 				int randomNum = rand.nextInt(737568)+256846;
@@ -365,7 +388,7 @@ public class ExternalUserController {
 				Message message = new MimeMessage(session1);
 				message.setFrom(new InternetAddress("gringottsbank14@gmail.com"));
 				message.setRecipients(Message.RecipientType.TO,
-						InternetAddress.parse("gajjala.varun@gmail.com"));
+						InternetAddress.parse(extInfo.getEmailId()));
 				message.setSubject("One Time Password - Gringotts Bank");
 				message.setText("Dear User,"+
 						"\n\n OTP for your account is as follows:"+" "+app1Password+"."+"\n\n Regards,"+"\n\n Gringotts Bank");

@@ -36,20 +36,20 @@
     				<div class="page-header" style="margin-top: 5px;" align="center">
     				<h3>Forgot Password?</h3>
     				</div>
-    				<form:form class="form-horizontal" action = "forgotPass" commandName="forgotPassword" method="POST">
+    				<form:form class="form-horizontal" action = "newPass" commandName="newPassBean" method="POST">
   						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Username</label>
+    						<label for="username" class="col-sm-2 control-label">Enter New Password</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="userId" type="text" class="form-control" id="inputUsername" placeholder="User ID"/>
+      									<form:input path="passwd" type="text" class="form-control" id="inputUsername" placeholder="Enter new password"/>
       								</div>
     							</div>
   						</div>
   						
   						<div class="form-group">
     						<div class="col-sm-offset-2 col-sm-10">
-    						<button type="submit" class="btn btn-success">Submit Request</button>
+    						<button type="submit" class="btn btn-success">Submit</button>
      						
     						</div>
   						</div>

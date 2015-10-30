@@ -214,7 +214,7 @@ public class HomeController {
 			uloginset.setPasswd(hashedPassword);
 			uloginset.setRole(userType);
 			uloginset.setUniqId(uinfoget.getUniqId());
-			uloginset.setStatus("Locked");
+			uloginset.setStatus("Unlocked");
 			logger.info("login userID" + uloginset.getUserId());
 			logger.info("login password" + uloginset.getPasswd());
 			logger.info("login role" + uloginset.getRole());
@@ -243,38 +243,6 @@ public class HomeController {
 	public String regSuccess(Model model, HttpSession session) {
 
 		return "registrationSuccessful";
-	}
-	@RequestMapping(value = "/forgotPass", method = RequestMethod.GET)
-	public String forgotpass(ModelMap model, HttpSession session) {
-		Login loginObj = new Login();
-		model.put("forgotPassword", loginObj);
-		return "forgotPass";
-	}
-	@RequestMapping(value = "/forgotPass", method = RequestMethod.POST)
-	public String forgotpassPost(@ModelAttribute("forgotPassword")Login loginSet, ModelMap model, HttpSession session) {
-		model.addAttribute("message",loginSet.getPasswd());
-		
-		return "forgotPass";
-	}
-	
-	public String updatePassPost(@ModelAttribute("updatePassword")Login loginSet,String newPass,ModelMap model,HttpSession session){
-		DatabaseConnectors dbcon = new DatabaseConnectors();
-		int result = dbcon.checkLogin(loginSet.getUserId(), loginSet.getPasswd());
-	
-		if(result == 1){
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			String hashedPassword = passwordEncoder.encode(newPass);
-			loginSet.setPasswd(hashedPassword);
-			dbcon.updateLogin(loginSet);
-			
-			model.addAttribute("message","Password updated");
-			
-		}
-		else
-		{
-			model.addAttribute("message","Password entered does not match the stored password");
-		}
-		return "home";
 	}
 	
 	@RequestMapping(value = "/logout", method = RequestMethod.POST)

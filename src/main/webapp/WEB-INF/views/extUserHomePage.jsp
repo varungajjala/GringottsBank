@@ -390,6 +390,10 @@
 	    							</form:form>
 	    				</div>			
     			</div>
+    			<div>
+    			<p>${message}
+    			</p>
+    			</div>
     		</div>
     						
     	</div>

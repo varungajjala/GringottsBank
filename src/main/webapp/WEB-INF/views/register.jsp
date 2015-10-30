@@ -106,7 +106,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value ="null" placeholder="zipcode" required="true"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value ="null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>            									
      								</div>
     							</div>
     							
@@ -116,7 +116,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true"/>
+      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true" pattern="^\d{10}$"/>
       								</div>
     							</div>
   						</div>
@@ -143,7 +143,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true"/>
+      									<form:input type="tel" path="identificationNo" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{10}$" value="NULL"/>
       								</div>
     							</div>
   						</div>
