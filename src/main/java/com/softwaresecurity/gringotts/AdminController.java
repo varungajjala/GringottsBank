@@ -12,6 +12,7 @@ import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
 	
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpSession;
@@ -40,13 +41,22 @@ public class AdminController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
+		DatabaseConnectors databaseConnector = new DatabaseConnectors();
 		@RequestMapping(value = "/adminHomePage", method = RequestMethod.GET)
 	public String adminUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() ); 
+			model.addAttribute("createOp_internal", new UserInfo() );
+			/* Code to access PII of all users */
+			List<UserInfo> obj= displayuserInfo(session);
+			model.addAttribute("displayUsers",obj);
+			/*System.out.println(obj.get(0).getFirstName());
+			System.out.println(obj.get(0).getIdentificationNo());
+			System.out.println(obj.get(0).getUsername());
+			System.out.println(obj.get(0).getLastName());*/
+			
 			
 			if(session.getAttribute("uniqueid") == null){
 				return "redirect:";
@@ -109,6 +119,8 @@ public class AdminController {
 					return "redirect:intUserHomePage";
 				}else if(role.equals("admin")){
 					return "adminHomePage";
+				}else if(role.equals("gov")){
+					return "redirect:GovHomePage";
 				}
 			}
 			
@@ -203,6 +215,15 @@ public class AdminController {
 			
 			return "adminHomePage";
 		}
+		
+		public List<UserInfo> displayuserInfo(HttpSession session){
+			logger.info("Inside transactions op get");
+			List<UserInfo> userInfo;
+			userInfo = databaseConnector.getApprovedUserInfo();
+			logger.info("Length of list :",userInfo.size());
+			logger.info("Leaving userinfo op POST");
+			return userInfo;
+			}
 
 		
 	

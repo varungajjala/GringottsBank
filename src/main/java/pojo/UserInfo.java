@@ -15,6 +15,7 @@ public class UserInfo {
 	private long identificationNo;
 	private String utype;
 	private String passwd;
+	private String govapproval;
 	/**
 	 * @param firstName
 	 * @param lastName
@@ -226,6 +227,14 @@ public class UserInfo {
 	 */
 	public void setIdentificationNo(long identificationNo) {
 		this.identificationNo = identificationNo;
+	}
+
+	public String getGovapproval() {
+		return govapproval;
+	}
+
+	public void setGovapproval(String govapproval) {
+		this.govapproval = govapproval;
 	}
 	
 }

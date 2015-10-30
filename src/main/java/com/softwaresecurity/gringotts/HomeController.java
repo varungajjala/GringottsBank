@@ -62,7 +62,9 @@ public class HomeController {
 					return "redirect:managerHomePage";
 				}else if(role.equals("ir")){
 					return "redirect:intUserHomePage";
-				}
+				}else if(role.equals("gov")){
+				return "redirect:GovHomePage";
+			}
 			}
 		}
 		
@@ -136,6 +138,8 @@ public class HomeController {
 				return "redirect:managerHomePage";
 			}else if(role.equals("ir")){
 				return "redirect:intUserHomePage";
+			}else if(role.equals("gov")){
+				return "redirect:GovHomePage";
 			}	
 		}else if(login!= null && login.getLoginstatus() == 1){
 			model.addAttribute("message","You are already logged in or did not securely log out");

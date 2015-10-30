@@ -44,5 +44,8 @@
         <property name="identificationNo" type="long">
             <column name="identificationNo" not-null="true"/>
         </property>
+        <property name="govapproval" type="string">
+        	<column name="govapproval" />
+        </property>
     </class>
 </hibernate-mapping>

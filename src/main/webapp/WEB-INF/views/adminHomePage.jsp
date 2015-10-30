@@ -1,5 +1,8 @@
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
+  	<p><br/></p>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -173,6 +176,31 @@
         				<div class="tab-pane" id="Tab4">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>View PII</h3>
+    							
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							
+       							<th align="center">First Name</th>
+    							<th align="center">Last Name</th>
+    							<th align="center">UserName</th>
+    							<th align="center">Identification Number</th>
+    							</tr>
+    							
+    							<c:forEach items="${displayUsers}" var="displayUsers">     
+    							<tr>
+  								
+  								 
+  								 <td align="center"><c:out value="${displayUsers.getFirstName()}"/></td>
+  								 <td align="center"><c:out value="${displayUsers.getLastName()}"/></td>
+  								 <td align="center"><c:out value="${displayUsers.getUsername()}"/></td>
+  								 <td align="center"><c:out value="${displayUsers.getIdentificationNo()}"/></td>
+  								 </tr>
+								</c:forEach>
+								
+    							</table>
+    							
     						</div>
     						
         				</div>

@@ -13,11 +13,11 @@
 <body>
 			<form:form class="form-horizontal" action = "forgotPassOTP" commandName="confirmOTP" method="POST">
   						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Password</label>
+    						<label for="username" class="col-sm-2 control-label">Enter OTP</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="password" type="text" class="form-control" id="inputUsername" placeholder="Password"/>
+      									<form:input path="password" type="text" class="form-control" id="inputUsername" placeholder="Please enter OTp"/>
       								</div>
     							</div>
   						</div>

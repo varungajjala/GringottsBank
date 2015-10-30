@@ -69,8 +69,11 @@ public class DatabaseConnectors {
 		userInfo.setId(tempUserInfo.getId());
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		session.saveOrUpdate(userInfo);
+		String hql = "delete from UserInfo where uniqId like :uniqId";
+		 session.createQuery(hql).setString("uniqId", userInfo.getUniqId()).executeUpdate();
+		session.save(userInfo);
 		session.getTransaction().commit();
+		session.close();
 	}
 	public String getUniqIdByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -179,6 +182,25 @@ public class DatabaseConnectors {
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return userInfo;
 	 }
+	 /* Get user info */
+	 public List<UserInfo> getUserInfo() {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		 List<UserInfo> userInfo = (List<UserInfo>)session.createCriteria(UserInfo.class)
+				 .list();
+		 System.out.println("list size is "+userInfo.size());
+		 return userInfo;
+	 }
+	 
+	 public List<UserInfo> getApprovedUserInfo() {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		 List<UserInfo> userInfo = (List<UserInfo>)session.createCriteria(UserInfo.class)
+				 .add(Restrictions.like("govapproval","approved" )).list();
+		 System.out.println("list size is "+userInfo.size());
+		 return userInfo;
+	 }
+	 
 	 public TempTransactions getTempTransactionsById(long id) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 TempTransactions tempTransactions = (TempTransactions)session.createCriteria(TempTransactions.class)
@@ -310,7 +332,7 @@ public class DatabaseConnectors {
  public void deleteOtpTransactionById(String uniqueid) {
 	 Session session = HibernateUtil.getSessionFactory().openSession();
 	 session.beginTransaction();
-	 String hql = "delete from OtpTransactions where uniqid= :uniqueid";
+	 String hql = "delete from otpTransactions where uniqid= :uniqueid";
 	 session.createQuery(hql).setString("uniqueid", uniqueid).executeUpdate();
 	 session.getTransaction().commit();
  }
