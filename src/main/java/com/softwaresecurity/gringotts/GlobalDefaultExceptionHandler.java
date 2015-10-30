@@ -10,7 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-@ControllerAdvice
+@Controller
 class GlobalDefaultExceptionHandler {
     public static final String DEFAULT_ERROR_VIEW = "error";
 
