@@ -73,7 +73,6 @@ public class ExternalUserController {
 			model.addAttribute("transferOp",temp);
 			model.addAttribute("paymerchantOp",temp);
 			model.addAttribute("checkAccBal", temp.getBalance() );
-			model.addAttribute("savingAccBal", "500" );
 			List<Transactions> obj= displaytransaction(session);
 			if(obj == null){
 				model.addAttribute("transactionOp",null);
@@ -182,7 +181,6 @@ public class ExternalUserController {
 					model.addAttribute("debitOp", transPost );
 					model.addAttribute("creditOp",transPost);
 					model.addAttribute("checkAccBal", transPost.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
@@ -224,7 +222,6 @@ public class ExternalUserController {
 					model.addAttribute("debitOp", transactionObj );
 					model.addAttribute("creditOp",transactionObj);
 					model.addAttribute("checkAccBal", transactionObj.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
 					List<Transactions> obj= displaytransaction(session);
@@ -299,7 +296,6 @@ public class ExternalUserController {
 				model.addAttribute("debitOp", transPost );
 				model.addAttribute("creditOp",transPost);
 				model.addAttribute("checkAccBal", extUser.getBalance() );
-				model.addAttribute("savingAccBal", "500" );
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
 				List<Transactions> obj= displaytransaction(session);
@@ -310,13 +306,7 @@ public class ExternalUserController {
 				model.addAttribute("transactionOp",obj);
 				
 				}
-				/* OTP */	
-				Random randomnumber = new Random();
-				int RandNum = randomnumber.nextInt(737568)+256846;
-				String IV = Integer.toString(RandNum);
-				/* Send otp on clickin gthe button */
-				/* OTP */	
-				//Start with initialization vector : 
+				
 				}
 				Random rand = new Random();
 				int randomNum = rand.nextInt(737568)+256846;
@@ -475,7 +465,6 @@ public class ExternalUserController {
 				model.addAttribute("debitOp", temp );
 				model.addAttribute("creditOp",temp);
 				model.addAttribute("checkAccBal", temp.getBalance() );
-				model.addAttribute("savingAccBal", "500" );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
 				List<Transactions> obj= displaytransaction(session);
@@ -518,7 +507,6 @@ public class ExternalUserController {
 				model.addAttribute("debitOp", temp );
 				model.addAttribute("creditOp",temp);
 				model.addAttribute("checkAccBal", temp.getBalance() );
-				model.addAttribute("savingAccBal", "500" );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
 				List<Transactions> obj= displaytransaction(session);

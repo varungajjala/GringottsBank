@@ -80,7 +80,7 @@ public class HomeController {
 		int result = dbcon.checkLogin(loginPageSet.getUserId(), loginPageSet.getPasswd());
 		Login login = dbcon.getLoginByUsername(loginPageSet.getUserId());
 		
-		if(login.getLoginstatus() == 1){
+		if(login != null && login.getLoginstatus() == 1){
 			String existingtime = login.getLogintime();
 			DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 			Date date = new Date();
@@ -111,7 +111,7 @@ public class HomeController {
 		
 		
 		
-		if( result==1 && !login.getStatus().equals("Locked") && login.getLoginstatus() == 0)
+		if( login != null && result==1 && !login.getStatus().equals("Locked") && login.getLoginstatus() == 0)
 		{
 			DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
 			Date date1 = new Date();

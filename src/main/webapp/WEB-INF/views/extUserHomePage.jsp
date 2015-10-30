@@ -79,16 +79,7 @@
 										<label>${checkAccBal}</label>
       								</div>
     							</div>
-  						</div>
-  						
-  						<div class="form-group">
-    						<label for="inputPassword3" class="col-sm-3 control-label">Savings Account :</label>
-   							<div class="col-sm-8">
-   								<div class="input-group">
-									<label>${savingAccBal}</label>
-   			 					</div>
-   			 				</div>
-  						</div>
+  						</div>  						
   						
 					</form>	
         			</div>

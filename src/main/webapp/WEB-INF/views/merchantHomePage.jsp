@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="c" 
+           uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -66,14 +68,6 @@
 										<label>${checkAccBal}</label>
       								</div>
     							</div>
-  						</div>
-  						<div class="form-group">
-    						<label for="inputPassword3" class="col-sm-3 control-label">Savings Account :</label>
-   							<div class="col-sm-8">
-   								<div class="input-group">
-									<label>${savingAccBal}</label>
-   			 					</div>
-   			 				</div>
   						</div>
   						
 					</form>	
@@ -184,112 +178,157 @@
         				
         				
         				<div class="tab-pane" id="Tab3">
-        					<form class="form-horizontal" action="creditmoney" method="get">
-        						<div class="page-header" style="margin-top: 5px;" align="center">
+        					<form:form class="form-horizontal" action="credit_money" commandName="creditOp" method="POST">
+  								<div class="page-header" style="margin-top: 5px;" align="center">
     								<h3>Credit Money</h3>
     							</div>
   								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${creditOp.getBalance()}</form:label>
   								</div>
   								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+    								<label for="inputCreditAmount" class="col-lg-2 control-label">Amount</label>
    									<div class="col-lg-10">
    										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
+   			 							<form:input path="transactionAmount" type="text" class="form-control" id="inputcredit" placeholder="Enter Amount"/>
    			 							</div>
    			 						</div>
   								</div>
   								<div class="form-group">
     								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
+    									<button type="submit" class="btn btn-primary">Submit</button>
+     									<button type="reset" class="btn btn-success">Cancel</button>
     								</div>
   								</div>
-							</form>
+							</form:form>
         				</div>
         				
+        				<!-- Tab for Debit Operation -->
         				<div class="tab-pane" id="Tab4">
-        					<form class="form-horizontal" action="debitmoney" method="get">
-        						<div class="page-header" style="margin-top: 5px;" align="center">
-    								<h3>Debit Money</h3>
-    							</div>
-  								<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    								<div class="col-lg-10">
-    									<div class="col-xs-24">
-      										<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      									</div>
-    								</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   									<div class="col-lg-10">
-   										<div class="col-xs-24">
-     										<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 							</div>
-   			 						</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-							</form>
+    							
+    							<form:form class="form-horizontal" action="debit_money" commandName="debitOp" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Debit Money</h3>
+	    							</div>
+	    							
+	    							<div class="form-group">
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${debitOp.getBalance()}</form:label>
+  									</div>
+  					
+  								
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+    						</form:form>
+    						
+    						
         				</div>
+        				
+        					
+        				<!-- Tab for transferring money -->
+        				
         				<div class="tab-pane" id="Tab5">
-       					<form class="form-horizontal" action="transfers" method="get">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Transfers</h3>
-    						</div>
-    							<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    									<div class="col-lg-10">
-    										<div class="col-xs-24">
-      											<input type="text" class="form-control" for="displayBalance" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></label>
-      										</div>
-    									</div>
+    							
+    							<form:form class="form-horizontal" action="transfer_money" commandName="transferOp" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Transfer Money</h3>
+	    							</div>
+	    							
+	    							<div class="form-group">
+    								<label for="displayAccountBalance" id="displayBalance" class="col-lg-2 control-label">Account Balance</label>
+    								<form:label path="balance" for="displayAmount" class="col-lg2 control-label">${transferOp.getBalance()}</form:label>
   								</div>
+  								
   								<div class="form-group">
-    								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAccNum" placeholder="Enter Account Number">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
-   										<div class="col-lg-10">
-   											<div class="col-xs-24">
-     											<input type="text" class="form-control" id="inputAmount" placeholder="Enter Amount">
-   			 								</div>
-   			 							</div>
-  								</div>
-  								<div class="form-group">
-    								<div class="col-lg-offset-2 col-lg-10">
-    									<a href="performTransaction" role="button" class="btn btn-primary">Submit</a>
-     										<button type="reset" class="btn btn-success">Cancel</button>
-    								</div>
-  								</div>
-  								</form>
-    						</div>
-   							
-        		
+	    								<label for="inputAccountNumber" class="col-lg-2 control-label">Account Number</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="accountno" type="number" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+  					
+  								
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     										
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+    						</form:form>
+  								
+    						
+        				</div>
+        				
+        				 
+        			
         				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Transaction History</h3>
+    							
+    							
+								<h3>Transaction History</h3>
+								
+								<form action="download" method="get"><button type="submit">Download</button></form>
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							</tr>
+  
+  								<c:if test="${transactionOp != null}">  						
+      							<c:forEach items="${transactionOp}" var="transactionOp">     
+    							<tr>
+  								
+  								 <td align="center"><c:out value="${transactionOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
+  								 </tr>
+								</c:forEach>
+								</c:if>
+								
+    							</table>
+    							
     						</div>
     						
         				</div>
+        				
         				<div class="tab-pane" id="Tab7">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Manage Customers</h3>
