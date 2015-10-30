@@ -62,7 +62,8 @@ public class StatementGenerator {
    Font bf12 = new Font(FontFamily.TIMES_ROMAN, 12); 
  
    //file path
-   String path = "/Users/Varun/" + pdfFilename;
+   String workingDir = System.getProperty("user.dir");
+   String path = workingDir + "\\" + pdfFilename;
    docWriter = PdfWriter.getInstance(doc , new FileOutputStream(path));
     
    //document header attributes
