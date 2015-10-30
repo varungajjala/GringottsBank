@@ -3,6 +3,9 @@ import pojo.*;
 import java.util.Random;
 import dao.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
@@ -21,6 +24,7 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -32,10 +36,12 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.softwaresecurity.util.GenerateOtp;
 import com.softwaresecurity.util.StatementGenerator;
+import com.softwaresecurity.util.pkiGringott;
 
 /**
  * Handles requests for the application home page.
@@ -244,6 +250,121 @@ public class ExternalUserController {
 				logger.info("Inside transfer money op POST");
 				@SuppressWarnings("deprecation")
 				String uniqId= (String)session.getAttribute("uniqueid");
+				
+				MultipartFile fileGot = transObj.getMpFile();
+				String file_name = fileGot.getOriginalFilename();
+				
+				ServletContext context = session.getServletContext();
+	            String realContextPath = context.getRealPath("/");
+				
+//	            String certpath = realContextPath+"/certificates/"+fileGot.getOriginalFilename();
+	            String certpath = realContextPath+"/certificates/"+uniqId+"_cert.pem";
+				
+	            String temp__2_2 = realContextPath+"/certificates";
+				File temp_1_2 = new File(temp__2_2);
+				if (!temp_1_2.exists())
+					temp_1_2.mkdirs();
+	            
+				File convFile = new File(certpath);
+			    convFile.createNewFile(); 
+			    FileOutputStream fos = new FileOutputStream(convFile); 
+			    fos.write(fileGot.getBytes());
+			    fos.close(); 
+			    
+			    if(pkiGringott.verifyCertificate(uniqId, session)==false){
+			    	logger.info(certpath);
+			    	logger.info("uniqId is:" + uniqId);
+			    	logger.info("Certificate verification is failed");
+			    	model.addAttribute("message", "Certificate verification failed");
+			    
+			    	Transactions transObj_1 = new Transactions();
+//					logger.info("Ext User"+extUser);
+					//transObj.setBalance(extUser.getBalance());
+					
+					TempTransactions temp_1 = new TempTransactions();
+					temp_1.setBalance(transObj.getBalance());
+			    	
+			    	model.addAttribute("debitOp", transObj_1 );
+					model.addAttribute("creditOp",transObj_1);
+					model.addAttribute("checkAccBal", transObj_1.getBalance() );
+
+					model.addAttribute("transferOp",temp_1);
+					model.addAttribute("paymerchantOp",temp_1);
+
+					List<Transactions> obj_1= displaytransaction(session);
+					if(obj_1 == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+					model.addAttribute("transactionOp",obj_1);
+					}
+			    	
+			    	
+			    	return "extUserHomePage";
+			    }else{
+			    	logger.info("uniqId is:" + uniqId);
+			    	logger.info("Certificate verified");
+			    }
+			    
+			    MultipartFile pkf = transObj.getPkFile();
+			    
+			    String pkf_name = pkf.getOriginalFilename();
+			    logger.info(pkf_name);
+				
+//				String pkpath = realContextPath+"/privatekeys/"+pkf.getOriginalFilename();
+				String pkpath = realContextPath+"/privatekeys/"+uniqId+"_private.key";
+				
+				String temp_1 = realContextPath+"/privatekeys";
+				File temp_1_1 = new File(temp_1);
+				if (!temp_1_1.exists())
+					temp_1_1.mkdirs();
+				
+				
+				File convFile_1 = new File(pkpath);
+				
+				
+				
+				convFile_1.createNewFile(); 
+			    FileOutputStream fos_1 = new FileOutputStream(convFile_1); 
+			    fos_1.write(pkf.getBytes());
+			    fos_1.close(); 
+			    
+			    if(pkiGringott.verifyPrivateKey(uniqId, session)==false){
+			    	logger.info(pkpath);
+			    	logger.info("uniqId is:" + uniqId);
+			    	logger.info("private key verification is failed");
+			    	model.addAttribute("message", "private key verification failed");
+			    	
+			    	Transactions transObj_2 = new Transactions();
+//					logger.info("Ext User"+extUser);
+					//transObj.setBalance(extUser.getBalance());
+					
+					TempTransactions temp_2 = new TempTransactions();
+					temp_2.setBalance(transObj.getBalance());
+			    	
+			    	model.addAttribute("debitOp", transObj_2 );
+					model.addAttribute("creditOp",transObj_2);
+					model.addAttribute("checkAccBal", transObj_2.getBalance() );
+			
+					model.addAttribute("transferOp",temp_2);
+					model.addAttribute("paymerchantOp",temp_2);
+				
+					List<Transactions> obj_2= displaytransaction(session);
+					if(obj_2 == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+					model.addAttribute("transactionOp",obj_2);
+					}
+			    	
+			    	
+			    	return "extUserHomePage";
+			    }else{
+			    	logger.info("uniqId is:" + uniqId);
+			    	logger.info("Private key verified");
+			    }
+				
+				
 				
 				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
 				UserInfo extInfo = databaseConnector.getUserInfoByUniqId(extUser.getUniqId());
@@ -458,11 +579,119 @@ session.setAttribute("transAccntNo", transObj.getAccountno());
 
 			
 			@RequestMapping(value = "/pay_merchant", method = RequestMethod.POST)
-			public String paymerchantPageAction(@ModelAttribute("paymerchantOp") TempTransactions transactionObj, Model model, HttpSession session){
+			public String paymerchantPageAction(@ModelAttribute("paymerchantOp") TempTransactions transactionObj, Model model, HttpSession session) throws IOException{
 				logger.info("Inside pay merchant op POST");
 				
 				String uniqueID = (String) session.getAttribute("uniqueid");
 				logger.info("Current user"+uniqueID);
+				
+				MultipartFile fileGot = transactionObj.getMpFile();
+				String file_name = fileGot.getOriginalFilename();
+				
+				ServletContext context = session.getServletContext();
+	            String realContextPath = context.getRealPath("/");
+				
+//	            String certpath = realContextPath+"/certificates/"+fileGot.getOriginalFilename();
+	            String certpath = realContextPath+"/certificates/"+uniqueID+"_cert.pem";
+	            
+	            String temp__2_2 = realContextPath+"/certificates";
+				File temp_1_2 = new File(temp__2_2);
+				if (!temp_1_2.exists())
+					temp_1_2.mkdirs();
+				
+				File convFile = new File(certpath);
+			    convFile.createNewFile(); 
+			    FileOutputStream fos = new FileOutputStream(convFile); 
+			    fos.write(fileGot.getBytes());
+			    fos.close(); 
+			    
+			    if(pkiGringott.verifyCertificate(uniqueID, session)==false){
+			    	logger.info(certpath);
+			    	logger.info("uniqId is:" + uniqueID);
+			    	logger.info("Certificate verification is failed");
+			    	model.addAttribute("message", "Certificate verification failed");
+			    	
+			    	Transactions transObj_1 = new Transactions();
+//					logger.info("Ext User"+extUser);
+					//transObj.setBalance(extUser.getBalance());
+					
+					TempTransactions temp_1 = new TempTransactions();
+					temp_1.setBalance(transactionObj.getBalance());
+			    	
+			    	model.addAttribute("debitOp", transObj_1 );
+					model.addAttribute("creditOp",transObj_1);
+					model.addAttribute("checkAccBal", transObj_1.getBalance() );
+					model.addAttribute("savingAccBal", "500" );
+					model.addAttribute("transferOp",temp_1);
+					model.addAttribute("paymerchantOp",temp_1);
+					model.addAttribute("transactionOp",temp_1);
+					List<Transactions> obj_1= displaytransaction(session);
+					if(obj_1 == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+					model.addAttribute("transactionOp",obj_1);
+					}
+			    	
+			    	return "extUserHomePage";
+			    }else{
+			    	logger.info("uniqId is:" + uniqueID);
+			    	logger.info("Certificate verified");
+			    }
+			    
+			    MultipartFile pkf = transactionObj.getPkFile();
+			    
+			    String pkf_name = pkf.getOriginalFilename();
+			    logger.info(pkf_name);
+				
+//				String pkpath = realContextPath+"/privatekeys/"+pkf.getOriginalFilename(); 
+				String pkpath = realContextPath+"/privatekeys/"+uniqueID+"_private.key";
+				
+				String temp_1 = realContextPath+"/privatekeys";
+				File temp_1_1 = new File(temp_1);
+				if (!temp_1_1.exists())
+					temp_1_1.mkdirs();
+				
+				File convFile_1 = new File(pkpath);
+				convFile_1.createNewFile(); 
+			    FileOutputStream fos_1 = new FileOutputStream(convFile_1); 
+			    fos_1.write(pkf.getBytes());
+			    fos_1.close(); 
+			    
+			    if(pkiGringott.verifyPrivateKey(uniqueID, session)==false){
+			    	logger.info(pkpath);
+			    	logger.info("uniqId is:" + uniqueID);
+			    	logger.info("private key verification is failed");
+			    	model.addAttribute("message", "private key verification failed");
+			    	
+			    	Transactions transObj_2 = new Transactions();
+//					logger.info("Ext User"+extUser);
+					//transObj.setBalance(extUser.getBalance());
+					
+					TempTransactions temp_2 = new TempTransactions();
+					temp_2.setBalance(transactionObj.getBalance());
+			    	
+			    	model.addAttribute("debitOp", transObj_2 );
+					model.addAttribute("creditOp",transObj_2);
+					model.addAttribute("checkAccBal", transObj_2.getBalance() );
+					model.addAttribute("savingAccBal", "500" );
+					model.addAttribute("transferOp",temp_2);
+					model.addAttribute("paymerchantOp",temp_2);
+					model.addAttribute("transactionOp",temp_2);
+					List<Transactions> obj_2= displaytransaction(session);
+					if(obj_2 == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+					model.addAttribute("transactionOp",obj_2);
+					}
+			    	
+			    	return "extUserHomePage";
+			    }else{
+			    	logger.info("uniqId is:" + uniqueID);
+			    	logger.info("Private key verified");
+			    }
+				
 				
 				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueID);
 				transactionObj.setBalance(extUser.getBalance());

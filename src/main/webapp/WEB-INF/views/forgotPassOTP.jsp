@@ -11,13 +11,14 @@
 <title>One Time Password</title>
 </head>
 <body>
+			
 			<form:form class="form-horizontal" action = "forgotPassOTP" commandName="confirmOTP" method="POST">
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">Enter OTP</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="password" type="text" class="form-control" id="inputUsername" placeholder="Please enter OTp"/>
+      									<form:input path="password" type="text" class="form-control" id="inputUsername" placeholder="Please enter OTP"/>
       								</div>
     							</div>
   						</div>
