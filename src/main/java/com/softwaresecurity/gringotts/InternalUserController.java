@@ -77,7 +77,7 @@ public class InternalUserController {
 						{
 							utype = "Administrator";
 						}
-						List<TempTransactions> pending;
+						List<Transactions> pending;
 						pending = displaytransaction(session);
 						if(pending == null){
 							model.addAttribute("transactionOp",null);
@@ -119,17 +119,28 @@ public class InternalUserController {
 				
 
 	}
-		public List<TempTransactions> displaytransaction(HttpSession session){
+		public List<Transactions> displaytransaction(HttpSession session){
 			
 			logger.info("Inside transactions op get");
 			
-			List<TempTransactions> transactionObj = new ArrayList<TempTransactions>();
-			transactionObj	=	db.getTempTransactions();
+			List<Transactions> transactionObj = new ArrayList<Transactions>();
+			transactionObj	=	db.getTransactions();
 			
 			System.out.println("In transactions:"+transactionObj.toString());
 			System.out.println("transaction size"+transactionObj.size());
+			List<Transactions> critTransactions = new ArrayList<Transactions>();
+			for( int i = 0; i < transactionObj.size(); i++ ){
+				try{
+					Transactions temp = transactionObj.get(i);
+					if( (temp.getTransactionAmount() < 1000.0) && (temp.getStatus().equalsIgnoreCase("pending") ) ) {
+						critTransactions.add(temp);
+					}
+				}catch(Exception e) {
+					
+				}
+			}
 			
-			return transactionObj;
+			return critTransactions;
 			}
 		
 
@@ -159,23 +170,17 @@ public class InternalUserController {
 			//System.out.println("substring value"+tNum);
 //			int transactionNum = Integer.parseInt(tNum.substring(7));
 //			System.out.println("transaction num"+transactionNum);
-			TempTransactions approve = new TempTransactions();
-			approve = displaytransaction(session).get(0);
-			Transactions approved = new Transactions();
-			approved.setBalance(approve.getBalance());
-			approved.setDescription(approve.getDescription());
-			approved.setTransactionAmount(approve.getTransactionAmount());
-			approved.setTransactionType(approve.getTransactionType());
-			approved.setUniqId(approve.getUniqId());
-			db.saveTransaction(approved);
-			db.removeTempTransaction(approve);
+			Transactions approve = displaytransaction(session).get(0);
+			approve.setStatus("approved");
+			db.removeTransaction(approve);
+			db.saveTransaction(approve);
 			
 		}
 		
 		public void rejectTransaction(HttpSession session){
 			//int transactionNum = Integer.parseInt(tNum.substring(6));
 			//System.out.println("transaction num"+transactionNum);
-			TempTransactions reject = new TempTransactions();
+			Transactions reject = new Transactions();
 			reject = displaytransaction(session).get(0);
 			ExternalUser extUser = db.getExternalUserByUniqId(reject.getUniqId());
 			if(reject.getTransactionType().equals("credit")){
@@ -184,7 +189,7 @@ public class InternalUserController {
 			else{
 				extUser.setBalance(extUser.getBalance()+reject.getTransactionAmount());
 			}
-			db.removeTempTransaction(reject);
+			db.removeTransaction(reject);
 		}
 		
 }

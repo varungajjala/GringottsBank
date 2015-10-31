@@ -155,7 +155,32 @@ public class DatabaseConnectors {
 		 }
 		 return null;
 	 }
-	
+	public List<Transactions> getTransactions() {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class).list();
+		 System.out.println("result"+results.size());
+		 System.out.println("result obj:"+results.toString());
+		 if(results != null) {
+			System.out.println("Returning temp transactions");
+			 return (List<Transactions>)results;
+			 
+		 }
+		 return null;
+	 }
+	public void updateTransaction(Transactions transaction) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		session.saveOrUpdate(transaction);
+		session.getTransaction().commit();
+	}
+	public void removeTransaction(Transactions transaction) {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String hql = "delete from Transactions where Id= :Id";
+		session.beginTransaction();
+		 session.createQuery(hql).setString("Id", transaction.getId()+"").executeUpdate();
+		session.getTransaction().commit();
+	}
 	public List<TempTransactions> getTempTransactions() {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")

@@ -177,6 +177,7 @@ public class ExternalUserController {
 					transPost.setTransactionAmount(amount);
 					transPost.setTransactionType("debit");
 					transPost.setBalance(currentBalance-amount);
+					transPost.setStatus("Pending");
 				
 					extUser.setBalance(currentBalance-amount);
 					
@@ -312,6 +313,7 @@ public class ExternalUserController {
 					transactionObj.setDescription("credited amount: "+amount);
 					transactionObj.setTransactionType("credit");
 					transactionObj.setBalance(currentBalance+amount);
+					transactionObj.setStatus("Pending");
 					extUser.setBalance(currentBalance+amount);
 					databaseConnector.updateExternalUser(extUser);
 					databaseConnector.saveTransaction(transactionObj);
