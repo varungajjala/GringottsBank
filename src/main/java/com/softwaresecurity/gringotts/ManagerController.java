@@ -91,7 +91,7 @@ public class ManagerController {
 						}
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
-						model.addAttribute("userName",UI.getUsername());
+						model.addAttribute("Userame",UI.getUsername());
 						model.addAttribute("email",UI.getEmailId());
 						model.addAttribute("streetAddress",UI.getAddress());
 						model.addAttribute("city",UI.getCity());
