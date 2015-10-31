@@ -1,19 +1,11 @@
 package com.softwaresecurity.gringotts;
 import pojo.*;
 import java.util.Random;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-
 import dao.*;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
@@ -33,9 +25,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.ServletContext;
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -53,6 +42,18 @@ import org.springframework.web.servlet.ModelAndView;
 import com.softwaresecurity.util.GenerateOtp;
 import com.softwaresecurity.util.StatementGenerator;
 import com.softwaresecurity.util.pkiGringott;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.OutputStream;
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+
 
 /**
  * Handles requests for the application home page.
@@ -90,6 +91,7 @@ public class ExternalUserController {
 			model.addAttribute("transferOp",temp);
 			model.addAttribute("paymerchantOp",temp);
 			model.addAttribute("checkAccBal", temp.getBalance() );
+			model.addAttribute("UpdateProfile", new UserInfo() );
 			List<Transactions> obj= displaytransaction(session);
 			if(obj == null){
 				model.addAttribute("transactionOp",null);
@@ -187,6 +189,7 @@ public class ExternalUserController {
 					transPost.setTransactionAmount(amount);
 					transPost.setTransactionType("debit");
 					transPost.setBalance(currentBalance-amount);
+					transPost.setStatus("Pending");
 				
 					extUser.setBalance(currentBalance-amount);
 					
@@ -201,6 +204,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", transPost.getBalance() );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -321,6 +325,7 @@ public class ExternalUserController {
 					transactionObj.setDescription("credited amount: "+amount);
 					transactionObj.setTransactionType("credit");
 					transactionObj.setBalance(currentBalance+amount);
+					transactionObj.setStatus("Pending");
 					extUser.setBalance(currentBalance+amount);
 					databaseConnector.updateExternalUser(extUser);
 					databaseConnector.saveTransaction(transactionObj);
@@ -333,6 +338,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", transactionObj.getBalance() );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -439,6 +445,7 @@ public class ExternalUserController {
 
 					model.addAttribute("transferOp",temp_1);
 					model.addAttribute("paymerchantOp",temp_1);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 
 					List<Transactions> obj_1= displaytransaction(session);
 					if(obj_1 == null){
@@ -497,13 +504,14 @@ public class ExternalUserController {
 			
 					model.addAttribute("transferOp",temp_2);
 					model.addAttribute("paymerchantOp",temp_2);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 				
 					List<Transactions> obj_2= displaytransaction(session);
 					if(obj_2 == null){
 						model.addAttribute("transactionOp",null);
 					}
 					else{
-					model.addAttribute("transactionOp",obj_2);
+						model.addAttribute("transactionOp",obj_2);
 					}
 			    	
 			    	
@@ -542,6 +550,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", extUser.getBalance() );
 					model.addAttribute("transferOp",transObj);
 					model.addAttribute("paymerchantOp",transObj);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -590,6 +599,7 @@ public class ExternalUserController {
 				model.addAttribute("checkAccBal", extUser.getBalance() );
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
+				model.addAttribute("UpdateProfile", new UserInfo() );
 				List<Transactions> obj= displaytransaction(session);
 				if(obj == null){
 					model.addAttribute("transactionOp",null);
@@ -815,6 +825,7 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp_1);
 					model.addAttribute("paymerchantOp",temp_1);
 					model.addAttribute("transactionOp",temp_1);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj_1= displaytransaction(session);
 					if(obj_1 == null){
 						model.addAttribute("transactionOp",null);
@@ -868,6 +879,7 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp_2);
 					model.addAttribute("paymerchantOp",temp_2);
 					model.addAttribute("transactionOp",temp_2);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj_2= displaytransaction(session);
 					if(obj_2 == null){
 						model.addAttribute("transactionOp",null);
@@ -909,6 +921,7 @@ public class ExternalUserController {
 				model.addAttribute("checkAccBal", temp.getBalance() );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
+				model.addAttribute("UpdateProfile", new UserInfo() );
 				List<Transactions> obj= displaytransaction(session);
 				if(obj == null){
 					model.addAttribute("transactionOp",null);
@@ -920,120 +933,170 @@ public class ExternalUserController {
 				logger.info("Leaving transfer money POST");
 				return "extUserHomePage";
 			}
-			
 			@RequestMapping(value = "/download", method = RequestMethod.GET)
 			public void downloadStatement(HttpSession session, HttpServletResponse response,Model model) throws IOException {
-			    	String uniqId = session.getAttribute("uniqueid").toString();
-			    	StatementGenerator.statementbyuniqid(uniqId,session);
-			    	ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
-					TempTransactions transactionObj = new TempTransactions();
-					transactionObj.setBalance(extUser.getBalance());
-					logger.info("Current Balance" + transactionObj.getBalance());
-					float amount = transactionObj.getTransactionAmount();
-					float currentBalance = transactionObj.getBalance();
-					logger.info("balance :",currentBalance);
-					logger.info("account number ",transactionObj.getAccountno());
-					//credit amount from current account balance	
-			
-					transactionObj.setUniqId(uniqId);
-					transactionObj.setDescription("transferred amount: "+amount);
-					transactionObj.setTransactionType("tranfer");
-					transactionObj.setBalance(currentBalance-amount);
-					
-					
-					extUser.setBalance(currentBalance-amount);
+		    	String uniqId = session.getAttribute("uniqueid").toString();
+		    	StatementGenerator.statementbyuniqid(uniqId,session);
+		    	ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				TempTransactions transactionObj = new TempTransactions();
+				transactionObj.setBalance(extUser.getBalance());
+				logger.info("Current Balance" + transactionObj.getBalance());
+				float amount = transactionObj.getTransactionAmount();
+				float currentBalance = transactionObj.getBalance();
+				logger.info("balance :",currentBalance);
+				logger.info("account number ",transactionObj.getAccountno());
+				//credit amount from current account balance	
+		
+				transactionObj.setUniqId(uniqId);
+				transactionObj.setDescription("transferred amount: "+amount);
+				transactionObj.setTransactionType("tranfer");
+				transactionObj.setBalance(currentBalance-amount);
+				
+				
+				extUser.setBalance(currentBalance-amount);
 
-					Transactions temp = new Transactions();
-					temp.setBalance(transactionObj.getBalance());
-					model.addAttribute("debitOp", temp );
-					model.addAttribute("creditOp",temp);
-					model.addAttribute("checkAccBal", temp.getBalance() );
-					model.addAttribute("transferOp",transactionObj);
-					model.addAttribute("paymerchantOp",transactionObj);
-					List<Transactions> obj= displaytransaction(session);
-					model.addAttribute("transactionOp",obj);
-			        // get absolute path of the application
-					ServletContext context = session.getServletContext();
-	                
-			        String realContextPath = context.getRealPath("/");
-			        String fullpath = realContextPath+"/statement/"+uniqId+"_statement.pdf";
-			      //  System.out.println("aPath = " +realContextPath);
-			       // String filePath="Statement.pdf";
-			        // construct the complete absolute path of the file
-			      //  String fullPath = realContextPath+filePath; 
-			        System.out.println(fullpath);
-			        
-			        
-			        File downloadFile = new File(fullpath);
-			        FileInputStream inputStream = new FileInputStream(downloadFile);
-			        
-			        // get MIME type of the file
-			        String mimeType = context.getMimeType(fullpath);
-			        if (mimeType == null) {
-			            // set to binary type if MIME mapping not found
-			            mimeType = "application/pdf";
-			        }
-			        System.out.println("MIME type: " + mimeType);
-			 
-			        // set content attributes for the response
-			        response.setContentType(mimeType);
-			        response.setContentLength((int) downloadFile.length());
-			 
-			        // set headers for the response
-			        String headerKey = "Content-Disposition";
-			        String headerValue = String.format("attachment; filename=\"%s\"",
-			                downloadFile.getName());
-			        response.setHeader(headerKey, headerValue);
-			 
-			        
-			        OutputStream outStream = response.getOutputStream();
-			        
-			        byte[] buffer = new byte[4096];
-			        int bytesRead = -1;
-			 
-			        // write bytes read from the input stream into the output stream
-			        while ((bytesRead = inputStream.read(buffer)) != -1) {
-			            outStream.write(buffer, 0, bytesRead);
-			        }
-			 
-			        inputStream.close();
-			        outStream.close();
-			        
-			        
-//			        
-//						//ServletOutputStream out = response.getOutputStream();
-//						FileOutputStream fos = new FileOutputStream(downloadFile);
-//							System.out.println("Adding " + downloadFile.getName());
+				Transactions temp = new Transactions();
+				temp.setBalance(transactionObj.getBalance());
+				model.addAttribute("debitOp", temp );
+				model.addAttribute("creditOp",temp);
+				model.addAttribute("checkAccBal", temp.getBalance() );
+				model.addAttribute("transferOp",transactionObj);
+				model.addAttribute("paymerchantOp",transactionObj);
+				List<Transactions> obj= displaytransaction(session);
+				model.addAttribute("transactionOp",obj);
+		        // get absolute path of the application
+				ServletContext context = session.getServletContext();
+                
+		        String realContextPath = context.getRealPath("/");
+		        String fullpath = realContextPath+"/statement/"+uniqId+"_statement.pdf";
+		      //  System.out.println("aPath = " +realContextPath);
+		       // String filePath="Statement.pdf";
+		        // construct the complete absolute path of the file
+		      //  String fullPath = realContextPath+filePath; 
+		        System.out.println(fullpath);
+		        
+		        
+		        File downloadFile = new File(fullpath);
+		        FileInputStream inputStream = new FileInputStream(downloadFile);
+		        
+		        // get MIME type of the file
+		        String mimeType = context.getMimeType(fullpath);
+		        if (mimeType == null) {
+		            // set to binary type if MIME mapping not found
+		            mimeType = "application/pdf";
+		        }
+		        System.out.println("MIME type: " + mimeType);
+		 
+		        // set content attributes for the response
+		        response.setContentType(mimeType);
+		        response.setContentLength((int) downloadFile.length());
+		 
+		        // set headers for the response
+		        String headerKey = "Content-Disposition";
+		        String headerValue = String.format("attachment; filename=\"%s\"",
+		                downloadFile.getName());
+		        response.setHeader(headerKey, headerValue);
+		 
+		        
+		        OutputStream outStream = response.getOutputStream();
+		        
+		        byte[] buffer = new byte[4096];
+		        int bytesRead = -1;
+		 
+		        // write bytes read from the input stream into the output stream
+		        while ((bytesRead = inputStream.read(buffer)) != -1) {
+		            outStream.write(buffer, 0, bytesRead);
+		        }
+		 
+		        inputStream.close();
+		        outStream.close();
+		        
+		        
+//		        
+//					//ServletOutputStream out = response.getOutputStream();
+//					FileOutputStream fos = new FileOutputStream(downloadFile);
+//						System.out.println("Adding " + downloadFile.getName());
 //
-//							// Get the file
-//							FileInputStream fis = null;
-//							try {
-//								fis = new FileInputStream(downloadFile);
+//						// Get the file
+//						FileInputStream fis = null;
+//						try {
+//							fis = new FileInputStream(downloadFile);
 //
-//							} catch (FileNotFoundException fnfe) {
-//								// If the file does not exists, write an error entry instead of
-//								// file
-//								// contents
-//								fos.write(("ERROR could not find file " + downloadFile.getName())
-//										.getBytes());
-//								fos.close();
-//								System.out.println("Couldfind file "
-//										+ downloadFile.getAbsolutePath());
-//							}
-//
-//							BufferedInputStream fif = new BufferedInputStream(fis);
-//
-//							// Write the contents of the file
-//							int data = 0;
-//							while ((data = fif.read()) != -1) {
-//								fos.write(data);
-//							}
-//							fif.close();
-//
+//						} catch (FileNotFoundException fnfe) {
+//							// If the file does not exists, write an error entry instead of
+//							// file
+//							// contents
+//							fos.write(("ERROR could not find file " + downloadFile.getName())
+//									.getBytes());
 //							fos.close();
-							System.out.println("Finished Downloading file " + downloadFile.getName());
-							return;
-							//return "redirect:extUserHomePage";
+//							System.out.println("Couldfind file "
+//									+ downloadFile.getAbsolutePath());
+//						}
+//
+//						BufferedInputStream fif = new BufferedInputStream(fis);
+//
+//						// Write the contents of the file
+//						int data = 0;
+//						while ((data = fif.read()) != -1) {
+//							fos.write(data);
+//						}
+//						fif.close();
+//
+//						fos.close();
+						System.out.println("Finished Downloading file " + downloadFile.getName());
+						return;
+						//return "redirect:extUserHomePage";
+		}
+			
+			@RequestMapping(value = "/upate_profile", method = RequestMethod.POST)
+			public String updateProfile(@ModelAttribute("UpdateProfile") TempUserInfo TUI, Model model,
+									HttpSession session){
+				
+				String uniqId = session.getAttribute("uniqueid").toString();
+				UserInfo UI = databaseConnector.getUserInfoByUniqId(uniqId);
+				
+				if(!TUI.getFirstName().equals(null)){
+					UI.setFirstName(TUI.getFirstName());
+					logger.info("TUI.getFirstName()" + TUI.getFirstName());
+				}else{
+					logger.info("TUI.getFirstName() is null");
+				}
+				
+				
+				
+				if(!TUI.getLastName().equals(null)){
+					UI.setLastName(TUI.getLastName());
+				}
+				
+				if(!TUI.getEmailId().equals(null)){
+					UI.setEmailId(TUI.getEmailId());
+				}
+				
+				if(!TUI.getAddress().equals(null)){
+					UI.setAddress(TUI.getAddress());
+				}
+				
+				if(!TUI.getCity().equals(null)){
+					UI.setCity(TUI.getCity());
+				}
+				
+				if(!TUI.getState().equals(null)){
+					UI.setState(TUI.getState());
+				}
+				
+				if(!TUI.getCountry().equals(null)){
+					UI.setCountry(TUI.getCountry());
+				}
+				
+				if(TUI.getZipcode() != 0){
+					UI.setZipcode(TUI.getZipcode());
+				}
+				
+				if(!TUI.getContactNo().equals(null)){
+					UI.setContactNo(TUI.getContactNo());
+				}
+				
+				databaseConnector.updateUserInfo(UI);
+				return "redirect:extUserHomePage";
 			}
-			    
-} 
+}
