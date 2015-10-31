@@ -184,11 +184,11 @@ public class DatabaseConnectors {
 	}
 
 	
-	public void deleteTransactionByInternalUser(int transID){
+	public void deleteTransactionByInternalUser(long correspondingID){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String hql = "update Transactions set internalstatus='deleted' where Id= :Id";
 		session.beginTransaction();
-		 session.createQuery(hql).setString("Id", transID+"").executeUpdate();
+		 session.createQuery(hql).setString("Id", correspondingID+"").executeUpdate();
 		session.getTransaction().commit();
 	}
 	

@@ -99,6 +99,8 @@ public class InternalUserController {
 						model.addAttribute("deleteOp", deleteTrans);
 						}
 
+						model.addAttribute("modifyOp",new Transactions());
+
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("userName",UI.getUsername());
@@ -250,41 +252,55 @@ public class InternalUserController {
 		@RequestMapping(value = "/modifytransaction", method = RequestMethod.POST)
 		public String modifyTransaction(@ModelAttribute("modifyOp")Transactions trans, HttpSession session,Model model){
 			
+			logger.info("inside modify transaction");
 			Transactions actual= new Transactions();
 			actual = db.getTransactionsById(trans.getId());
+			logger.info("actual id",actual.getId());
 			
 			if(actual.getTransactionType().equals("debit")){
 				actual.setBalance(actual.getBalance()+actual.getTransactionAmount());
 				
 				if(actual.getBalance()-trans.getTransactionAmount() >=0)
 				actual.setBalance(actual.getBalance()-trans.getTransactionAmount());
+				logger.info("actual balance",actual.getBalance());
 			}
 			else{
 				
 				actual.setBalance(actual.getBalance()-actual.getTransactionAmount());
 				
 				actual.setBalance(actual.getBalance()+trans.getTransactionAmount());
-				
+				logger.info("actual balance",actual.getBalance());
 			}
 			
 			return "redirect:";
 		}
 		
 		
-		@RequestMapping(value = "/deletetransaction", method = RequestMethod.GET)
+		@RequestMapping(value = "/deleteTransaction", method = RequestMethod.GET)
 		public String deleteTransaction(HttpServletRequest request, HttpSession session,Model model){
 			
 			int size = Integer.parseInt(request.getParameter("size"));
+			logger.info("inside delete");
 			List<Transactions> transList = db.getTransactionsByStatus();
+			long[] correspondingID = new long[size];
+			
+			for(int i=0;i<size;i++){
+				Transactions temp = transList.get(i);
+				correspondingID[i] = temp.getId();
+			}
 			for(int i=0;i<size;i++){
 			String action = request.getParameter("radioValues"+i);
 			//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
-			
+			logger.info("action",action);
 			//System.out.println("Inside authorize transactions");
-			int transID = Integer.parseInt(action.substring(5));
 			
-			db.deleteTransactionByInternalUser(transID);
+			if(action.contains("delete")){
+			int transID = Integer.parseInt(action.substring(6));
 			
+			
+			
+			db.deleteTransactionByInternalUser(correspondingID[i]);
+			}
 			}
 			
 			return "redirect:";

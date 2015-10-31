@@ -48,9 +48,9 @@
   						<li><a href="#Tab3" data-toggle="tab">Authorize Payments</a></li>
   						<li><a href="#Tab4" data-toggle="tab">Approve User Accounts</a></li>
   						<li><a href="#Tab5" data-toggle="tab">Transaction History</a></li>
-  						<li><a href="#Tab6" data-toggle="tab">Manage Transactions</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Manage Transactions</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Create Transaction</a></li>
-  						<li><a href="#Tab8" data-toggle="tab">Modify Transaction</a></li>
+  						<li><a href="#Tab6" data-toggle="tab">Modify Transaction</a></li>
   						<li><a href="#Tab9" data-toggle="tab">Delete Transaction</a></li>
   						
   						
@@ -261,21 +261,91 @@
     						
         				</div>
         				<div class="tab-pane" id="Tab6">
-        					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>Create Transaction</h3>
-    						</div>
-    	
-        				</div>	
-        				<div class="tab-pane" id="Tab7">
+        					
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Modify Transactions</h3>
     						</div>
+    						
+    						<form:form class="form-horizontal" action="modifytransaction" commandName="modifyOp" method="POST">
+    						
+    						<div class="form-group">
+	    						<label for="inputTransactionID" class="col-lg-2 control-label">Transaction ID</label>
+	   							<div class="col-sm-10">
+	   								<div class="col-sm-24">
+	     										
+	     							<form:input path="id" class="form-control" id="transactionid" placeholder="Enter Transaction ID" />
+	     											
+	   			 					</div>
+	   			 				</div>
+	  						</div>
+  					
+  					
+  							<div class="form-group">
+	    						<label for="transactionAmount" class="col-lg-2 control-label">Transaction Amount</label>
+	   							<div class="col-sm-10">
+	   								<div class="col-sm-24">
+	     										
+	     							<form:input path="transactionAmount" class="form-control" id="inputTransactionAmount" placeholder="Enter Transaction Amount" />
+	     											
+	   			 					</div>
+	   			 				</div>
+	  						</div>
+  							<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    					</div>
+    							
+    						</form:form>
     	
-        				</div>
+        				</div>	
+        					
+    				
         				<div class="tab-pane" id="Tab8">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Delete Transaction</h3>
     						</div>
+    						
+    						<table  border="1">
+    							<tr>
+    							
+    							<th align="center">Unique ID</th>
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Delete</th>
+    							<th align="center">Keep</th>
+    							</tr>
+    							<% int j = 0; %>
+    							<c:if test="${deleteOp != null}">  
+    							<form:form action="deleteTransaction" commandName="deleteOp" method="GET">
+    							
+    							<c:forEach items="${deleteOp}" var="deleteOp">     
+    							<tr>
+    							 
+  								 
+  								 <td align="center"><c:out value="${deleteOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${deleteOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${deleteOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${deleteOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${deleteOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${deleteOp.getTransactionAmount()}"/></td>
+  								 
+  								<!-- <td><input type="radio"  value="delete"<c:out value="${deleteOp.getId()}"/> name="radioValues<%=j %>"/></td> -->
+  								<td><input type="radio" name="radioValues<%=j %>" value="delete<%=j %>"/></td>
+  								<td><input type="radio" name="radioValues<%=j %>" value="ignore<%=j %>" checked="checked"/></td>						 
+  								 </tr>
+  								 <% j = j+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=j %> name="size"/>
+								<button type="submit">Submit For Deletion</button>
+								
+								</form:form>
+								</c:if>
+    							</table>
     	
         				</div>
         				<div class="tab-pane" id="Tab9">

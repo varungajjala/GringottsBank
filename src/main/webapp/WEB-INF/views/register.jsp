@@ -155,7 +155,7 @@
 					        
 					        
 					        
-					       <div class="g-recaptcha" data-sitekey="6Lc_0f4SAAAAAF9ZA_d7Dxi9qRbPMMNW-tLSvhe6"></div>
+					       <div class="g-recaptcha" data-sitekey="6LegBRATAAAAAMd1H9eoQKTHj23JTL6tOIXg_I3u"></div>
 					        
   						 </div>
   						 <br>
