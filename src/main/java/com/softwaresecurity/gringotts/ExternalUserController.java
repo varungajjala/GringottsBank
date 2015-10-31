@@ -124,7 +124,7 @@ public class ExternalUserController {
 			
 			model.addAttribute("firstName",UI.getFirstName());
 			model.addAttribute("lastName",UI.getLastName());
-			model.addAttribute("userName",UI.getUsername());
+			model.addAttribute("Username",UI.getUsername());
 			model.addAttribute("email",UI.getEmailId());
 			model.addAttribute("streetAddress",UI.getAddress());
 			model.addAttribute("city",UI.getCity());
@@ -198,6 +198,51 @@ public class ExternalUserController {
 					model.addAttribute("transactionOp",obj);
 					}
 
+		/**
+		 * To display user profile			
+		 */
+					UserInfo UI = new UserInfo();
+					DatabaseConnectors dbcon = new DatabaseConnectors();
+					UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+					
+					String utype = null;
+					String str1 = (String)session.getAttribute("uniqueid");
+					System.out.println(str1);
+					String str2 = str1.substring(0,2);
+					
+					if(str2.equals("ei"))
+					{
+						utype = "Single User";
+					}
+					else if(str2.equals("em"))
+					{
+						utype = "Merchant";
+					}
+					else if(str2.equals("ir"))
+					{
+						utype = "Internal User";
+					}
+					else if(str2.equals("im"))
+					{
+						utype = "Manager";
+					}
+					else if(str2.equals("admin"))
+					{
+						utype = "Administrator";
+					}
+					
+					model.addAttribute("firstName",UI.getFirstName());
+					model.addAttribute("lastName",UI.getLastName());
+					model.addAttribute("Username",UI.getUsername());
+					model.addAttribute("email",UI.getEmailId());
+					model.addAttribute("streetAddress",UI.getAddress());
+					model.addAttribute("city",UI.getCity());
+					model.addAttribute("state",UI.getState());
+					model.addAttribute("country",UI.getCountry());
+					model.addAttribute("zip",UI.getZipcode());
+					model.addAttribute("contactNo",UI.getContactNo());
+					model.addAttribute("userType",utype);
+					
 					logger.info("Leaving debit money POST");
 					
 					return "extUserHomePage";
@@ -207,6 +252,52 @@ public class ExternalUserController {
 			public String creditmoneyPageAction(@ModelAttribute("creditOp") Transactions transactionObj, Model model, HttpSession session){
 					logger.info("Inside credit money op POST");
 					logger.info("Current Balance" + transactionObj.getBalance());
+		/**
+		 * To display user profile			
+		 */
+					UserInfo UI = new UserInfo();
+					DatabaseConnectors dbcon = new DatabaseConnectors();
+					UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+					
+					String utype = null;
+					String str1 = (String)session.getAttribute("uniqueid");
+					System.out.println(str1);
+					String str2 = str1.substring(0,2);
+					
+					if(str2.equals("ei"))
+					{
+						utype = "Single User";
+					}
+					else if(str2.equals("em"))
+					{
+						utype = "Merchant";
+					}
+					else if(str2.equals("ir"))
+					{
+						utype = "Internal User";
+					}
+					else if(str2.equals("im"))
+					{
+						utype = "Manager";
+					}
+					else if(str2.equals("admin"))
+					{
+						utype = "Administrator";
+					}
+					
+					model.addAttribute("firstName",UI.getFirstName());
+					model.addAttribute("lastName",UI.getLastName());
+					model.addAttribute("Username",UI.getUsername());
+					model.addAttribute("email",UI.getEmailId());
+					model.addAttribute("streetAddress",UI.getAddress());
+					model.addAttribute("city",UI.getCity());
+					model.addAttribute("state",UI.getState());
+					model.addAttribute("country",UI.getCountry());
+					model.addAttribute("zip",UI.getZipcode());
+					model.addAttribute("contactNo",UI.getContactNo());
+					model.addAttribute("userType",utype);
+					
+					
 					String uniqueID = (String) session.getAttribute("uniqueid");
 					//String uniqueID ="EM123";
 					ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueID);
@@ -251,6 +342,52 @@ public class ExternalUserController {
 				logger.info("Inside transfer money op POST");
 				@SuppressWarnings("deprecation")
 				String uniqId= (String)session.getAttribute("uniqueid");
+				
+	/**
+	 * To display user profile			
+	 */
+				UserInfo UI = new UserInfo();
+				DatabaseConnectors dbcon = new DatabaseConnectors();
+				UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+				
+				String utype = null;
+				String str1 = (String)session.getAttribute("uniqueid");
+				System.out.println(str1);
+				String str2 = str1.substring(0,2);
+				
+				if(str2.equals("ei"))
+				{
+					utype = "Single User";
+				}
+				else if(str2.equals("em"))
+				{
+					utype = "Merchant";
+				}
+				else if(str2.equals("ir"))
+				{
+					utype = "Internal User";
+				}
+				else if(str2.equals("im"))
+				{
+					utype = "Manager";
+				}
+				else if(str2.equals("admin"))
+				{
+					utype = "Administrator";
+				}
+				
+				model.addAttribute("firstName",UI.getFirstName());
+				model.addAttribute("lastName",UI.getLastName());
+				model.addAttribute("Username",UI.getUsername());
+				model.addAttribute("email",UI.getEmailId());
+				model.addAttribute("streetAddress",UI.getAddress());
+				model.addAttribute("city",UI.getCity());
+				model.addAttribute("state",UI.getState());
+				model.addAttribute("country",UI.getCountry());
+				model.addAttribute("zip",UI.getZipcode());
+				model.addAttribute("contactNo",UI.getContactNo());
+				model.addAttribute("userType",utype);
+				
 				
 				MultipartFile fileGot = transObj.getMpFile();
 				String file_name = fileGot.getOriginalFilename();
@@ -370,7 +507,7 @@ public class ExternalUserController {
 				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
 				UserInfo extInfo = databaseConnector.getUserInfoByUniqId(extUser.getUniqId());
 				
-session.setAttribute("transAccntNo", transObj.getAccountno());
+				session.setAttribute("transAccntNo", transObj.getAccountno());
 				
 				logger.info("Inside credit part of transfer money op POST");
 				//String uniqueID = (String)session.getAttribute("uniqueid");
@@ -387,7 +524,7 @@ session.setAttribute("transAccntNo", transObj.getAccountno());
 				float amount = transObj.getTransactionAmount();
 				float currentBalance = transObj.getBalance();
 				
-				if(extUser2 == null){
+				if(extUser2 == null) {
 					model.addAttribute("message","Account number not found");
 					model.addAttribute("debitOp", transPost );
 					model.addAttribute("creditOp",transPost);
@@ -458,12 +595,7 @@ session.setAttribute("transAccntNo", transObj.getAccountno());
 				int randomNum = rand.nextInt(737568)+256846;
 				String IV = Integer.toString(randomNum);
 				System.out.println("Random number (IV): "+ IV);
-				//String IVtest = "123456";
-				
-				//String test2 = "5aba1db3b561abe65a12fd109b50ca5ecfc88e5d106d4b511c7653b843d0e3d4";
-			 	//SecureRandom randomGenerator = new SecureRandom();
-				//byte[] randomNumber = new byte[20];
-				//randomGenerator.nextBytes(randomNumber);
+
 			 	String app1Hash;
 				String app1Password;
 
@@ -583,6 +715,51 @@ session.setAttribute("transAccntNo", transObj.getAccountno());
 			@RequestMapping(value = "/pay_merchant", method = RequestMethod.POST)
 			public String paymerchantPageAction(@ModelAttribute("paymerchantOp") TempTransactions transactionObj, Model model, HttpSession session) throws IOException{
 				logger.info("Inside pay merchant op POST");
+				
+	/**
+	 * To display user profile			
+	 */
+				UserInfo UI = new UserInfo();
+				DatabaseConnectors dbcon = new DatabaseConnectors();
+				UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+				
+				String utype = null;
+				String str1 = (String)session.getAttribute("uniqueid");
+				System.out.println(str1);
+				String str2 = str1.substring(0,2);
+				
+				if(str2.equals("ei"))
+				{
+					utype = "Single User";
+				}
+				else if(str2.equals("em"))
+				{
+					utype = "Merchant";
+				}
+				else if(str2.equals("ir"))
+				{
+					utype = "Internal User";
+				}
+				else if(str2.equals("im"))
+				{
+					utype = "Manager";
+				}
+				else if(str2.equals("admin"))
+				{
+					utype = "Administrator";
+				}
+				
+				model.addAttribute("firstName",UI.getFirstName());
+				model.addAttribute("lastName",UI.getLastName());
+				model.addAttribute("Username",UI.getUsername());
+				model.addAttribute("email",UI.getEmailId());
+				model.addAttribute("streetAddress",UI.getAddress());
+				model.addAttribute("city",UI.getCity());
+				model.addAttribute("state",UI.getState());
+				model.addAttribute("country",UI.getCountry());
+				model.addAttribute("zip",UI.getZipcode());
+				model.addAttribute("contactNo",UI.getContactNo());
+				model.addAttribute("userType",utype);
 				
 				String uniqueID = (String) session.getAttribute("uniqueid");
 				logger.info("Current user"+uniqueID);
@@ -765,6 +942,8 @@ session.setAttribute("transAccntNo", transObj.getAccountno());
 				model.addAttribute("paymerchantOp",transactionObj);
 				List<Transactions> obj= displaytransaction(session);
 				model.addAttribute("transactionOp",obj);
+				
+				
 				return "redirect:extUserHomePage";
 			}
 }
