@@ -2,10 +2,18 @@ package com.softwaresecurity.gringotts;
 import com.softwaresecurity.util.*;
 import pojo.*;
 import java.util.Random;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
 import dao.*;
 import net.tanesha.recaptcha.ReCaptchaImpl;
 import net.tanesha.recaptcha.ReCaptchaResponse;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
@@ -13,7 +21,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.hibernate.validator.constraints.SafeHtml;
@@ -176,7 +187,8 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m) {
+	public void submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m,
+				HttpSession session, HttpServletResponse response) {
 		Login uloginset = new Login();
 		ExternalUser extUser = new ExternalUser();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
@@ -230,17 +242,80 @@ public class HomeController {
 			extUser.setUniqId(uniqId);
 			extUser.setAccountno(accntNo);
 			
-			
-			
-			//uinfoget.setUsername(uinfoget.getFirstName());
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.saveUserInfo(uinfoget);
 			dbcon.saveLogin(uloginset);
 			dbcon.saveExternalUser(extUser);
-	//		dbcon.saveLogin(userLogin);
-	//		m.addAttribute("message","Registeration Successful with ID"+ uniqId);
+			
+			pkiGringott.generateSignedX509Certificate(uniqId, session);
+			
+			
+	        ServletContext context = session.getServletContext();
+	                
+	        String realContextPath = context.getRealPath("/");
+	        String certpath = realContextPath+"/certificates/"+uniqId+"_cert.pem";
+	        String privateKeypath = realContextPath+"/privatekeys/"+uniqId+"_private.key";
+	        		
+	        response.setContentType("Content-type: text/zip");
+			response.setHeader("Content-Disposition", "attachment; filename=UserFile.zip");
+
+			try{
+				ServletOutputStream out = response.getOutputStream();
+				ZipOutputStream zos = new ZipOutputStream(new BufferedOutputStream(out));
+
+				String path = null;
+				File downloadFile = null;
+				
+				for (int i=0; i<2; i++) 
+				{
+					if(i==0){
+						path = certpath;
+					}else{
+						path = privateKeypath;
+					}
+
+		            downloadFile = new File(path);
+					System.out.println("Adding " + downloadFile.getName());
+					zos.putNextEntry(new ZipEntry(downloadFile.getName()));
+
+					// Get the file
+					FileInputStream fis = null;
+					try {
+						fis = new FileInputStream(downloadFile);
+
+					} catch (FileNotFoundException fnfe) {
+						// If the file does not exists, write an error entry instead of
+						// file
+						// contents
+						zos.write(("ERRORld not find file " + downloadFile.getName())
+								.getBytes());
+						zos.closeEntry();
+						System.out.println("Couldfind file "
+								+ downloadFile.getAbsolutePath());
+						continue;
+					}
+
+					BufferedInputStream fif = new BufferedInputStream(fis);
+
+					// Write the contents of the file
+					int data = 0;
+					while ((data = fif.read()) != -1) {
+						zos.write(data);
+					}
+					fif.close();
+
+					zos.closeEntry();
+					System.out.println("Finishedng file " + downloadFile.getName());
+				}
+
+				zos.close();
+				pkiGringott.deleteCertificateAndPrivateKeyFile(uniqId, session);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+
 			logger.info("leaving post");
-			return "registrationSuccessful";
+			return;
 	    
 	}
 	@RequestMapping(value = "/registrationSuccessful", method = RequestMethod.POST)

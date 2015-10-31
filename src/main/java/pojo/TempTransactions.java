@@ -1,5 +1,6 @@
 package pojo;
 import java.sql.Timestamp;
+import org.springframework.web.multipart.MultipartFile;
 public class TempTransactions {
 	private long id;
 	private String transactionType;
@@ -9,19 +10,23 @@ public class TempTransactions {
 	private Timestamp date;
 	private float transactionAmount;
 	private int accountno;
+	private MultipartFile mpFile;
+	private MultipartFile pkFile;
 	/**
 	 * @param transactionType
 	 * @param uniqId
 	 * @param description
 	 * @param balance
 	 */
-	public TempTransactions(String transactionType, String uniqId, String description, float balance, float transactionAmount,int accountno) {
+	public TempTransactions(String transactionType, String uniqId, String description, float balance, float transactionAmount,int accountno, MultipartFile mpFile, MultipartFile pkFile) {
 		this.transactionType = transactionType;
 		this.uniqId = uniqId;
 		this.description = description;
 		this.setTransactionAmount(transactionAmount);
 		this.balance = balance;
 		this.accountno = accountno;
+		this.mpFile = mpFile;
+		this.pkFile = pkFile;
 	}
 	/**
 	 * 
@@ -120,5 +125,20 @@ public class TempTransactions {
 	 */
 	public void setAccountno(int accountno) {
 		this.accountno = accountno;
+	}
+	public MultipartFile getMpFile() {
+		return mpFile;
+	}
+	
+	public void setMpFile(MultipartFile file) {
+		this.mpFile = file;
+	}
+	
+	public MultipartFile getPkFile() {
+		return pkFile;
+	}
+	
+	public void setPkFile(MultipartFile file) {
+		this.pkFile = file;
 	}
 }
