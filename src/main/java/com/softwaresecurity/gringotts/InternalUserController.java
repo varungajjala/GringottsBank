@@ -34,6 +34,7 @@ public class InternalUserController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(InternalUserController.class);
 	private DatabaseConnectors db = new DatabaseConnectors();
+	private List<UserInfo> obj;
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
@@ -86,6 +87,8 @@ public class InternalUserController {
 						
 						model.addAttribute("transactionOp", pending);
 						}
+						obj = getuserInfo(session);
+						model.addAttribute("displayPiiUsers",obj);
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("userName",UI.getUsername());
@@ -119,6 +122,26 @@ public class InternalUserController {
 				
 
 	}
+		public List<UserInfo> getuserInfo(HttpSession session){
+			logger.info("Inside transactions op get");
+			List<UserInfo> userInfo;
+			userInfo = db.getUserInfo();
+			System.out.println("Length of list :"+userInfo.size());
+			logger.info("Length of list :",userInfo.size());
+			@SuppressWarnings("unused")
+			List<UserInfo> temp = new ArrayList<UserInfo>();
+			for( int i = 0; i < userInfo.size(); i++ ) {
+				UserInfo t = userInfo.get(i);
+				String username = t.getUsername();
+				Login l = db.getLoginByUsername(username);
+				if(l.getStatus().equalsIgnoreCase("locked")) {
+					temp.add(t);
+				}
+			}
+			logger.info("Leaving userinfo op POST");
+			return temp;
+			}
+		
 		public List<Transactions> displaytransaction(HttpSession session){
 			
 			logger.info("Inside transactions op get");
@@ -165,6 +188,28 @@ public class InternalUserController {
 				return "redirect:";
 				
 			}
+		
+			@RequestMapping(value = "/approveUserAccount", method = RequestMethod.GET)
+			public String authorizePII(HttpServletRequest request, HttpSession session){
+				
+				int size = Integer.parseInt(request.getParameter("size"));
+					for(int i=0;i<size;i++){
+						String action = request.getParameter("radioValues"+i);
+						UserInfo userInfo = obj.get(i);
+						if(action != null && action.contains("approve")) {
+							Login login = db.getLoginByUsername(userInfo.getUsername());
+							login.setStatus("unlocked");
+							db.updateLogin(login);
+						}
+						else {
+							String uniqId = userInfo.getUniqId();
+							db.deleteUserProfileByUniqId(uniqId);
+						}
+					}
+					return "redirect:";
+					
+				}
+				
 			
 		public void approveTransaction(HttpSession session){
 			//System.out.println("substring value"+tNum);
@@ -186,7 +231,7 @@ public class InternalUserController {
 			if(reject.getTransactionType().equals("credit")){
 			extUser.setBalance(extUser.getBalance()-reject.getTransactionAmount());
 			}
-			else{
+			else if(reject.getTransactionType().equals("debit")){
 				extUser.setBalance(extUser.getBalance()+reject.getTransactionAmount());
 			}
 			db.removeTransaction(reject);

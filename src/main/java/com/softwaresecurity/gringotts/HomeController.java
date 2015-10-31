@@ -230,7 +230,7 @@ public class HomeController {
 			uloginset.setPasswd(hashedPassword);
 			uloginset.setRole(userType);
 			uloginset.setUniqId(uinfoget.getUniqId());
-			uloginset.setStatus("Unlocked");
+			uloginset.setStatus("Locked");
 			logger.info("login userID" + uloginset.getUserId());
 			logger.info("login password" + uloginset.getPasswd());
 			logger.info("login role" + uloginset.getRole());
