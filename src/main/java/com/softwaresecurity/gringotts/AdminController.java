@@ -7,6 +7,10 @@ import pojo.*;
 import java.util.Random;
 import dao.*;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
@@ -15,6 +19,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -224,6 +230,54 @@ public class AdminController {
 			logger.info("Leaving userinfo op POST");
 			return userInfo;
 			}
+		@RequestMapping(value = "/downloadlogs", method = RequestMethod.GET)
+		public void downloadStatement(HttpSession session, HttpServletResponse response,Model model) throws IOException {
+		        // get absolute path of the application
+				ServletContext context = session.getServletContext();
+				 
+		        String realContextPath= System.getProperty("user.dir");
+		        String fullpath = realContextPath+"\\"+"log.txt";
+		        System.out.println(fullpath);   
+		        File downloadFile = new File(fullpath);
+		        FileInputStream inputStream = new FileInputStream(downloadFile);
+		        
+		        // get MIME type of the file
+		        String mimeType = context.getMimeType(fullpath);
+		        if (mimeType == null) {
+		            // set to binary type if MIME mapping not found
+		            mimeType = "type=text/plain";
+		        }
+		        System.out.println("MIME type: " + mimeType);
+		 
+		        // set content attributes for the response
+		        response.setContentType(mimeType);
+		        response.setContentLength((int) downloadFile.length());
+		 
+		        // set headers for the response
+		        String headerKey = "Content-Disposition";
+		        String headerValue = String.format("attachment; filename=\"%s\"",
+		                downloadFile.getName());
+		        response.setHeader(headerKey, headerValue);
+		 
+		        
+		        OutputStream outStream = response.getOutputStream();
+		        
+		        byte[] buffer = new byte[4096];
+		        int bytesRead = -1;
+		 
+		        // write bytes read from the input stream into the output stream
+		        while ((bytesRead = inputStream.read(buffer)) != -1) {
+		            outStream.write(buffer, 0, bytesRead);
+		        }
+		 
+		        inputStream.close();
+		        outStream.close();
+	
+				System.out.println("Finished Downloading file " + downloadFile.getName());
+						return;
+	}
+
+
 
 		
 	
