@@ -143,12 +143,21 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      								    <form:input path="identificationNo" type="tel" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{8}$"/>
-      								
+      									<form:input type="tel" path="identificationNo" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{10}$" value="NULL"/>
       								</div>
     							</div>
   						</div>
-  				
+  				<!-- 
+  						<div class="form-group" id="dvMerchantID" >
+    						<label for="inputContact" class="col-sm-2 control-label">Merchant ID</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
+      									<form:input path="identificationNo" type="integer" class="form-control" id="inputContact" placeholder="Merchant ID"/>
+      								</div>
+    							</div>
+  						</div>
+  						 -->
   						 
   						 <div class="form-group" id="captcha">
   						 <label for="captcha" class="col-sm-2 control-label">Are you a human?</label>
@@ -164,7 +173,7 @@
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" onsubmit="return myFunction()" >Register</button>
-     						<a href="home" role="button" class="btn btn-success" >Back to Sign In</a>
+     						
     						</div>
   						</div>
   						
@@ -172,9 +181,6 @@
   				</div>
 			</div>
   		
-  			<div>
-  			<P>Upon successful registration save the files.</P>
-  			</div>
   		
   		</div>
   		<div class="col-md-2"></div>

@@ -32,7 +32,6 @@ public class OtpConfirmController {
 	@RequestMapping(value ="/confirmOtp", method = RequestMethod.GET)
 	public String hello(ModelMap model) {
 		OtpInput otpinp = new OtpInput();
-		System.out.println("I am here");
 		model.put("input", otpinp);
 		return "confirmOtp";
 	}
