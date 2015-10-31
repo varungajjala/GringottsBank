@@ -55,6 +55,7 @@
   						<li><a href="#Tab5" data-toggle="tab">Transfers</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Transaction History</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Pay Merchant</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Update Profile</a></li>
   						
   						
 					</ul>
@@ -434,7 +435,110 @@
 	    								</div>
 	    							</div>
 	    							</form:form>
-	    				</div>			
+	    				</div>		
+	    				
+	    				<!-- Tab for update profile -->
+	    				
+	    				<div class="tab-pane" id="Tab8">
+    							
+    						<form:form class="form-horizontal" action="upate_profile" commandName="UpdateProfile" method="POST">
+    							
+	        					<div class="form-group">
+    								<label for="username" class="col-sm-2 control-label">First Name</label>
+    								<div class="col-sm-8">
+    									<div class="input-group">
+  											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
+      										<form:input path="firstName" type="text" class="form-control" id="lastName" value="${firstName}" required="true"/>
+      									</div>
+    								</div>
+  								</div>
+  								
+  								<div class="form-group">
+    								<label for="username" class="col-sm-2 control-label">Last Name</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+		      									<form:input path="lastName" type="text" class="form-control" id="firstName" value="${lastName}" required="true"/>
+		      								</div>
+		    							</div>
+  								</div>
+  								
+		  						<div class="form-group">
+		    						<label for="inputEmail" class="col-sm-2 control-label">Email</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon">@</span>
+		      									<form:input path="emailId" type="email" class="form-control" id="email" value="${email}" required="true"/>
+		      								</div>
+		    							</div>
+		  						</div>
+  						
+  								<!-- 
+		  						<div class="form-group">
+		    						<label for="username" class="col-sm-2 control-label">Username</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+		      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+		      								</div>
+		    							</div>
+		  						</div>
+		  						 
+		  						<div class="form-group">
+		    						<label for="password" class="col-sm-2 control-label">Password</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
+		      									<form:input path="passwd" type="password" class="form-control" id="inputPassword" placeholder="Enter Password" required="true"/>
+		      								</div>
+		    							</div>
+		  						</div>
+  								-->
+  						
+		  						<div class="form-group">
+		    						<label for="inputAddress" class="col-sm-2 control-label">Address</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
+		        								<form:input path="address" type="text" class="form-control" id="inputAddressStreet" value="${streetAddress}"/>
+		    									<form:input path="city" type="text" class="form-control" id="inputAddressCity" value="${city}"/>
+		      									<form:input path="state" type="text" class="form-control" id="inputAddressState" value="${state}"/>
+		      									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" value="${country}"/>
+		       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value="${zip}" required="true" pattern="^\d{5}$" min="1000" max="99999"/>            									
+		     								</div>
+		    							</div>	
+		  						</div>
+		  						
+		  						<div class="form-group">
+		    						<label for="inputContact" class="col-sm-2 control-label">Contact No.</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
+		      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" value="${contactNo}" required="true" pattern="^\d{10}$"/>
+		      								</div>
+		    							</div>
+		  						</div>
+								<!-- 
+		  						<div class="form-group" id="dvPII" >
+		    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+		    							<div class="col-sm-8">
+		    								<div class="input-group">
+		  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
+		      								    <form:input path="identificationNo" type="tel" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{8}$"/>
+		      								
+		      								</div>
+		    							</div>
+		  						</div>
+		  						 -->
+  						 	<br>
+  						 
+  						<div class="form-group" >
+    						<div class="col-sm-offset-2 col-sm-10">
+    						<button type="submit" class="btn btn-success" >Update</button>
+    						</div>
+  						</div>
+	    			</form:form>
+	    		</div>				
     			</div>
     		</div>
     		

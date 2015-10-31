@@ -56,6 +56,7 @@ public class MerchantController {
 			model.addAttribute("transferOp",temp);
 			//model.addAttribute("paymerchantOp",temp);
 			model.addAttribute("checkAccBal", temp.getBalance() );
+			model.addAttribute("UpdateProfileM", new UserInfo() );
 			List<Transactions> obj= displaytransaction(session);
 			if(obj == null){
 				model.addAttribute("transactionOp",null);
@@ -154,6 +155,57 @@ public class MerchantController {
 			logger.info("Leaving transactions op POST");
 			return transactionObj;
 			}
+		
+		@RequestMapping(value = "/upate_profile_merchant", method = RequestMethod.POST)
+		public String updateProfile(@ModelAttribute("UpdateProfileM") TempUserInfo TUI, Model model,
+								HttpSession session){
+			
+			String uniqId = session.getAttribute("uniqueid").toString();
+			UserInfo UI = databaseConnector.getUserInfoByUniqId(uniqId);
+			
+			if(!TUI.getFirstName().equals(null)){
+				UI.setFirstName(TUI.getFirstName());
+				logger.info("TUI.getFirstName()" + TUI.getFirstName());
+			}else{
+				logger.info("TUI.getFirstName() is null");
+			}			
+			
+			if(!TUI.getLastName().equals(null)){
+				UI.setLastName(TUI.getLastName());
+			}
+			
+			if(!TUI.getEmailId().equals(null)){
+				UI.setEmailId(TUI.getEmailId());
+			}
+			
+			if(!TUI.getAddress().equals(null)){
+				UI.setAddress(TUI.getAddress());
+			}
+			
+			if(!TUI.getCity().equals(null)){
+				UI.setCity(TUI.getCity());
+			}
+			
+			if(!TUI.getState().equals(null)){
+				UI.setState(TUI.getState());
+			}
+			
+			if(!TUI.getCountry().equals(null)){
+				UI.setCountry(TUI.getCountry());
+			}
+			
+			if(TUI.getZipcode() != 0){
+				UI.setZipcode(TUI.getZipcode());
+			}
+			
+			if(!TUI.getContactNo().equals(null)){
+				UI.setContactNo(TUI.getContactNo());
+			}
+			
+			databaseConnector.updateUserInfo(UI);
+			
+			return "redirect:merchantHomePage";
+		}
 		
 	
 }

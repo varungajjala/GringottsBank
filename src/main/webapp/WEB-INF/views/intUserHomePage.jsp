@@ -49,6 +49,9 @@
   						<li><a href="#Tab4" data-toggle="tab">View Critical Requests</a></li>
   						<li><a href="#Tab5" data-toggle="tab">Transaction History</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Manage Transactions</a></li>
+  						<li><a href="#Tab7" data-toggle="tab">Create Transaction</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Modify Transaction</a></li>
+  						<li><a href="#Tab9" data-toggle="tab">Delete Transaction</a></li>
   						
   						
 					</ul>
@@ -225,11 +228,29 @@
         				</div>
         				<div class="tab-pane" id="Tab6">
         					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Create Transaction</h3>
+    						</div>
+    	
+        				</div>	
+        				<div class="tab-pane" id="Tab7">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Modify Transactions</h3>
+    						</div>
+    	
+        				</div>
+        				<div class="tab-pane" id="Tab8">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Delete Transaction</h3>
+    						</div>
+    	
+        				</div>
+        				<div class="tab-pane" id="Tab9">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Manage Transactions</h3>
     						</div>
     	
-        			</div>	
         				</div>
+       				</div>
 				</div>
   			</div>
   			<div class="col-md-2"></div>

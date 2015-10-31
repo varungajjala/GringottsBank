@@ -79,6 +79,7 @@ public class ExternalUserController {
 			model.addAttribute("transferOp",temp);
 			model.addAttribute("paymerchantOp",temp);
 			model.addAttribute("checkAccBal", temp.getBalance() );
+			model.addAttribute("UpdateProfile", new UserInfo() );
 			List<Transactions> obj= displaytransaction(session);
 			if(obj == null){
 				model.addAttribute("transactionOp",null);
@@ -190,6 +191,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", transPost.getBalance() );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -322,6 +324,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", transactionObj.getBalance() );
 					model.addAttribute("transferOp",temp);
 					model.addAttribute("paymerchantOp",temp);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -428,6 +431,7 @@ public class ExternalUserController {
 
 					model.addAttribute("transferOp",temp_1);
 					model.addAttribute("paymerchantOp",temp_1);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 
 					List<Transactions> obj_1= displaytransaction(session);
 					if(obj_1 == null){
@@ -486,13 +490,14 @@ public class ExternalUserController {
 			
 					model.addAttribute("transferOp",temp_2);
 					model.addAttribute("paymerchantOp",temp_2);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 				
 					List<Transactions> obj_2= displaytransaction(session);
 					if(obj_2 == null){
 						model.addAttribute("transactionOp",null);
 					}
 					else{
-					model.addAttribute("transactionOp",obj_2);
+						model.addAttribute("transactionOp",obj_2);
 					}
 			    	
 			    	
@@ -531,6 +536,7 @@ public class ExternalUserController {
 					model.addAttribute("checkAccBal", extUser.getBalance() );
 					model.addAttribute("transferOp",transObj);
 					model.addAttribute("paymerchantOp",transObj);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj= displaytransaction(session);
 					if(obj == null){
 						model.addAttribute("transactionOp",null);
@@ -579,6 +585,7 @@ public class ExternalUserController {
 				model.addAttribute("checkAccBal", extUser.getBalance() );
 				model.addAttribute("transferOp",transObj);
 				model.addAttribute("paymerchantOp",transObj);
+				model.addAttribute("UpdateProfile", new UserInfo() );
 				List<Transactions> obj= displaytransaction(session);
 				if(obj == null){
 					model.addAttribute("transactionOp",null);
@@ -804,6 +811,7 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp_1);
 					model.addAttribute("paymerchantOp",temp_1);
 					model.addAttribute("transactionOp",temp_1);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj_1= displaytransaction(session);
 					if(obj_1 == null){
 						model.addAttribute("transactionOp",null);
@@ -857,6 +865,7 @@ public class ExternalUserController {
 					model.addAttribute("transferOp",temp_2);
 					model.addAttribute("paymerchantOp",temp_2);
 					model.addAttribute("transactionOp",temp_2);
+					model.addAttribute("UpdateProfile", new UserInfo() );
 					List<Transactions> obj_2= displaytransaction(session);
 					if(obj_2 == null){
 						model.addAttribute("transactionOp",null);
@@ -898,6 +907,7 @@ public class ExternalUserController {
 				model.addAttribute("checkAccBal", temp.getBalance() );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
+				model.addAttribute("UpdateProfile", new UserInfo() );
 				List<Transactions> obj= displaytransaction(session);
 				if(obj == null){
 					model.addAttribute("transactionOp",null);
@@ -940,10 +950,61 @@ public class ExternalUserController {
 				model.addAttribute("checkAccBal", temp.getBalance() );
 				model.addAttribute("transferOp",transactionObj);
 				model.addAttribute("paymerchantOp",transactionObj);
+				model.addAttribute("UpdateProfile", new UserInfo() );
 				List<Transactions> obj= displaytransaction(session);
 				model.addAttribute("transactionOp",obj);
+				return "redirect:extUserHomePage";
+			}
+			
+			@RequestMapping(value = "/upate_profile", method = RequestMethod.POST)
+			public String updateProfile(@ModelAttribute("UpdateProfile") TempUserInfo TUI, Model model,
+									HttpSession session){
+				
+				String uniqId = session.getAttribute("uniqueid").toString();
+				UserInfo UI = databaseConnector.getUserInfoByUniqId(uniqId);
+				
+				if(!TUI.getFirstName().equals(null)){
+					UI.setFirstName(TUI.getFirstName());
+					logger.info("TUI.getFirstName()" + TUI.getFirstName());
+				}else{
+					logger.info("TUI.getFirstName() is null");
+				}
 				
 				
+				
+				if(!TUI.getLastName().equals(null)){
+					UI.setLastName(TUI.getLastName());
+				}
+				
+				if(!TUI.getEmailId().equals(null)){
+					UI.setEmailId(TUI.getEmailId());
+				}
+				
+				if(!TUI.getAddress().equals(null)){
+					UI.setAddress(TUI.getAddress());
+				}
+				
+				if(!TUI.getCity().equals(null)){
+					UI.setCity(TUI.getCity());
+				}
+				
+				if(!TUI.getState().equals(null)){
+					UI.setState(TUI.getState());
+				}
+				
+				if(!TUI.getCountry().equals(null)){
+					UI.setCountry(TUI.getCountry());
+				}
+				
+				if(TUI.getZipcode() != 0){
+					UI.setZipcode(TUI.getZipcode());
+				}
+				
+				if(!TUI.getContactNo().equals(null)){
+					UI.setContactNo(TUI.getContactNo());
+				}
+				
+				databaseConnector.updateUserInfo(UI);
 				return "redirect:extUserHomePage";
 			}
 }
