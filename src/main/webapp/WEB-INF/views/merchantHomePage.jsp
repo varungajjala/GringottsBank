@@ -246,7 +246,7 @@
         				
         				<div class="tab-pane" id="Tab5">
     							
-    							<form:form class="form-horizontal" action="transfer_money" commandName="transferOp" method="POST">
+    							<form:form class="form-horizontal" action="transfer_money" commandName="transferOp" enctype="multipart/form-data" method="POST">
     							
 	        						<div class="page-header" style="margin-top: 5px;" align="center">
 	    								<h3>Transfer Money</h3>
@@ -280,6 +280,29 @@
 	   			 								</div>
 	   			 							</div>
 	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<label for="uploadFile" class="col-lg-2 control-label">Upload certificate</label>
+	   										<div class="col-sm-8">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="mpFile" name="mpFile" type="file" class="file" multiple="flase" required="true" id="cert_file" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<label for="uploadFile" class="col-lg-2 control-label">Upload Private Key File</label>
+	   										<div class="col-sm-8">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="pkFile" name="pkFile" type="file" class="file" multiple="flase" required="true" id="private_file" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
 	  								<div class="form-group">
 	    								<div class="col-lg-offset-2 col-lg-10">
 	    									<button type="submit" class="btn btn-primary">Submit</button>
