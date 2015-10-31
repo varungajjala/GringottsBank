@@ -52,6 +52,7 @@
   						<li><a href="#Tab7" data-toggle="tab">Manage Customers</a></li>
   						<li><a href="#Tab8" data-toggle="tab">Request Payment</a></li>
   						<li><a href="#Tab9" data-toggle="tab">Update Profile</a></li>
+  						<li><a href="#Tab10" data-toggle="tab">Customer Transaction Approvals</a></li>
   						
 					</ul>
 					
@@ -62,17 +63,59 @@
     							<h3>Accounts</h3>
     						</div>
     						<form class="form-horizontal" action="register" method="get">
-  						<div class="form-group">
-    						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-										<label>${checkAccBal}</label>
-      								</div>
-    							</div>
-  						</div>
+	  						<div class="form-group">
+	    						<label for="inputEmail3" class="col-sm-3 control-label">Checking Account :</label>
+	    							<div class="col-sm-8">
+	    								<div class="input-group">
+											<label>${checkAccBal}</label>
+	      								</div>
+	    							</div>
+	  						</div>
   						
-					</form>	
+							</form>	
         				</div>
+        				<div class="tab-pane" id="Tab10">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Customer Transaction Approvals</h3>
+    						</div>
+							  <table align="center" border="1">
+    							<tr>
+    							
+    							<th align="center">Unique ID</th>
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Approve</th>
+    							<th align="center">Reject</th>
+    							</tr>
+    							<% int i = 0; %>
+    							<c:if test="${transactionApproval != null}">  
+    							<form:form action="authorizeCustomerTransaction" commandName="authorizeCustomerTransaction" method="GET">
+    							<button type="submit" style="text-align:center">Submit For Approval</button>
+    							
+    							<c:forEach items="${transactionApproval}" var="transactionApproval">     
+    							<tr>
+  								 
+  								 <td align="center"><c:out value="${transactionApproval.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${transactionApproval.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${transactionApproval.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${transactionApproval.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${transactionApproval.getDate()}"/></td>
+  								 <td align="center"><c:out value="${transactionApproval.getTransactionAmount()}"/></td>
+  								 
+  								<td><input type="radio" value="approve<%=i %>" name="radioValues<%=i %>" /></td>	
+  								<td><input type="radio" checked value="reject<%=i %>" name="radioValues<%=i %>" /></td>					 
+  								 </tr>
+  								 <% i = i+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=i %> name="size"/>
+								
+								</form:form>
+								</c:if>
+    							</table>  						
+  						</div>
         				<div class="tab-pane" id="Tab2">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>

@@ -11,6 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 //import org.omg.PortableInterceptor.USER_EXCEPTION;
@@ -64,6 +65,8 @@ public class MerchantController {
 			else{
 			model.addAttribute("transactionOp",obj);
 			}
+			List<TempTransactions> tempTransactions = getTempTransactions(session);
+			model.addAttribute("transactionApproval",tempTransactions);
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
 			
@@ -133,6 +136,13 @@ public class MerchantController {
 		
 	}
 		
+		private List<TempTransactions> getTempTransactions(HttpSession session) {
+			String uniqId = session.getAttribute("uniqueid").toString();
+			long accountNo = databaseConnector.getAccountNoByUniqId(uniqId);
+			List<TempTransactions> tempTransactions = databaseConnector.getTempTransactionsByAccountNo((int)accountNo);
+			return tempTransactions;
+	}
+
 		public List<Transactions> displaytransaction(HttpSession session){
 			logger.info("Inside transactions op get");
 			
@@ -206,6 +216,37 @@ public class MerchantController {
 			
 			return "redirect:merchantHomePage";
 		}
-		
+		@RequestMapping(value = "/authorizeCustomerTransaction", method = RequestMethod.GET)
+		public String authorizeTransactions(HttpServletRequest request, HttpSession session){
+			int size = Integer.parseInt(request.getParameter("size"));
+			List<TempTransactions> tempTransaction = getTempTransactions(session);
+			for(int i=0;i<size;i++){
+				String action = request.getParameter("radioValues"+i);
+				//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
+				
+				//System.out.println("Inside authorize transactions");
+				TempTransactions approve = tempTransaction.get(i);
+				if(action!=null && action.contains("approve")) {
+					String uniqId = session.getAttribute("uniqueid").toString();
+					float balance = databaseConnector.getBalanceByUniqId(uniqId);
+					balance = balance+approve.getTransactionAmount();
+					Transactions credit = new Transactions(approve.getTransactionType(), uniqId, approve.getDescription(), balance, approve.getTransactionAmount(), "Pending");
+					float customerBalance = databaseConnector.getBalanceByUniqId(approve.getUniqId());
+					customerBalance = customerBalance - approve.getTransactionAmount();
+					Transactions debit = new Transactions(approve.getTransactionType(), approve.getUniqId(), approve.getDescription(), customerBalance, approve.getTransactionAmount(), "Pending");
+					ExternalUser merchant = databaseConnector.getExternalUserByUniqId(uniqId);
+					ExternalUser customer = databaseConnector.getExternalUserByUniqId(approve.getUniqId());
+					merchant.setBalance(balance);
+					customer.setBalance(customerBalance);
+					databaseConnector.updateExternalUser(customer);
+					databaseConnector.updateExternalUser(merchant);
+					databaseConnector.saveTransaction(credit);
+					databaseConnector.saveTransaction(debit);
+				}
+				databaseConnector.removeTempTransaction(approve);	
+			}
+			return "redirect:";
+			
+		}
 	
 }

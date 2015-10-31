@@ -311,7 +311,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
+						    				<form:radiobutton path ="utype" checked id="singleUser" name="chkUserType" value="singleUser" required="true"/>
 						    				Single User  
 										</label>
 										<label for="chkNo">
@@ -422,7 +422,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" id="internalUser" name="chkUserType" value="internalUser" required="true"/>
+						    				<form:radiobutton path ="utype" checked id="internalUser" name="chkUserType" value="internalUser" required="true"/>
 						    				Internal User  
 										</label>
 										<label for="chkNo">

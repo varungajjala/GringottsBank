@@ -196,8 +196,8 @@
   								 <td align="center"><c:out value="${transactionOp.getDate()}"/></td>
   								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
   								 
-  								<td><input type="radio"  value="approve"<%=i %> name="radioValues<%=i %>"/></td>	
-  								<td><input type="radio" value="reject"<%=i %> name="radioValues<%=i %>"/></td>					 
+  								<td><input type="radio"  value="approve<%=i %>" name="radioValues<%=i %>"/></td>	
+  								<td><input type="radio" checked value="reject<%=i %>" name="radioValues<%=i %>"/></td>					 
   								 </tr>
   								 <% i = i+1; %> 
 								</c:forEach>

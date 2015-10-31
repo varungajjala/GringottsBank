@@ -27,42 +27,49 @@ public class DatabaseConnectors {
 		 session.beginTransaction();
 		 session.save(login);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	 public void saveInternalUser(InternalUser internalUser) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
 		 session.save(internalUser);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	 public void saveExternalUser(ExternalUser externalUser) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
 		 session.save(externalUser);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	 public void saveUserInfo(UserInfo userInfo) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
 		 session.save(userInfo);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	public void saveTransaction(Transactions transaction) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
 		 session.save(transaction);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	public void saveTempTransaction(TempTransactions transaction) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 session.beginTransaction();
 		 session.save(transaction);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	public void saveTempUserInfo(TempUserInfo tempUserInfo) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		session.save(tempUserInfo);
 		session.getTransaction().commit();
+		session.close();
 	}
 	public void updateUserInfo(UserInfo userInfo) {
 		UserInfo tempUserInfo = getUserInfoByUniqId(userInfo.getUniqId());
@@ -128,6 +135,7 @@ public class DatabaseConnectors {
 		 session.beginTransaction();
 		 session.save(otpTransaction);
 		 session.getTransaction().commit();
+		 session.close();
 	}
 	public OtpTransactions getOtpTransactionById(long id) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -174,22 +182,24 @@ public class DatabaseConnectors {
 		session.beginTransaction();
 		session.saveOrUpdate(transaction);
 		session.getTransaction().commit();
+		session.close();
 	}
 	public void removeTransaction(Transactions transaction) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String hql = "delete from Transactions where Id= :Id";
 		session.beginTransaction();
-		 session.createQuery(hql).setString("Id", transaction.getId()+"").executeUpdate();
+		session.createQuery(hql).setString("Id", transaction.getId()+"").executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
-
 	
 	public void deleteTransactionByInternalUser(long correspondingID){
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String hql = "update Transactions set internalstatus='deleted' where Id= :Id";
 		session.beginTransaction();
-		 session.createQuery(hql).setString("Id", correspondingID+"").executeUpdate();
+		session.createQuery(hql).setString("Id", correspondingID+"").executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 	
 	public List<Transactions> getTransactionsByStatus(){
@@ -221,8 +231,9 @@ public class DatabaseConnectors {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		String hql = "delete from TempTransactions where Id= :Id";
 		session.beginTransaction();
-		 session.createQuery(hql).setString("Id", remove.getId()+"").executeUpdate();
+		session.createQuery(hql).setString("Id", remove.getId()+"").executeUpdate();
 		session.getTransaction().commit();
+		session.close();
 	}
 	 public UserInfo getUserInfoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -293,7 +304,7 @@ public class DatabaseConnectors {
 			session.beginTransaction();
 			session.saveOrUpdate(login);
 			session.getTransaction().commit();
-		 
+			session.close();
 	 }
 	 public int getAttemptsByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
@@ -323,7 +334,7 @@ public class DatabaseConnectors {
 		 hql = "delete from "+login+" where uniqId like :uniqId";
 		 session.createQuery(hql).setString("uniqId", uniqId).executeUpdate();
 		 session.getTransaction().commit();
-		 
+		 session.close();
 	 }
 	 
 	 public void saveOTP(OneTimePass otp) {
@@ -331,6 +342,7 @@ public class DatabaseConnectors {
 		 session.beginTransaction();
 		 session.save(otp);
 		 session.getTransaction().commit();
+		 session.close();
 	 }
 	 
 	 public OneTimePass getOneTimePassByUsername(String username) {
@@ -345,6 +357,7 @@ public class DatabaseConnectors {
         session.beginTransaction();
         session.saveOrUpdate(extUser);
         session.getTransaction().commit();
+        session.close();
  }
  public ExternalUser getExternalUserByUniqId(String uniqId) {
      Session session = HibernateUtil.getSessionFactory().openSession();
@@ -359,7 +372,7 @@ public class DatabaseConnectors {
       String hql="delete from OneTimePass where username=:username";
       session.createQuery(hql).setString("username", username).executeUpdate();
       session.getTransaction().commit();
-	 
+      session.close();
  }
  
  public ExternalUser getExternalUserByAccNum(long accountno) {
@@ -401,4 +414,18 @@ public class DatabaseConnectors {
 	 deleteOtpTransactionById(uniqueid);
 	 saveTransaction(transaction); 
  }
+public List<TempTransactions> getTempTransactionsByAccountNo(int accountNo) {
+	// TODO Auto-generated method stub
+	Session session = HibernateUtil.getSessionFactory().openSession();
+	 @SuppressWarnings("unchecked")
+	List<TempTransactions> results = (List<TempTransactions>) session.createCriteria(TempTransactions.class)
+	.add(Restrictions.eq("accountno",accountNo)).list();
+	 System.out.println("result"+results.size());
+	 System.out.println("result obj:"+results.toString());
+	 if(results != null) {
+		System.out.println("Returning temp transactions");
+		 return (List<TempTransactions>)results;
+	 }
+	 return null;
+}
 }

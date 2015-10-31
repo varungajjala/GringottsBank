@@ -200,7 +200,7 @@
   								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
   								 
   								<td><input type="radio"  value="approve"<%=i %> name="radioValues<%=i %>"/></td>	
-  								<td><input type="radio" value="reject"<%=i %> name="radioValues<%=i %>"/></td>					 
+  								<td><input type="radio" checked value="reject"<%=i %> name="radioValues<%=i %>"/></td>					 
   								 </tr>
   								 <% i = i+1; %> 
 								</c:forEach>
@@ -243,7 +243,7 @@
   								 
   							
   								<td><input type="radio"  value="approve<%=i %>" name="radioValues<%=i %>"/></td>	
-  								<td><input type="radio" value="reject<%=i %>" name="radioValues<%=i %>"/></td>					 
+  								<td><input type="radio" checked value="reject<%=i %>" name="radioValues<%=i %>"/></td>					 
   								 </tr>
   								 <% i = i+1; %> 
 								</c:forEach>
@@ -336,7 +336,7 @@
   								 
   								<!-- <td><input type="radio"  value="delete"<c:out value="${deleteOp.getId()}"/> name="radioValues<%=j %>"/></td> -->
   								<td><input type="radio" name="radioValues<%=j %>" value="delete<%=j %>"/></td>
-  								<td><input type="radio" name="radioValues<%=j %>" value="ignore<%=j %>" checked="checked"/></td>						 
+  								<td><input type="radio" checked name="radioValues<%=j %>" value="ignore<%=j %>" checked="checked"/></td>						 
   								 </tr>
   								 <% j = j+1; %> 
 								</c:forEach>
