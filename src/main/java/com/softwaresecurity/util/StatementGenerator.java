@@ -1,6 +1,10 @@
 package com.softwaresecurity.util;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.util.List;
+
+import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Session;
 import org.hibernate.criterion.Order;
@@ -29,10 +33,10 @@ public class StatementGenerator {
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 	 
  
- public static void statementbyuniqid(String uniqId) {
-	 Session session = HibernateUtil.getSessionFactory().openSession();
+ public static void statementbyuniqid(String uniqId,HttpSession session) {
+	 Session session1 = HibernateUtil.getSessionFactory().openSession();
 	 @SuppressWarnings("unchecked")
-	List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class)
+	List<Transactions> results = (List<Transactions>) session1.createCriteria(Transactions.class)
 			 .add( Restrictions.like("uniqId", uniqId)).addOrder(Order.desc("date")).list();
 	if(results==null) 
 	{
@@ -45,12 +49,14 @@ public class StatementGenerator {
 	}
 	else
 	{ 
-  String pdfFilename = "Statement.pdf";
+  ServletContext context = session.getServletContext();
+  String realContextPath = context.getRealPath("/");
+  
   StatementGenerator printReport = new StatementGenerator();
-  printReport.createPDF(pdfFilename,results);
+  printReport.createPDF(results,realContextPath,uniqId);
     }
  }
- private void createPDF (String pdfFilename, List<Transactions> results){
+ private void createPDF (List<Transactions> results,String realContextPath,String uniqId){
  
   Document doc = new Document();
   PdfWriter docWriter = null;
@@ -62,8 +68,17 @@ public class StatementGenerator {
    Font bf12 = new Font(FontFamily.TIMES_ROMAN, 12); 
  
    //file path
-   String workingDir = System.getProperty("user.dir");
-   String path = workingDir + "\\" + pdfFilename;
+ 
+   
+   File file_dir = new File(realContextPath+"/statement");
+   if (!file_dir.exists())
+ 	  file_dir.mkdirs();
+ 
+ String path = realContextPath+"/statement/"+uniqId+"_statement.pdf";
+   System.out.println(path);
+ 
+   //String workingDir = System.getProperty("user.dir");
+  // String path = workingDir + "\\" + pdfFilename;
    docWriter = PdfWriter.getInstance(doc , new FileOutputStream(path));
     
    //document header attributes
