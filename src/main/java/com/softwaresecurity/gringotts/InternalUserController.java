@@ -87,8 +87,18 @@ public class InternalUserController {
 						
 						model.addAttribute("transactionOp", pending);
 						}
+
 						obj = getuserInfo(session);
 						model.addAttribute("displayPiiUsers",obj);
+
+						List<Transactions> deleteTrans = db.getTransactionsByStatus();
+						if(deleteTrans == null){
+							model.addAttribute("deleteOp", null);
+						}
+						else{
+						model.addAttribute("deleteOp", deleteTrans);
+						}
+
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("userName",UI.getUsername());
@@ -237,4 +247,46 @@ public class InternalUserController {
 			db.removeTransaction(reject);
 		}
 		
+		@RequestMapping(value = "/modifytransaction", method = RequestMethod.POST)
+		public String modifyTransaction(@ModelAttribute("modifyOp")Transactions trans, HttpSession session,Model model){
+			
+			Transactions actual= new Transactions();
+			actual = db.getTransactionsById(trans.getId());
+			
+			if(actual.getTransactionType().equals("debit")){
+				actual.setBalance(actual.getBalance()+actual.getTransactionAmount());
+				
+				if(actual.getBalance()-trans.getTransactionAmount() >=0)
+				actual.setBalance(actual.getBalance()-trans.getTransactionAmount());
+			}
+			else{
+				
+				actual.setBalance(actual.getBalance()-actual.getTransactionAmount());
+				
+				actual.setBalance(actual.getBalance()+trans.getTransactionAmount());
+				
+			}
+			
+			return "redirect:";
+		}
+		
+		
+		@RequestMapping(value = "/deletetransaction", method = RequestMethod.GET)
+		public String deleteTransaction(HttpServletRequest request, HttpSession session,Model model){
+			
+			int size = Integer.parseInt(request.getParameter("size"));
+			List<Transactions> transList = db.getTransactionsByStatus();
+			for(int i=0;i<size;i++){
+			String action = request.getParameter("radioValues"+i);
+			//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
+			
+			//System.out.println("Inside authorize transactions");
+			int transID = Integer.parseInt(action.substring(5));
+			
+			db.deleteTransactionByInternalUser(transID);
+			
+			}
+			
+			return "redirect:";
+		}
 }

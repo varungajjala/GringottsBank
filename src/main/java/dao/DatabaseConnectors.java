@@ -155,6 +155,7 @@ public class DatabaseConnectors {
 		 }
 		 return null;
 	 }
+
 	public List<Transactions> getTransactions() {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
@@ -181,6 +182,28 @@ public class DatabaseConnectors {
 		 session.createQuery(hql).setString("Id", transaction.getId()+"").executeUpdate();
 		session.getTransaction().commit();
 	}
+
+	
+	public void deleteTransactionByInternalUser(int transID){
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		String hql = "update Transactions set internalstatus='deleted' where Id= :Id";
+		session.beginTransaction();
+		 session.createQuery(hql).setString("Id", transID+"").executeUpdate();
+		session.getTransaction().commit();
+	}
+	
+	public List<Transactions> getTransactionsByStatus(){
+		
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 @SuppressWarnings("unchecked")
+		List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class)
+				 .add( Restrictions.like("status", "pending")).addOrder(Order.desc("date")).list();
+		 if(results != null) {
+			 return (List<Transactions>)results;
+		 }
+		 return null;
+	}
+	
 	public List<TempTransactions> getTempTransactions() {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
@@ -344,6 +367,13 @@ public class DatabaseConnectors {
      ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
              .add(Restrictions.like("accountno",accountno )).uniqueResult();
      return externalUser;
+ }
+ 
+ public Transactions getTransactionsById(long id) {
+     Session session = HibernateUtil.getSessionFactory().openSession();
+     Transactions trans = (Transactions)session.createCriteria(Transactions.class)
+             .add(Restrictions.like("id",id )).uniqueResult();
+     return trans;
  }
  
  public void deleteOtpTransactionById(String uniqueid) {
