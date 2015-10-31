@@ -46,7 +46,7 @@
   						<li class="active"><a href="#Tab1" data-toggle="tab">Profile</a></li>
   						<li><a href="#Tab2" data-toggle="tab">Manage Users</a></li>
   						<li><a href="#Tab3" data-toggle="tab">Authorize Payments</a></li>
-  						<li><a href="#Tab4" data-toggle="tab">View Critical Requests</a></li>
+  						<li><a href="#Tab4" data-toggle="tab">Approve User Accounts</a></li>
   						<li><a href="#Tab5" data-toggle="tab">Transaction History</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Manage Transactions</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Create Transaction</a></li>
@@ -216,7 +216,41 @@
         				</div>
         				<div class="tab-pane" id="Tab4">
         					<div class="page-header" style="margin-top: 5px;" align="center">
-    							<h3>View Critical Requests</h3>
+    							<h3>Approve User Accounts</h3>
+    							<table align="center" border="1">
+    							<tr>
+    							
+    							<th align="center">First Name</th>
+    							<th align="center">Last Name</th>
+       							<th align="center">UserName</th>
+    							<th align="center">Email ID</th>
+    							<th align="center">Contact Number</th>
+    							<th align="center">Approve</th>
+    							<th align="center">Reject</th>
+    							</tr>
+    						 	<% i = 0; %>
+    							<form:form action="approveUserAccount" commandName="approveUserAccount" method="GET">
+    							 
+    							<c:forEach items="${displayPiiUsers}" var="displayPiiUsers">  
+    							   
+    							<tr>
+  								 
+  								 <td align="center"><c:out value="${displayPiiUsers.getFirstName()}"/></td>
+  								 <td align="center"><c:out value="${displayPiiUsers.getLastName()}"/></td>
+  								 <td align="center"><c:out value="${displayPiiUsers.getUsername()}"/></td>
+  								 <td align="center"><c:out value="${displayPiiUsers.getEmailId()}"/></td>
+  								 <td align="center"><c:out value="${displayPiiUsers.getContactNo()}"/></td>
+  								 
+  							
+  								<td><input type="radio"  value="approve<%=i %>" name="radioValues<%=i %>"/></td>	
+  								<td><input type="radio" value="reject<%=i %>" name="radioValues<%=i %>"/></td>					 
+  								 </tr>
+  								 <% i = i+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=i %> name="size"/>
+								<button type="submit">Submit For Approval</button>
+								</form:form>
+    							</table>
     						</div>
     						
         				</div>
