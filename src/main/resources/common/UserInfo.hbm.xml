@@ -41,7 +41,7 @@
         <property name="zipcode" type="integer">
             <column name="zipcode" not-null="true"/>
         </property>
-        <property name="identificationNo" type="long">
+        <property name="identificationNo" type="string" unique="true">
             <column name="identificationNo" not-null="true"/>
         </property>
         <property name="govapproval" type="string">

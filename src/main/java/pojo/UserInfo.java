@@ -12,7 +12,7 @@ public class UserInfo {
 	private int zipcode;
 	private String state;
 	private String country;
-	private long identificationNo;
+	private String identificationNo;
 	private String utype;
 	private String passwd;
 	private String govapproval;
@@ -31,7 +31,7 @@ public class UserInfo {
 	 * @param identificationNo
 	 */
 	public UserInfo(String firstName, String lastName, String contactNo, String emailId, String username, String uniqId,
-			String address, String city, int zipcode, String state, String country, long identificationNo) {
+			String address, String city, int zipcode, String state, String country, String identificationNo) {
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.contactNo = contactNo;
@@ -219,13 +219,13 @@ public class UserInfo {
 	/**
 	 * @return the identificationNo
 	 */
-	public long getIdentificationNo() {
+	public String getIdentificationNo() {
 		return identificationNo;
 	}
 	/**
 	 * @param identificationNo the identificationNo to set
 	 */
-	public void setIdentificationNo(long identificationNo) {
+	public void setIdentificationNo(String identificationNo) {
 		this.identificationNo = identificationNo;
 	}
 

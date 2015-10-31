@@ -559,8 +559,8 @@ public class ExternalUserController {
 					transPost.setTransactionType("debit");
 					transPost.setBalance(currentBalance-amount);
 				
-					extUser.setBalance(currentBalance-amount);
-					databaseConnector.updateExternalUser(extUser);
+					//extUser.setBalance(currentBalance-amount);
+					//databaseConnector.updateExternalUser(extUser);
 					databaseConnector.saveOtpTransaction(transPost);
 				
 				
@@ -577,8 +577,8 @@ public class ExternalUserController {
 				transPost2.setTransactionAmount(amount);
 				transPost2.setTransactionType("credit");
 				transPost2.setBalance(currentBalance1+amount);
-				extUser2.setBalance(currentBalance1+amount);
-				databaseConnector.updateExternalUser(extUser2);
+				//extUser2.setBalance(currentBalance1+amount);
+				//databaseConnector.updateExternalUser(extUser2);
 				databaseConnector.saveOtpTransaction(transPost2);
 				
 

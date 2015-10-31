@@ -355,7 +355,18 @@ public class DatabaseConnectors {
  }
  public void saveOtpTransactionToTransactionById(String uniqueid){
 	 OtpTransactions oT = getOtpTransactionsByUniqId(uniqueid);
-	 Transactions transaction = new Transactions(oT.getTransactionType(), oT.getUniqId(), oT.getDescription(), oT.getBalance(), oT.getTransactionAmount(),oT.getStatus());
+	 ExternalUser eu = getExternalUserByUniqId(uniqueid);
+	 float balance = 0;
+	 if(oT.getTransactionType().equals("debit")){
+		 balance = eu.getBalance() - oT.getTransactionAmount();
+	 }else if(oT.getTransactionType().equals("credit")){
+		 balance = eu.getBalance() + oT.getTransactionAmount();
+	 }
+	 
+	 eu.setBalance(balance);
+	 updateExternalUser(eu);
+	 
+	 Transactions transaction = new Transactions(oT.getTransactionType(), oT.getUniqId(), oT.getDescription(), balance, oT.getTransactionAmount(),"Pending");
 	 transaction.setDate(oT.getDate());
 	 deleteOtpTransactionById(uniqueid);
 	 saveTransaction(transaction); 
