@@ -9,6 +9,7 @@ public class Transactions {
 	private Timestamp date;
 	private float transactionAmount;
 	private String status;
+	private long accountno;
 	/**
 	 * @param transactionType
 	 * @param uniqId
@@ -19,6 +20,7 @@ public class Transactions {
 	public Transactions(String transactionType, String uniqId, String description, float balance, float transactionAmount, String status) {
 		this.transactionType = transactionType;
 		this.uniqId = uniqId;
+		
 		this.description = description;
 		this.setTransactionAmount(transactionAmount);
 		this.balance = balance;
@@ -124,6 +126,14 @@ public class Transactions {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	public long getAccountno() {
+		// TODO Auto-generated method stub
+		return accountno;
+	}
+	
+	public void setAccountno(long acc){
+		this.accountno = acc;
 	}
 	
 }

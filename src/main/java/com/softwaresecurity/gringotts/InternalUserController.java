@@ -3,14 +3,27 @@ import pojo.*;
 import java.util.Random;
 import dao.*;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.Properties;
 
+import javax.mail.Message;
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -24,6 +37,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.softwaresecurity.util.GenerateOtp;
+import com.softwaresecurity.util.pkiGringott;
 
 /**
  * Handles requests for the application home page.
@@ -100,7 +117,7 @@ public class InternalUserController {
 						}
 
 						model.addAttribute("modifyOp",new Transactions());
-
+						model.addAttribute("createOp",new Transactions());
 						model.addAttribute("firstName",UI.getFirstName());
 						model.addAttribute("lastName",UI.getLastName());
 						model.addAttribute("Username",UI.getUsername());
@@ -295,7 +312,7 @@ public class InternalUserController {
 			//System.out.println("Inside authorize transactions");
 			
 			if(action.contains("delete")){
-			int transID = Integer.parseInt(action.substring(6));
+			//int transID = Integer.parseInt(action.substring(6));
 			
 			
 			
@@ -304,5 +321,132 @@ public class InternalUserController {
 			}
 			
 			return "redirect:";
+		}
+		
+		
+		@SuppressWarnings("unused")
+		@RequestMapping(value = "/createtransaction", method = RequestMethod.POST)
+		public String transfermoneyPageAction(@ModelAttribute("createOp") Transactions transObj, Model model, HttpSession session) throws Exception{
+			logger.info("Inside create transaction op POST");
+			
+			
+			
+			
+			UserInfo UI = new UserInfo();
+			DatabaseConnectors dbcon = new DatabaseConnectors();
+			UI = dbcon.getUserInfoByUniqId(transObj.getUniqId());
+			
+			ExternalUser dest = dbcon.getExternalUserByAccNum(transObj.getAccountno());
+			
+			if(dest == null){
+				model.addAttribute("message");
+				return "redirect:";
+			}
+			String utype = null;
+			String str1 = (String)session.getAttribute("uniqueid");
+			System.out.println(str1);
+			String str2 = str1.substring(0,2);
+			
+			if(str2.equals("ei"))
+			{
+				utype = "Single User";
+			}
+			else if(str2.equals("em"))
+			{
+				utype = "Merchant";
+			}
+			else if(str2.equals("ir"))
+			{
+				utype = "Internal User";
+			}
+			else if(str2.equals("im"))
+			{
+				utype = "Manager";
+			}
+			else if(str2.equals("admin"))
+			{
+				utype = "Administrator";
+			}
+			
+			model.addAttribute("firstName",UI.getFirstName());
+			model.addAttribute("lastName",UI.getLastName());
+			model.addAttribute("Username",UI.getUsername());
+			model.addAttribute("email",UI.getEmailId());
+			model.addAttribute("streetAddress",UI.getAddress());
+			model.addAttribute("city",UI.getCity());
+			model.addAttribute("state",UI.getState());
+			model.addAttribute("country",UI.getCountry());
+			model.addAttribute("zip",UI.getZipcode());
+			model.addAttribute("contactNo",UI.getContactNo());
+			model.addAttribute("userType",utype);
+			
+			
+			
+		
+			
+			session.setAttribute("transAccntNo", transObj.getAccountno());
+			
+			
+			
+			Transactions transPost2 = new Transactions();
+			
+			ExternalUser source = db.getExternalUserByUniqId(UI.getUniqId());
+			
+			Transactions transPost = new Transactions();
+			transPost.setBalance(dest.getBalance());
+			transObj.setBalance(dest.getBalance());
+			float amount = transObj.getTransactionAmount();
+			float currentBalance = source.getBalance();
+			
+			if(dest == null) {
+				model.addAttribute("message","Account number not found");
+			}	
+			if(source == null){
+				
+				model.addAttribute("message","Source account not found");
+				return "redirect:";
+			}
+			if(currentBalance >= amount){
+				logger.info("EU.getBalance" + transPost.getBalance());
+				//debit amount from current account balance		
+				transPost.setUniqId(UI.getUniqId());
+				transPost.setDescription("debited amount: "+amount);
+				transPost.setTransactionAmount(amount);
+				transPost.setTransactionType("debit");
+				transPost.setBalance(currentBalance-amount);
+			
+				
+				db.saveTransaction(transPost);
+			
+			
+			
+			
+			session.setAttribute("recipient", dest.getUniqId().toString());
+			float currentBalance1 = dest.getBalance();
+			logger.info("Current Balance" + currentBalance1);
+			transPost2.setBalance(dest.getBalance());
+			logger.info("balance :"+currentBalance1);
+			//credit amount from current account balance		
+			transPost2.setUniqId(dest.getUniqId());
+			transPost2.setDescription("credited amount: "+amount);
+			transPost2.setTransactionAmount(amount);
+			transPost2.setTransactionType("credit");
+			transPost2.setBalance(currentBalance1+amount);
+			//extUser2.setBalance(currentBalance1+amount);
+			//databaseConnector.updateExternalUser(extUser2);
+			db.saveTransaction(transPost2);
+			dest.setBalance(dest.getBalance()+amount);
+			source.setBalance(source.getBalance()-amount);
+			db.updateExternalUser(dest);
+			db.updateExternalUser(source);
+		
+
+			
+		}
+			model.addAttribute("message", "Completed transaction successfully");
+			logger.info("Leaving create transaction POST");
+			return "redirect:";
+		
+			
 		}
 }
