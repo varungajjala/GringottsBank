@@ -9,6 +9,7 @@ public class Transactions {
 	private Timestamp date;
 	private float transactionAmount;
 	private String status;
+	private String internalStatus;
 	private long accountno;
 	/**
 	 * @param transactionType
@@ -54,6 +55,16 @@ public class Transactions {
 	 */
 	public void setTransactionType(String transactionType) {
 		this.transactionType = transactionType;
+	}
+	
+	
+	
+	public String getInternalStatus(){
+		return internalStatus;
+	}
+	
+	public void setInternalStatus(String intStat){
+		internalStatus = intStat;
 	}
 	/**
 	 * @return the uniqId

@@ -1129,4 +1129,7 @@ public class ExternalUserController {
 				databaseConnector.updateUserInfo(UI);
 				return "redirect:extUserHomePage";
 			}
+			
+			
+			
 }

@@ -407,15 +407,6 @@
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Request Payment</h3>
    							</div>
-    							<div class="form-group">
-    								<label for="displayAccountBalance" class="col-lg-2 control-label">Account Balance</label>
-    								<label for="displayAmount" class="col-lg2 control-label"></label>
-    									<div class="col-lg-10">
-    										<div class="col-xs-24">
-      											<input type="text" class="form-control" placeholder="Balance goes here" readonly="readonly" class="col-lg-2" id="balance"></input>
-      										</div>
-    									</div>
-  								</div>
   								<div class="form-group">
     								<label for="inputAccNo" class="col-lg-2 control-label">Recipient Account Number</label>
    										<div class="col-lg-10">
@@ -442,7 +433,71 @@
     						</div>
     						
         				
-        				<!-- Sujata's work -->
+        			<!-- Request Payment -->
+					
+					<div class="tab-pane" id="Tab8">
+    							
+    							<form:form class="form-horizontal" action="requestpayment" commandName="requestOp" enctype="multipart/form-data" method="POST">
+    							
+	        						<div class="page-header" style="margin-top: 5px;" align="center">
+	    								<h3>Request Payment</h3>
+	    							</div>
+	    							
+  					
+  									<div class="form-group">
+	    								<label for="inputAccountNumber" class="col-lg-2 control-label">Account Number</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="accountno" type="number" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number of Merchant" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								<div class="form-group">
+	    								<label for="inputAmount" class="col-lg-2 control-label">Amount</label>
+	   										<div class="col-sm-10">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<label for="uploadFile" class="col-lg-2 control-label">Upload certificate</label>
+	   										<div class="col-sm-8">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="mpFile" name="mpFile" type="file" class="file" multiple="flase" required="true" id="cert_file" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<label for="uploadFile" class="col-lg-2 control-label">Upload Private Key File</label>
+	   										<div class="col-sm-8">
+	   											<div class="col-sm-24">
+	     										
+	     										<form:input path="pkFile" name="pkFile" type="file" class="file" multiple="flase" required="true" id="private_file" />
+	     											
+	   			 								</div>
+	   			 							</div>
+	  								</div>
+	  								
+	  								<div class="form-group">
+	    								<div class="col-lg-offset-2 col-lg-10">
+	    									<button type="submit" class="btn btn-primary">Submit</button>
+	     										<button type="reset" class="btn btn-success">Cancel</button>
+	    								</div>
+	    							</div>
+	    							</form:form>
+	    				</div>		
+					
+					
+					
 					
 					<!-- Tab for update profile -->
 	    				
