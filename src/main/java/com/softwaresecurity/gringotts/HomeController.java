@@ -195,9 +195,9 @@ public class HomeController {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		
 		UserInfo validate_username = dbc.getUserInfoByUsername(uinfoget.getUsername());
-		UserInfo validate_email = dbc.getUserInfoByUsername(uinfoget.getUsername());
-		UserInfo validate_contact = dbc.getUserInfoByUsername(uinfoget.getUsername());
-		UserInfo validate_idfnno = dbc.getUserInfoByUsername(uinfoget.getUsername());
+		UserInfo validate_email = dbc.getUserInfoByEmailId(uinfoget.getUsername());
+		UserInfo validate_contact = dbc.getUserInfoByContactNo(uinfoget.getUsername());
+		UserInfo validate_idfnno = dbc.getUserInfoByIdfnNo(uinfoget.getUsername());
 		
 		if(validate_username != null){
 			m.addAttribute("message","Username is already present. Please Select another username.");

@@ -234,7 +234,7 @@
     								<label for="inputCreditAmount" class="col-lg-2 control-label">Amount</label>
    									<div class="col-lg-10">
    										<div class="col-xs-24">
-   			 							<form:input path="transactionAmount" type="text" class="form-control" id="inputcredit" placeholder="Enter Amount"/>
+   			 							<form:input path="transactionAmount" type="text" class="form-control" id="inputcredit" placeholder="Enter Amount" min="0"/>
    			 							</div>
    			 						</div>
   								</div>
@@ -267,7 +267,7 @@
 	   										<div class="col-sm-10">
 	   											<div class="col-sm-24">
 	     										
-	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" min="0"/>
 	     											
 	   			 								</div>
 	   			 							</div>
@@ -317,7 +317,7 @@
 	   										<div class="col-sm-10">
 	   											<div class="col-sm-24">
 	     										
-	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" />
+	     										<form:input path="transactionAmount" type="number" class="form-control" id="inputAmount" placeholder="Enter Amount" min="0"/>
 	     										
 	     											
 	   			 								</div>

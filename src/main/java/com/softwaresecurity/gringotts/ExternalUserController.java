@@ -111,6 +111,7 @@ public class ExternalUserController {
 			
 			String utype = null;
 			String str1 = (String)session.getAttribute("uniqueid");
+			
 			System.out.println(str1);
 			String str2 = str1.substring(0,2);
 			
@@ -139,6 +140,7 @@ public class ExternalUserController {
 			model.addAttribute("lastName",UI.getLastName());
 			model.addAttribute("Username",UI.getUsername());
 			model.addAttribute("email",UI.getEmailId());
+			model.addAttribute("accountno",extUser.getAccountno());
 			model.addAttribute("streetAddress",UI.getAddress());
 			model.addAttribute("city",UI.getCity());
 			model.addAttribute("state",UI.getState());
@@ -250,6 +252,7 @@ public class ExternalUserController {
 					model.addAttribute("lastName",UI.getLastName());
 					model.addAttribute("Username",UI.getUsername());
 					model.addAttribute("email",UI.getEmailId());
+					model.addAttribute("accountno",extUser.getAccountno());
 					model.addAttribute("streetAddress",UI.getAddress());
 					model.addAttribute("city",UI.getCity());
 					model.addAttribute("state",UI.getState());
@@ -276,6 +279,7 @@ public class ExternalUserController {
 					
 					String utype = null;
 					String str1 = (String)session.getAttribute("uniqueid");
+					
 					System.out.println(str1);
 					String str2 = str1.substring(0,2);
 					
@@ -304,6 +308,7 @@ public class ExternalUserController {
 					model.addAttribute("lastName",UI.getLastName());
 					model.addAttribute("Username",UI.getUsername());
 					model.addAttribute("email",UI.getEmailId());
+					
 					model.addAttribute("streetAddress",UI.getAddress());
 					model.addAttribute("city",UI.getCity());
 					model.addAttribute("state",UI.getState());
@@ -316,6 +321,9 @@ public class ExternalUserController {
 					String uniqueID = (String) session.getAttribute("uniqueid");
 					//String uniqueID ="EM123";
 					ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueID);
+					
+					model.addAttribute("accountno",extUser.getAccountno());
+					
 					transactionObj.setBalance(extUser.getBalance());
 					float amount = transactionObj.getTransactionAmount();
 					float currentBalance = transactionObj.getBalance();
@@ -393,10 +401,13 @@ public class ExternalUserController {
 					utype = "Administrator";
 				}
 				
+				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				
 				model.addAttribute("firstName",UI.getFirstName());
 				model.addAttribute("lastName",UI.getLastName());
 				model.addAttribute("Username",UI.getUsername());
 				model.addAttribute("email",UI.getEmailId());
+				model.addAttribute("accountno",extUser.getAccountno());
 				model.addAttribute("streetAddress",UI.getAddress());
 				model.addAttribute("city",UI.getCity());
 				model.addAttribute("state",UI.getState());
@@ -523,7 +534,7 @@ public class ExternalUserController {
 				
 				
 				
-				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				
 				UserInfo extInfo = databaseConnector.getUserInfoByUniqId(extUser.getUniqId());
 				
 				session.setAttribute("transAccntNo", transObj.getAccountno());
@@ -744,7 +755,8 @@ public class ExternalUserController {
 				UserInfo UI = new UserInfo();
 				DatabaseConnectors dbcon = new DatabaseConnectors();
 				UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
-				
+				String uniqueID = (String) session.getAttribute("uniqueid");
+				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueID);
 				String utype = null;
 				String str1 = (String)session.getAttribute("uniqueid");
 				System.out.println(str1);
@@ -775,6 +787,7 @@ public class ExternalUserController {
 				model.addAttribute("lastName",UI.getLastName());
 				model.addAttribute("Username",UI.getUsername());
 				model.addAttribute("email",UI.getEmailId());
+				model.addAttribute("accountno",extUser.getAccountno());
 				model.addAttribute("streetAddress",UI.getAddress());
 				model.addAttribute("city",UI.getCity());
 				model.addAttribute("state",UI.getState());
@@ -783,7 +796,7 @@ public class ExternalUserController {
 				model.addAttribute("contactNo",UI.getContactNo());
 				model.addAttribute("userType",utype);
 				
-				String uniqueID = (String) session.getAttribute("uniqueid");
+				
 				logger.info("Current user"+uniqueID);
 				
 				MultipartFile fileGot = transactionObj.getMpFile();
@@ -896,7 +909,7 @@ public class ExternalUserController {
 			    }
 				
 				
-				ExternalUser extUser = databaseConnector.getExternalUserByUniqId(uniqueID);
+				
 				transactionObj.setBalance(extUser.getBalance());
 				logger.info("Current Balance" + transactionObj.getBalance());
 				float amount = transactionObj.getTransactionAmount();

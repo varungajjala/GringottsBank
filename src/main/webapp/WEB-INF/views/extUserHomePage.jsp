@@ -118,6 +118,15 @@
   						</div>
   						
   						<div class="form-group">
+    						<label for="inputEmail" class="col-sm-2 control-label">Account No</label>
+    							<div class="col-sm-8">
+    								<p>
+    								${accountno}
+    								</p>
+    							</div>
+  						</div>
+  						
+  						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">Username</label>
     							<div class="col-sm-8">
     								<p>

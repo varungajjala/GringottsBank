@@ -160,8 +160,46 @@ public class AdminController {
 		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model) {
 			logger.info("In modify user POST");
 			
+			String unique_id = databaseConnector.getUniqIdByUsername(UI.getUsername());
+			
+			if(unique_id==null || unique_id.equals(null)){
+				model.addAttribute("message", "User Not exists");
+				return "adminHomePage";
+			}
+			
+			if(unique_id.equals("")){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp_internal", new ExternalUser() );
+				model.addAttribute("modifyOp_internal", new UserInfo() );
+				model.addAttribute("createOp_internal", new UserInfo() );
+				return "adminHomePage";
+			}
+			
+			logger.info("unique_id:" + unique_id + "--");
+			
+			String str2 = unique_id.substring(0,2);
+			
+			if(str2.equals("ei") || str2.equals("em") || str2.equals("admin") || str2.equals("gov")){
+				model.addAttribute("message", "You are not allowed to change this user");
+				model.addAttribute("deleteOp_internal", new ExternalUser() );
+				model.addAttribute("modifyOp_internal", new UserInfo() );
+				model.addAttribute("createOp_internal", new UserInfo() );
+				return "adminHomePage";
+			}
+			
+			UserInfo user_save = databaseConnector.getUserInfoByUniqId(unique_id);
+			user_save.setFirstName(UI.getFirstName());
+			user_save.setLastName(UI.getLastName());
+			user_save.setAddress(UI.getAddress());
+			user_save.setCity(UI.getCity());
+			user_save.setState(UI.getState());
+			user_save.setCountry(UI.getCountry());
+			user_save.setZipcode(UI.getZipcode());
+			user_save.setContactNo(UI.getContactNo());
+			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.saveUserInfo(UI);
+			dbcon.updateUserInfo(user_save);
+			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );

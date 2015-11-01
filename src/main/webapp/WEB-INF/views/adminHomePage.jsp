@@ -53,10 +53,11 @@
   						<li><a href="#Tab7" data-toggle="tab">Create User</a></li>
   						
 					</ul>
+				</div>
 					
 					<div id="my-tab-content" class="tab-content">
             			
-            			<div class="tab-pane" id="Tab1">
+            			<div class="tab-pane active" id="Tab1">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>
     						</div>
@@ -178,7 +179,7 @@
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>View PII</h3>
     							
-    							<table align="center" border="1">
+    							<table style="text-align:center" border="1">
     							<tr>
     							
     				
@@ -206,7 +207,7 @@
     						
         				</div>
         				
-            			<div class="tab-pane active" id="Tab5">
+            			<div class="tab-pane" id="Tab5">
         					<div class="page-header" style="margin-top: 5px;" align="center">
 								<h3>Delete User</h3>
     						</div>
@@ -237,6 +238,16 @@
     						</div>
     						<form:form class="form-horizontal" action="modify_user_internal" commandName="modifyOp_internal" method="POST">
   					
+						<div class="form-group">
+    						<label for="username" class="col-sm-2 control-label">Enter Username to Modify</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+      								</div>
+    							</div>
+  						</div>
+
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
     							<div class="col-sm-8">
@@ -255,6 +266,8 @@
       								</div>
     							</div>
   						</div>
+  						
+  						<!-- 
   						<div class="form-group">
     						<label for="inputEmail" class="col-sm-2 control-label">Email</label>
     							<div class="col-sm-8">
@@ -264,15 +277,7 @@
       								</div>
     							</div>
   						</div>
-  						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Username</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
-      								</div>
-    							</div>
-  						</div>
+  						
   						<div class="form-group">
     						<label for="password" class="col-sm-2 control-label">Password</label>
     							<div class="col-sm-8">
@@ -282,7 +287,7 @@
       								</div>
     							</div>
   						</div>
-  						
+  						 -->
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Address</label>
     							<div class="col-sm-8">
@@ -306,18 +311,18 @@
       								</div>
     							</div>
   						</div>
-  						
+  						<!--
   						<div class="form-group">
     						<label for="inputContact" class="col-sm-2 control-label">User Type</label>
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" checked="true" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
-						    				Single User  
+						    				<form:radiobutton path ="utype" checked="true" id="singleUser" name="chkUserType" value="RegularEmployee" required="true"/>
+						    				Regular Employee  
 										</label>
 										<label for="chkNo">
-						    				<form:radiobutton path = "utype" id="merchant" name="chkUserType" value="merchant" required="true"/>
-						   					 Merchant
+						    				<form:radiobutton path = "utype" id="merchant" name="chkUserType" value="Manager" required="true"/>
+						   					 Manager
 										</label> 
       								</div>
     							</div>
@@ -331,6 +336,8 @@
       								</div>
     							</div>
   						</div>
+  						
+  						 -->
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" >Modify User</button>
@@ -454,10 +461,17 @@
  
   					</div>
 				</div>
+				
+				<div>
+				<p>
+				${message}
+				
+				</p>
+				</div>
+				
   			</div>
   			<div class="col-md-2"></div>
 		</div>
-	</div>
 	
   </body>
 </html>
