@@ -533,10 +533,6 @@ public class ExternalUserController {
 				//String uniqueID ="EM123";
 				OtpTransactions transPost2 = new OtpTransactions();
 				ExternalUser extUser2 = databaseConnector.getExternalUserByAccNum(transObj.getAccountno());
-				
-				databaseConnector.deleteOtpTransactionById(uniqId);
-				databaseConnector.deleteOtpTransactionById(extUser2.getUniqId());
-				
 				OtpTransactions transPost = new OtpTransactions();
 				transPost.setBalance(extUser.getBalance());
 				transObj.setBalance(extUser.getBalance());
@@ -561,6 +557,11 @@ public class ExternalUserController {
 					}
 					return "extUserHomePage";
 				}
+				
+				databaseConnector.deleteOtpTransactionById(uniqId);
+				databaseConnector.deleteOtpTransactionById(extUser2.getUniqId());		
+				
+				
 				
 				if(currentBalance >= amount){
 					logger.info("EU.getBalance" + transPost.getBalance());
@@ -875,7 +876,7 @@ public class ExternalUserController {
 			    	model.addAttribute("debitOp", transObj_2 );
 					model.addAttribute("creditOp",transObj_2);
 					model.addAttribute("checkAccBal", transObj_2.getBalance() );
-					model.addAttribute("savingAccBal", "500" );
+					//model.addAttribute("savingAccBal", "500" );
 					model.addAttribute("transferOp",temp_2);
 					model.addAttribute("paymerchantOp",temp_2);
 					model.addAttribute("transactionOp",temp_2);
@@ -903,6 +904,35 @@ public class ExternalUserController {
 				logger.info("balance :",currentBalance);
 				logger.info("account number ",transactionObj.getAccountno());
 				//credit amount from current account balance	
+				
+				ExternalUser merch = databaseConnector.getExternalUserByAccNum(transactionObj.getAccountno());
+				if(merch == null){
+					model.addAttribute("message","Account number is invalid");
+					Transactions transObj_2 = new Transactions();
+//					logger.info("Ext User"+extUser);
+					//transObj.setBalance(extUser.getBalance());
+					
+					TempTransactions temp_2 = new TempTransactions();
+					temp_2.setBalance(transactionObj.getBalance());
+			    	
+			    	model.addAttribute("debitOp", transObj_2 );
+					model.addAttribute("creditOp",transObj_2);
+					model.addAttribute("checkAccBal", transObj_2.getBalance() );
+					//model.addAttribute("savingAccBal", "500" );
+					model.addAttribute("transferOp",temp_2);
+					model.addAttribute("paymerchantOp",temp_2);
+					model.addAttribute("transactionOp",temp_2);
+					model.addAttribute("UpdateProfile", new UserInfo() );
+					List<Transactions> obj_2= displaytransaction(session);
+					if(obj_2 == null){
+						model.addAttribute("transactionOp",null);
+					}
+					else{
+						model.addAttribute("transactionOp",obj_2);
+					}
+			    	
+					return "extUserHomePage";
+				}
 		
 				transactionObj.setUniqId(uniqueID);
 				transactionObj.setDescription("transferred amount: "+amount);
@@ -910,8 +940,8 @@ public class ExternalUserController {
 				transactionObj.setBalance(currentBalance-amount);
 				
 				
-				extUser.setBalance(currentBalance-amount);
-				databaseConnector.updateExternalUser(extUser);
+				//extUser.setBalance(currentBalance-amount);
+				//databaseConnector.updateExternalUser(extUser);
 				databaseConnector.saveTempTransaction(transactionObj);
 
 				Transactions temp = new Transactions();
@@ -927,7 +957,7 @@ public class ExternalUserController {
 					model.addAttribute("transactionOp",null);
 				}
 				else{
-				model.addAttribute("transactionOp",obj);
+					model.addAttribute("transactionOp",obj);
 				}
 
 				logger.info("Leaving transfer money POST");

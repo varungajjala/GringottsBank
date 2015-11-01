@@ -187,11 +187,38 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	public void submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m,
+	public String submitForm(@ModelAttribute("send")UserInfo uinfoget, ModelMap m,
 				HttpSession session, HttpServletResponse response) {
 		Login uloginset = new Login();
 		ExternalUser extUser = new ExternalUser();
+		DatabaseConnectors dbc = new DatabaseConnectors();
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+		
+		UserInfo validate_username = dbc.getUserInfoByUsername(uinfoget.getUsername());
+		UserInfo validate_email = dbc.getUserInfoByUsername(uinfoget.getUsername());
+		UserInfo validate_contact = dbc.getUserInfoByUsername(uinfoget.getUsername());
+		UserInfo validate_idfnno = dbc.getUserInfoByUsername(uinfoget.getUsername());
+		
+		if(validate_username != null){
+			m.addAttribute("message","Username is already present. Please Select another username.");
+			return "register";
+		}
+		
+		if(validate_email != null){
+			m.addAttribute("message","EmailId is already present. Please Select another username.");
+			return "register";
+		}
+		
+		if(validate_contact != null){
+			m.addAttribute("message","ContactNo is already present. Please Select another username.");
+			return "register";
+		}
+		
+		if(validate_idfnno != null){
+			m.addAttribute("message","IdentificationNo is already present. Please Select another username.");
+			return "register";
+		}
+		
 		
 		logger.info("Entering post");
 		 logger.info("In registration POST");
@@ -315,7 +342,7 @@ public class HomeController {
 			}
 
 			logger.info("leaving post");
-			return;
+			return "registrationSuccessful";
 	    
 	}
 	@RequestMapping(value = "/registrationSuccessful", method = RequestMethod.POST)

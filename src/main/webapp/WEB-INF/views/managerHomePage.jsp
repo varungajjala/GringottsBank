@@ -324,7 +324,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
+						    				<form:radiobutton path ="utype" checked="true" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
 						    				Single User  
 										</label>
 										<label for="chkNo">
@@ -339,7 +339,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true"/>
+      									<form:input type="password" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{9}$"/>
       								</div>
     							</div>
   						</div>
@@ -435,7 +435,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
+						    				<form:radiobutton path ="utype" checked="true" id="singleUser" name="chkUserType" value="singleUser" required="true"/>
 						    				Single User  
 										</label>
 										<label for="chkNo">
@@ -450,7 +450,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true"/>
+      									<form:input type="password" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{9}$"/>
       								</div>
     							</div>
   						</div>

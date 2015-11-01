@@ -49,7 +49,7 @@
     				<h3>Registration</h3>
     				</div>
     				<form:form id="loginForm" class="form-horizontal" commandName="send" method="POST">
-  						
+  						<div><h4>${message}</h4></div>
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
     							<div class="col-sm-8">
@@ -126,7 +126,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
 										<label for="singleUser">
-						    				<form:radiobutton path ="utype" id="singleUser" name="chkUserType" value="singleUser" required="true" />
+						    				<form:radiobutton path ="utype" checked="true" id="singleUser" name="chkUserType" value="singleUser" required="true" />
 						    				Single User  
 										</label>
 										<label for="chkNo">
@@ -143,7 +143,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input type="tel" path="identificationNo" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{10}$" value="NULL"/>
+      									<form:input type="password" path="identificationNo" class="form-control" id="inputContact" placeholder="Enter SSN for single user and Merchant ID for merchant" required="true" pattern="^\d{9}$" />
       								
       								</div>
     							</div>
@@ -164,7 +164,7 @@
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" onsubmit="return myFunction()" >Register</button>
-     						<a href="/gringotts/" role="button" class="btn btn-success" >Back to Sign In</a>
+     						<a href="/" role="button" class="btn btn-success" >Back to Sign In</a>
     						</div>
   						</div>
   						
@@ -173,7 +173,7 @@
 			</div>
   		
   			<div>
-  			<P>Upon successful registration save the files.</P>
+  			<h3>Upon successful registration you will get the option to save the PKI files.</h3>
   			</div>
   		
   		</div>

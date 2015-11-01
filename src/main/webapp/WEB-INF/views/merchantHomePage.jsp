@@ -305,7 +305,7 @@
 	   										<div class="col-sm-10">
 	   											<div class="col-sm-24">
 	     										
-	     										<form:input path="accountno" type="number" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number" />
+	     										<form:input path="accountno" type="tel" class="form-control" id="inputAccountNumber" placeholder="Enter Account Number" />
 	     											
 	   			 								</div>
 	   			 							</div>

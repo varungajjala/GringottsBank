@@ -241,6 +241,33 @@ public class DatabaseConnectors {
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
 		 return userInfo;
 	 }
+	 
+	 public UserInfo getUserInfoByContactNo(String contactNo) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
+				 .add(Restrictions.like("CONTACTNO", contactNo)).uniqueResult();
+		 return userInfo;
+	 }
+	 
+	 public UserInfo getUserInfoByEmailId(String emailid) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
+				 .add(Restrictions.like("EMAILID", emailid)).uniqueResult();
+		 return userInfo;
+	 }
+	 
+	 public UserInfo getUserInfoByUsername(String username) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
+				 .add(Restrictions.like("username", username)).uniqueResult();
+		 return userInfo;
+	 }
+	 public UserInfo getUserInfoByIdfnNo(String idfnno) {
+		 Session session = HibernateUtil.getSessionFactory().openSession();
+		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
+				 .add(Restrictions.like("identificatioNo", idfnno)).uniqueResult();
+		 return userInfo;
+	 }
 	 /* Get user info */
 	 public List<UserInfo> getUserInfo() {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
