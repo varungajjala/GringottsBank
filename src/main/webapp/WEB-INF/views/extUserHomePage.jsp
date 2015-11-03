@@ -56,7 +56,7 @@
   						<li><a href="#Tab6" data-toggle="tab">Transaction History</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Pay Merchant</a></li>
   						<li><a href="#Tab8" data-toggle="tab">Update Profile</a></li>
-  						
+  						<li><a href="#Tab9" data-toggle="tab">Authorize Viewing Transactions</a></li>
   						
 					</ul>
 					
@@ -65,6 +65,11 @@
         		
         		<div id="my-tab-content" class="tab-content">	
         		
+        			<div class="tab-pane" id="Tab9">
+        					<form:form class="form-horizontal" action="authorizeViewTransaction" method="POST">
+  								<button type="submit">Authorize View Transactions</button>
+							</form:form>
+        				</div>
         				
         			<div class="tab-pane active" id="Tab1">
         				<div class="page-header" style="margin-top: 5px;" align="center">

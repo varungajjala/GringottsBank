@@ -464,17 +464,18 @@ public class InternalUserController {
 		public String viewtransactions(@ModelAttribute("username") Login lo, Model model, HttpSession session) {
 			List<Transactions> lot = new ArrayList<Transactions>();
 			String uniqId = db.getUniqIdByUsername(lo.getUserId());
-			lot = db.getTransactionsByUniqId(uniqId);
-			if(lot.size() == 0){
-				model.addAttribute("usertransactionOp", null);
-			}else{
-				model.addAttribute("usertransactionOp", lot);
-			}
+			ExternalUser eu = db.getExternalUserByUniqId(uniqId);
+			if(eu.getAuthtrans().equals("y")){
+				lot = db.getTransactionsByUniqId(uniqId);
+				if(lot.size() == 0){
+					model.addAttribute("usertransactionOp", null);
+				}else{
+					model.addAttribute("usertransactionOp", lot);
+				}	
 			
-			model.addAttribute("deleteOp", new ExternalUser() );
-			model.addAttribute("modifyOp", new UserInfo() );
-			model.addAttribute("createOp", new UserInfo() );
-			model.addAttribute("username", new Login() );
+			}else{
+				model.addAttribute("usertransactionOp", null);
+			}
 			
 			List<Login> users = displayUsers();
 			
@@ -483,6 +484,15 @@ public class InternalUserController {
 			}else{
 				model.addAttribute("displayUsersOp", null);
 			}			
+			
+			eu.setAuthtrans("n");
+			db.updateExternalUser(eu);
+			
+			model.addAttribute("deleteOp", new ExternalUser() );
+			model.addAttribute("modifyOp", new UserInfo() );
+			model.addAttribute("createOp", new UserInfo() );
+			model.addAttribute("username", new Login() );
+		
 		
 			
 			return "intUserHomePage";

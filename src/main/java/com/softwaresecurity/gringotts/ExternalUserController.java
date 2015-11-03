@@ -745,6 +745,16 @@ public class ExternalUserController {
 					}
 
 			
+			@RequestMapping(value = "/authorizeViewTransaction", method = RequestMethod.POST)
+			public String authorizeViewTransactions(Model model, HttpSession session) throws IOException{
+				String uniqId = session.getAttribute("uniqueid").toString();
+				ExternalUser externalUser = databaseConnector.getExternalUserByUniqId(uniqId);
+				externalUser.setAuthtrans("y");
+				databaseConnector.updateExternalUser(externalUser);
+				return "redirect:";
+			}
+			
+			
 			@RequestMapping(value = "/pay_merchant", method = RequestMethod.POST)
 			public String paymerchantPageAction(@ModelAttribute("paymerchantOp") TempTransactions transactionObj, Model model, HttpSession session) throws IOException{
 				logger.info("Inside pay merchant op POST");
