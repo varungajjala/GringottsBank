@@ -63,7 +63,7 @@
    							<div class="col-sm-8">
    								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-     									<form:input path = "passwd" type="password" class="form-control" id="inputPass" placeholder="Password" minlength="6" maxlength="16"/>
+     									<form:input path = "passwd" type="password" class="form-control" id="inputPass" placeholder="Password" maxlength="16"/>
    			 					</div>
    			 				</div>
   						</div>
