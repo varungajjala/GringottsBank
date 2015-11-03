@@ -51,6 +51,8 @@
   						<li><a href="#Tab5" data-toggle="tab">Delete User</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Modify User</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Create User</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Transaction History</a></li>
+  						<li><a href="#Tab9" data-toggle="tab">Display User Login</a></li>
   						
 					</ul>
 					
@@ -460,9 +462,98 @@
      						
     						</div>
   						</div>
-					</form:form>
+  						</form:form>
         				</div>
-        				
+  						
+  						<div class="tab-pane" id="Tab8">
+  						<form:form class="form-horizontal" action="view_transactions" commandName="username" method="POST">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							
+    							
+								<h3>Transaction History</h3>
+								
+								<div class="form-group" id="transhis" >
+    						<label for="inputContact" class="col-sm-2 control-label">UserName</label>
+    							<div class="col-sm-8">
+    								<div class="input-group">
+  										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
+      									<form:input type="text" path="userId"  class="form-control" id="user_name" placeholder="Enter Username" required="true"/>
+      								</div>
+    							</div>
+  						</div>
+  						<div class="form-group" >
+    						<div class="col-sm-offset-2 col-sm-10">
+    						<button type="submit" class="btn btn-success" >Get</button>
+     						
+    						</div>
+  						</div>
+								
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Transaction Status</th>
+    							</tr>
+  
+  								<c:if test="${usertransactionOp != null}">  						
+      							<c:forEach items="${usertransactionOp}" var="usertransactionOp">     
+    							<tr>
+  								
+  								 <td align="center"><c:out value="${usertransactionOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${usertransactionOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${usertransactionOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${usertransactionOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${usertransactionOp.getTransactionAmount()}"/></td>
+  								 <td align="center"><c:out value="${usertransactionOp.getStatus()}"/></td>
+  								 </tr>
+								</c:forEach>
+								</c:if>
+								
+    							</table>
+    							
+    						</div>
+    						</form:form>
+    						
+        				</div>
+  						
+					
+        				<div class="tab-pane" id="Tab9">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							
+    							
+								<h3>All User Logins and Unique Id</h3>
+								
+								
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							<th align="center">User Name</th>
+       							<th align="center">Unique Id</th>
+    							<th align="center">Role</th>
+    							</tr>
+  
+  								<c:if test="${displayUsersOp != null}">  						
+      							<c:forEach items="${displayUsersOp}" var="displayUsersOp">     
+    							<tr>
+  								
+  								 <td align="center"><c:out value="${displayUsersOp.getUserId()}"/></td>
+  								 <td align="center"><c:out value="${displayUsersOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${displayUsersOp.getRole()}"/></td>
+  								 </tr>
+								</c:forEach>
+								</c:if>
+								
+    							</table>
+    							
+    						</div>
+    						
+        				</div>
         				
         				
         				

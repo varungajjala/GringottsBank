@@ -100,6 +100,17 @@ public class DatabaseConnectors {
 		 }
 		 return null;
 	}
+	
+	public List<Login> getAllLogins() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		@SuppressWarnings("unchecked")
+		List<Login> results = (List<Login>) session.createCriteria(Login.class).list();
+		 if(results != null) {
+			 return (List<Login>)results;
+		 }
+	 return null;
+}
+	
 	public String getPasswdByUsername(String username) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
@@ -245,14 +256,14 @@ public class DatabaseConnectors {
 	 public UserInfo getUserInfoByContactNo(String contactNo) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
-				 .add(Restrictions.like("CONTACTNO", contactNo)).uniqueResult();
+				 .add(Restrictions.like("contactNo", contactNo)).uniqueResult();
 		 return userInfo;
 	 }
 	 
 	 public UserInfo getUserInfoByEmailId(String emailid) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
-				 .add(Restrictions.like("EMAILID", emailid)).uniqueResult();
+				 .add(Restrictions.like("emailId", emailid)).uniqueResult();
 		 return userInfo;
 	 }
 	 
@@ -265,7 +276,7 @@ public class DatabaseConnectors {
 	 public UserInfo getUserInfoByIdfnNo(String idfnno) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
-				 .add(Restrictions.like("identificatioNo", idfnno)).uniqueResult();
+				 .add(Restrictions.like("identificationNo", idfnno)).uniqueResult();
 		 return userInfo;
 	 }
 	 /* Get user info */

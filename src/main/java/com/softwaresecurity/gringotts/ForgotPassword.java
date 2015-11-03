@@ -221,7 +221,7 @@ public class ForgotPassword {
 		}
 		
 		System.out.println("I am returning to login");
-		return "redirect:Login";
+		return "redirect:home";
 	}
 	
 	@RequestMapping(value ="newPass", method = RequestMethod.GET)

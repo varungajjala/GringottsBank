@@ -5,16 +5,18 @@ public class ExternalUser {
 	private String uniqId;
 	private long accountno;
 	private float balance;
+	private String authtrans;
 	/**
 	 * @param uniqId
 	 * @param accountno
 	 * @param balance
 	 */
-	public ExternalUser(String uniqId, long accountno, float balance) {
+	public ExternalUser(String uniqId, long accountno, float balance, String authtrans) {
 		super();
 		this.uniqId = uniqId;
 		this.accountno = accountno;
 		this.balance = balance;
+		this.authtrans = authtrans;
 	}
 	/**
 	 * @return the id
@@ -64,6 +66,15 @@ public class ExternalUser {
 	public void setBalance(float balance) {
 		this.balance = balance;
 	}
+	
+	public void setAuthtrans(String authtrans){
+		this.authtrans = authtrans;
+	}
+	
+	public String getAuthtrans(){
+		return this.authtrans;
+	}
+	
 	/**
 	 * 
 	 */

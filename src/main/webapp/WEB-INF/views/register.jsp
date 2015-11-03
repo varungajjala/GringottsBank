@@ -139,7 +139,7 @@
   						
 						
   						<div class="form-group" id="dvPII" >
-    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII - 9 digit)</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>

@@ -357,6 +357,7 @@
     							<th align="center">Balance</th>
     							<th align="center">Date</th>
     							<th align="center">Transaction Amount</th>
+    							<th align="center">Transaction Status</th>
     							</tr>
   
   								<c:if test="${transactionOp != null}">  						
@@ -368,6 +369,7 @@
   								 <td align="center"><c:out value="${transactionOp.getBalance()}"/></td>
   								 <td align="center"><c:out value="${transactionOp.getDate()}"/></td>
   								 <td align="center"><c:out value="${transactionOp.getTransactionAmount()}"/></td>
+  								 <td align="center"><c:out value="${transactionOp.getStatus()}"/></td>
   								 </tr>
 								</c:forEach>
 								</c:if>

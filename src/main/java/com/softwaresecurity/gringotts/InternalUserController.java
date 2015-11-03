@@ -115,6 +115,16 @@ public class InternalUserController {
 						else{
 						model.addAttribute("deleteOp", deleteTrans);
 						}
+						
+						model.addAttribute("username", new Login() );
+						
+						List<Login> users = displayUsers();
+						
+						if(users.size() != 0){
+							model.addAttribute("displayUsersOp", users);
+						}else{
+							model.addAttribute("displayUsersOp", null);
+						}
 
 						model.addAttribute("modifyOp",new Transactions());
 						model.addAttribute("createOp",new Transactions());
@@ -448,5 +458,53 @@ public class InternalUserController {
 			return "redirect:";
 		
 			
+		}
+		
+		@RequestMapping(value = "/view_reg_transactions", method = RequestMethod.POST)
+		public String viewtransactions(@ModelAttribute("username") Login lo, Model model, HttpSession session) {
+			List<Transactions> lot = new ArrayList<Transactions>();
+			String uniqId = db.getUniqIdByUsername(lo.getUserId());
+			lot = db.getTransactionsByUniqId(uniqId);
+			if(lot.size() == 0){
+				model.addAttribute("usertransactionOp", null);
+			}else{
+				model.addAttribute("usertransactionOp", lot);
+			}
+			
+			model.addAttribute("deleteOp", new ExternalUser() );
+			model.addAttribute("modifyOp", new UserInfo() );
+			model.addAttribute("createOp", new UserInfo() );
+			model.addAttribute("username", new Login() );
+			
+			List<Login> users = displayUsers();
+			
+			if(users.size() != 0){
+				model.addAttribute("displayUsersOp", users);
+			}else{
+				model.addAttribute("displayUsersOp", null);
+			}			
+		
+			
+			return "intUserHomePage";
+		}
+		
+		public List<Login> displayUsers(){
+			logger.info("Inside display users get");
+			
+			
+			
+			List<Login> allUsers = new ArrayList<Login>();
+			allUsers = db.getAllLogins();
+			
+			if(allUsers.size() == 0){
+				return null;
+			}
+			
+			logger.info("Length of list :",allUsers.size());
+		
+			logger.info("Leaving get users op POST");
+			
+			
+			return allUsers;
 		}
 }
