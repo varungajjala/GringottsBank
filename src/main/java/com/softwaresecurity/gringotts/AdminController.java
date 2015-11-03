@@ -271,10 +271,17 @@ public class AdminController {
 		@RequestMapping(value = "/downloadlogs", method = RequestMethod.GET)
 		public void downloadStatement(HttpSession session, HttpServletResponse response,Model model) throws IOException {
 		        // get absolute path of the application
+			    String fullpath;
 				ServletContext context = session.getServletContext();
-				 
+				String OS = System.getProperty("os.name").toLowerCase();
 		        String realContextPath= System.getProperty("user.dir");
-		        String fullpath = realContextPath+"\\"+"log.txt";
+                if (OS.indexOf("mac") >= 0) {
+					  fullpath = realContextPath+"/log.txt";
+				}
+                else  {
+			          fullpath = realContextPath+"\\"+"log.txt";
+					}
+		       
 		        System.out.println(fullpath);   
 		        File downloadFile = new File(fullpath);
 		        FileInputStream inputStream = new FileInputStream(downloadFile);
