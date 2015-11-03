@@ -58,7 +58,7 @@
 					
 					<div id="my-tab-content" class="tab-content">
             			
-            			<div class="tab-pane" id="Tab1">
+            			<div class="tab-pane  active" id="Tab1">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Profile</h3>
     						</div>
@@ -219,17 +219,17 @@
     						
         				</div>
         				
-            			<div class="tab-pane active" id="Tab5">
+            			<div class="tab-pane" id="Tab5">
         					<div class="page-header" style="margin-top: 5px;" align="center">
 								<h3>Delete User</h3>
     						</div>
     						<form:form class="form-horizontal" action="delete_user" commandName="deleteOp" method="POST">
   								<div class="form-group">
-    								<label for="Uniuqe id" class="col-sm-2 control-label">Unique ID</label>
+    								<label for="Uniuqe id" class="col-sm-2 control-label">User Name to Delete</label>
     								<div class="col-sm-8">
     									<div class="input-group">
   											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      										<form:input path="uniqId" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
+      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
       									</div>
     								</div>
   								</div>
@@ -251,6 +251,17 @@
     						</div>
     						<form:form class="form-horizontal" action="modify_user" commandName="modifyOp" method="POST">
   					
+  							<div class="form-group">
+	    						<label for="username" class="col-sm-2 control-label">Enter Username to Modify</label>
+	    							<div class="col-sm-8">
+	    								<div class="input-group">
+	  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
+	      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+	      								</div>
+	    							</div>
+	  						</div>
+  					
+  					
   						<div class="form-group">
     						<label for="username" class="col-sm-2 control-label">First Name</label>
     							<div class="col-sm-8">
@@ -269,6 +280,8 @@
       								</div>
     							</div>
   						</div>
+  						
+  						<!-- 
   						<div class="form-group">
     						<label for="inputEmail" class="col-sm-2 control-label">Email</label>
     							<div class="col-sm-8">
@@ -278,15 +291,7 @@
       								</div>
     							</div>
   						</div>
-  						<div class="form-group">
-    						<label for="username" class="col-sm-2 control-label">Username</label>
-    							<div class="col-sm-8">
-    								<div class="input-group">
-  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
-      								</div>
-    							</div>
-  						</div>
+  						
   						<div class="form-group">
     						<label for="password" class="col-sm-2 control-label">Password</label>
     							<div class="col-sm-8">
@@ -297,6 +302,7 @@
     							</div>
   						</div>
   						
+  						 -->
   						<div class="form-group">
     						<label for="inputAddress" class="col-sm-2 control-label">Address</label>
     							<div class="col-sm-8">
@@ -306,7 +312,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>      									
      								</div>
     							</div>
     							
@@ -316,11 +322,11 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true"/>
+      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true" pattern="^\d{10}$"/>
       								</div>
     							</div>
   						</div>
-  						
+  						<!-- 
   						<div class="form-group">
     						<label for="inputContact" class="col-sm-2 control-label">User Type</label>
     							<div class="col-sm-8">
@@ -345,6 +351,7 @@
       								</div>
     							</div>
   						</div>
+  						 -->
   						<div class="form-group" >
     						<div class="col-sm-offset-2 col-sm-10">
     						<button type="submit" class="btn btn-success" >Modify User</button>
@@ -563,6 +570,12 @@
   					</div>
 				</div>
   			</div>
+  			<div>
+			<p>
+			${message}
+			
+			</p>
+			</div>
   			<div class="col-md-2"></div>
 		</div>
 	</div>

@@ -53,7 +53,7 @@ public class AdminController {
 	public String adminUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
+			model.addAttribute("deleteOp_internal", new UserInfo() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
 			/* Code to access PII of all users */
@@ -146,64 +146,85 @@ public class AdminController {
 	
 		
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.POST)
-		public String delete_user_post(@ModelAttribute("deleteOp_internal") ExternalUser EU, ModelMap model,HttpSession session) {
-			logger.info("In delete User POST");
+		public String delete_user_post(@ModelAttribute("deleteOp_internal") UserInfo UI, ModelMap model, HttpSession session) {
+logger.info("In delete User POST");
 			
-			logger.info("EU.getUniqId()" + EU.getUniqId());
-			//model.put("send_d", EU);
+			UserInfo temp = databaseConnector.getUserInfoByUsername(UI.getUsername());
 			
-			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.deleteUserProfileByUniqId(EU.getUniqId());
+			if(temp==null){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp_internal", new UserInfo() );
+				model.addAttribute("modifyOp_internal", new UserInfo() );
+				model.addAttribute("createOp_internal", new UserInfo() );
+				return "adminHomePage";
+			}
 			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
+			String unique_id = temp.getUniqId();
+			String str2 = unique_id.substring(0,2);
+			
+			if(str2.equals("ei") || str2.equals("em") || str2.equals("ia") || str2.equals("gov")){
+				model.addAttribute("message", "You are not allowed to delete this user");
+				model.addAttribute("deleteOp_internal", new UserInfo() );
+				model.addAttribute("modifyOp_internal", new UserInfo() );
+				model.addAttribute("createOp_internal", new UserInfo() );
+				return "adminHomePage";
+			}
+			
+			databaseConnector.deleteUserProfileByUniqId(temp.getUniqId());
+			
+			model.addAttribute("deleteOp_internal", new UserInfo() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
+			
+			logger.info("leaving delete User POST");
+			
+				
 			
 			/**
 			 * To display user profile			
 			 */
-						UserInfo UI = new UserInfo();
+						UserInfo UIO = new UserInfo();
 						
-						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						UIO = databaseConnector.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
 						
 						String utype = null;
 						String str1 = (String)session.getAttribute("uniqueid");
 						
 						System.out.println(str1);
-						String str2 = str1.substring(0,2);
+						String str22 = str1.substring(0,2);
 						
-						if(str2.equals("ei"))
+						if(str22.equals("ei"))
 						{
 							utype = "Single User";
 						}
-						else if(str2.equals("em"))
+						else if(str22.equals("em"))
 						{
 							utype = "Merchant";
 						}
-						else if(str2.equals("ir"))
+						else if(str22.equals("ir"))
 						{
 							utype = "Internal User";
 						}
-						else if(str2.equals("im"))
+						else if(str22.equals("im"))
 						{
 							utype = "Manager";
 						}
-						else if(str2.equals("admin"))
+						else if(str22.equals("admin"))
 						{
 							utype = "Administrator";
 						}
 						
-						model.addAttribute("firstName",UI.getFirstName());
-						model.addAttribute("lastName",UI.getLastName());
-						model.addAttribute("Username",UI.getUsername());
-						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Username",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
 						
-						model.addAttribute("streetAddress",UI.getAddress());
-						model.addAttribute("city",UI.getCity());
-						model.addAttribute("state",UI.getState());
-						model.addAttribute("country",UI.getCountry());
-						model.addAttribute("zip",UI.getZipcode());
-						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
 						model.addAttribute("userType",utype);
 						
 						List<Login> userlogin = displayUsers();
@@ -221,9 +242,16 @@ public class AdminController {
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.POST)
 		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model, HttpSession session) {
-			logger.info("In modify user POST");
+logger.info("In modify user POST");
 			
 			String unique_id = databaseConnector.getUniqIdByUsername(UI.getUsername());
+			
+			List<Login> userlogin = displayUsers();
+			if(userlogin.size() == 0){
+				model.addAttribute("displayUsersOp",null);
+			}else{
+				model.addAttribute("displayUsersOp",userlogin);
+			}
 			
 			if(unique_id==null || unique_id.equals(null)){
 				model.addAttribute("message", "User Not exists");
@@ -232,7 +260,7 @@ public class AdminController {
 			
 			if(unique_id.equals("")){
 				model.addAttribute("message", "User Not exists");
-				model.addAttribute("deleteOp_internal", new ExternalUser() );
+				model.addAttribute("deleteOp_internal", new UserInfo() );
 				model.addAttribute("modifyOp_internal", new UserInfo() );
 				model.addAttribute("createOp_internal", new UserInfo() );
 				return "adminHomePage";
@@ -242,9 +270,21 @@ public class AdminController {
 			
 			String str2 = unique_id.substring(0,2);
 			
-			if(str2.equals("ei") || str2.equals("em") || str2.equals("admin") || str2.equals("gov")){
+			
+			
+			if(str2.equals("ei") || str2.equals("em") || str2.equals("ia") || str2.equals("gov")){
 				model.addAttribute("message", "You are not allowed to change this user");
-				model.addAttribute("deleteOp_internal", new ExternalUser() );
+				model.addAttribute("deleteOp_internal", new UserInfo() );
+				model.addAttribute("modifyOp_internal", new UserInfo() );
+				model.addAttribute("createOp_internal", new UserInfo() );
+				return "adminHomePage";
+			}
+			
+			UserInfo validate_contact = databaseConnector.getUserInfoByContactNo(UI.getContactNo());
+			
+			if(validate_contact != null && validate_contact.getUniqId().equals(unique_id) != true){
+				model.addAttribute("message","ContactNo is already present. Please Select another username.");
+				model.addAttribute("deleteOp_internal", new UserInfo() );
 				model.addAttribute("modifyOp_internal", new UserInfo() );
 				model.addAttribute("createOp_internal", new UserInfo() );
 				return "adminHomePage";
@@ -260,19 +300,14 @@ public class AdminController {
 			user_save.setZipcode(UI.getZipcode());
 			user_save.setContactNo(UI.getContactNo());
 			
-			List<Login> userlogin = displayUsers();
-			if(userlogin.size() == 0){
-				model.addAttribute("displayUsersOp",null);
-			}else{
-				model.addAttribute("displayUsersOp",userlogin);
-			}
-			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.updateUserInfo(user_save);
+			dbcon.saveUserInfo(user_save);
 			
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
+			model.addAttribute("deleteOp_internal", new UserInfo() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
+			
+			
 			
 			/**
 			 * To display user profile			
@@ -331,49 +366,6 @@ public class AdminController {
 		public String create_user_post(@ModelAttribute("createOp_internal") UserInfo UI, Model model, HttpSession session) {
 			logger.info("In create user POST");
 			
-			logger.info("UI.getAddress() - " + UI.getAddress());
-			logger.info("UI.getAddress() - " + UI.getFirstName());
-			logger.info("UI.getAddress() - " + UI.getLastName());
-			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-			Login uloginset = new Login();
-			Random rand = new Random();
-			int randId = rand.nextInt(1000);
-			String uniqIdVal = Integer.toString(randId);
-			String userType = null;
-			if(UI.getutype().equals("internalUser"))
-			{
-				userType="ir";
-			}
-			else if(UI.getutype().equals("manager"))
-			{
-				userType="im";
-			}
-			
-			String uniqId = userType+uniqIdVal;
-			String hashedPassword = passwordEncoder.encode(UI.getPasswd());
-			UI.setUniqId(uniqId);
-			uloginset.setUserId(UI.getUsername());
-			uloginset.setPasswd(hashedPassword);
-			uloginset.setRole(userType);
-			uloginset.setUniqId(UI.getUniqId());
-			uloginset.setStatus("Unlocked");
-			
-			long empid = GeneralUtils.createRandomInteger("internal");
-			
-			InternalUser intUser = new InternalUser();
-			intUser.setEmpId(empid);
-			intUser.setUniqId(uniqId);
-			
-			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.saveUserInfo(UI);
-			dbcon.saveLogin(uloginset);
-			dbcon.saveInternalUser(intUser);
-			System.out.println("ended the create");
-
-			model.addAttribute("deleteOp_internal", new ExternalUser() );
-			model.addAttribute("modifyOp_internal", new UserInfo() );
-			model.addAttribute("createOp_internal", new UserInfo() );
-			
 			List<Login> userlogin = displayUsers();
 			if(userlogin.size() == 0){
 				model.addAttribute("displayUsersOp",null);
@@ -381,52 +373,138 @@ public class AdminController {
 				model.addAttribute("displayUsersOp",userlogin);
 			}
 			
-			/**
-			 * To display user profile			
-			 */
-						UserInfo UIO = new UserInfo();
-						//DatabaseConnectors dbcon = new DatabaseConnectors();
-						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
-						
-						String utype = null;
-						String str1 = (String)session.getAttribute("uniqueid");
-						
-						System.out.println(str1);
-						String str22 = str1.substring(0,2);
-						
-						if(str22.equals("ei"))
-						{
-							utype = "Single User";
-						}
-						else if(str22.equals("em"))
-						{
-							utype = "Merchant";
-						}
-						else if(str22.equals("ir"))
-						{
-							utype = "Internal User";
-						}
-						else if(str22.equals("im"))
-						{
-							utype = "Manager";
-						}
-						else if(str22.equals("admin"))
-						{
-							utype = "Administrator";
-						}
-						
-						model.addAttribute("firstName",UIO.getFirstName());
-						model.addAttribute("lastName",UIO.getLastName());
-						model.addAttribute("Username",UIO.getUsername());
-						model.addAttribute("email",UIO.getEmailId());
-						
-						model.addAttribute("streetAddress",UIO.getAddress());
-						model.addAttribute("city",UIO.getCity());
-						model.addAttribute("state",UIO.getState());
-						model.addAttribute("country",UIO.getCountry());
-						model.addAttribute("zip",UIO.getZipcode());
-						model.addAttribute("contactNo",UIO.getContactNo());
-						model.addAttribute("userType",utype);
+				/**
+				 * To display user profile			
+				 */
+							UserInfo UIO = new UserInfo();
+							//DatabaseConnectors dbcon = new DatabaseConnectors();
+							UIO = databaseConnector.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+							
+							String utype = null;
+							String str1 = (String)session.getAttribute("uniqueid");
+							
+							System.out.println(str1);
+							String str22 = str1.substring(0,2);
+							
+							if(str22.equals("ei"))
+							{
+								utype = "Single User";
+							}
+							else if(str22.equals("em"))
+							{
+								utype = "Merchant";
+							}
+							else if(str22.equals("ir"))
+							{
+								utype = "Internal User";
+							}
+							else if(str22.equals("im"))
+							{
+								utype = "Manager";
+							}
+							else if(str22.equals("admin"))
+							{
+								utype = "Administrator";
+							}
+							
+							model.addAttribute("firstName",UIO.getFirstName());
+							model.addAttribute("lastName",UIO.getLastName());
+							model.addAttribute("Username",UIO.getUsername());
+							model.addAttribute("email",UIO.getEmailId());
+							
+							model.addAttribute("streetAddress",UIO.getAddress());
+							model.addAttribute("city",UIO.getCity());
+							model.addAttribute("state",UIO.getState());
+							model.addAttribute("country",UIO.getCountry());
+							model.addAttribute("zip",UIO.getZipcode());
+							model.addAttribute("contactNo",UIO.getContactNo());
+							model.addAttribute("userType",utype);
+			
+			
+							logger.info("In create user POST");
+							
+							logger.info("UI.getAddress() - " + UI.getAddress());
+							logger.info("UI.getAddress() - " + UI.getFirstName());
+							logger.info("UI.getAddress() - " + UI.getLastName());
+							
+							UserInfo validate_username = databaseConnector.getUserInfoByUsername(UI.getUsername());
+							UserInfo validate_email = databaseConnector.getUserInfoByEmailId(UI.getEmailId());
+							UserInfo validate_contact = databaseConnector.getUserInfoByContactNo(UI.getContactNo());
+							UserInfo validate_idfnno = databaseConnector.getUserInfoByIdfnNo(UI.getIdentificationNo());
+							
+							if(validate_username != null){
+								model.addAttribute("message","Username is already present. Please Select another username.");
+								model.addAttribute("deleteOp_internal", new UserInfo() );
+								model.addAttribute("modifyOp_internal", new UserInfo() );
+								model.addAttribute("createOp_internal", new UserInfo() );
+								return "adminHomePage";
+							}
+							
+							if(validate_email != null){
+								model.addAttribute("message","EmailId is already present. Please Select another username.");
+								model.addAttribute("deleteOp_internal", new UserInfo() );
+								model.addAttribute("modifyOp_internal", new UserInfo() );
+								model.addAttribute("createOp_internal", new UserInfo() );
+								return "adminHomePage";
+							}
+							
+							if(validate_contact != null){
+								model.addAttribute("message","ContactNo is already present. Please Select another username.");
+								model.addAttribute("deleteOp_internal", new UserInfo() );
+								model.addAttribute("modifyOp_internal", new UserInfo() );
+								model.addAttribute("createOp_internal", new UserInfo() );
+								return "adminHomePage";
+							}
+							
+							if(validate_idfnno != null){
+								model.addAttribute("message","IdentificationNo is already present. Please Select another username.");
+								model.addAttribute("deleteOp_internal", new UserInfo() );
+								model.addAttribute("modifyOp_internal", new UserInfo() );
+								model.addAttribute("createOp_internal", new UserInfo() );
+								return "adminHomePage";
+							}
+							
+							BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+							Login uloginset = new Login();
+							Random rand = new Random();
+							int randId = rand.nextInt(1000);
+							String uniqIdVal = Integer.toString(randId);
+							String userType = null;
+							if(UI.getutype().equals("internalUser"))
+							{
+								userType="ir";
+							}
+							else if(UI.getutype().equals("manager"))
+							{
+								userType="im";
+							}
+							
+							String uniqId = userType+uniqIdVal;
+							String hashedPassword = passwordEncoder.encode(UI.getPasswd());
+							UI.setUniqId(uniqId);
+							uloginset.setUserId(UI.getUsername());
+							uloginset.setPasswd(hashedPassword);
+							uloginset.setRole(userType);
+							uloginset.setUniqId(UI.getUniqId());
+							uloginset.setStatus("Unlocked");
+							
+							long empid = GeneralUtils.createRandomInteger("internal");
+							
+							InternalUser intUser = new InternalUser();
+							intUser.setEmpId(empid);
+							intUser.setUniqId(uniqId);
+							
+							DatabaseConnectors dbcon = new DatabaseConnectors();
+							dbcon.saveUserInfo(UI);
+							dbcon.saveLogin(uloginset);
+							dbcon.saveInternalUser(intUser);
+							System.out.println("ended the create");
+
+							model.addAttribute("deleteOp_internal", new UserInfo() );
+							model.addAttribute("modifyOp_internal", new UserInfo() );
+							model.addAttribute("createOp_internal", new UserInfo() );
+			
+			
 			
 			return "adminHomePage";
 		}

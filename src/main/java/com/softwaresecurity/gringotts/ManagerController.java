@@ -132,25 +132,60 @@ public class ManagerController {
 		
 		
 		@RequestMapping(value = "/delete_user", method = RequestMethod.POST)
-		public String delete_user_post(@ModelAttribute("deleteOp") ExternalUser EU, ModelMap model, HttpSession session) {
-			logger.info("In delete User POST");
+		public String delete_user_post(@ModelAttribute("deleteOp") UserInfo UI, ModelMap model, HttpSession session) {
 			
-			logger.info("EU.getUniqId()" + EU.getUniqId());
-			model.put("send_d", EU);
 			
-			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.deleteUserProfileByUniqId(EU.getUniqId());
 			
-			model.addAttribute("deleteOp", new ExternalUser() );
+			logger.info("leaving delete User POST");
+			
+logger.info("In delete User POST");
+			
+			UserInfo temp = db.getUserInfoByUsername(UI.getUsername());
+			
+			if(temp==null){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			String unique_id = temp.getUniqId();
+			String str22 = unique_id.substring(0,2);
+			
+			if(str22.equals("ir") || str22.equals("im") || str22.equals("ia") || str22.equals("im") || str22.equals("gov")){
+				model.addAttribute("message", "You are not allowed to delete this user");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			db.deleteUserProfileByUniqId(temp.getUniqId());
+			
+			model.addAttribute("deleteOp", new UserInfo() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
+			model.addAttribute("username", new Login() );
+			
+			logger.info("leaving delete User POST");
+			
+List<Login> users = displayUsers();
+			
+			if(users.size() != 0){
+				model.addAttribute("displayUsersOp", users);
+			}else{
+				model.addAttribute("displayUsersOp", null);
+			}	
 			
 			/**
 			 * To display user profile			
 			 */
-						UserInfo UI = new UserInfo();
+						UserInfo UIO = new UserInfo();
 						//DatabaseConnectors dbcon = new DatabaseConnectors();
-						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						UI = db.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
 						
 						String utype = null;
 						String str1 = (String)session.getAttribute("uniqueid");
@@ -185,20 +220,18 @@ public class ManagerController {
 						
 						model.addAttribute("transactionOp", pending);
 						}
-						model.addAttribute("firstName",UI.getFirstName());
-						model.addAttribute("lastName",UI.getLastName());
-						model.addAttribute("Userame",UI.getUsername());
-						model.addAttribute("email",UI.getEmailId());
-						model.addAttribute("streetAddress",UI.getAddress());
-						model.addAttribute("city",UI.getCity());
-						model.addAttribute("state",UI.getState());
-						model.addAttribute("country",UI.getCountry());
-						model.addAttribute("zip",UI.getZipcode());
-						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Userame",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
 						model.addAttribute("userType",utype);
 						
-			
-			logger.info("leaving delete User POST");
 			
 			return "managerHomePage";
 		}
@@ -273,16 +306,76 @@ public List<Transactions> displaytransaction(HttpSession session){
 
 		@RequestMapping(value = "/modify_user", method = RequestMethod.POST)
 		public String modify_user_post(@ModelAttribute("modifyOp") UserInfo UI, Model model, HttpSession session) {
-			logger.info("In modify user POST");
+String unique_id = db.getUniqIdByUsername(UI.getUsername());
 			
-			logger.info("UI.getAddress() - " + UI.getAddress());
-			logger.info("UI.getAddress() - " + UI.getFirstName());
-			logger.info("UI.getAddress() - " + UI.getLastName());
-			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.saveUserInfo(UI);
-			model.addAttribute("deleteOp", new ExternalUser() );
+			if(unique_id==null || unique_id.equals(null)){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			if(unique_id==null || unique_id.equals(null)){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			if(unique_id.equals("")){
+				model.addAttribute("message", "User Not exists");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			logger.info("unique_id:" + unique_id + "--");
+			
+			String str2 = unique_id.substring(0,2);
+			
+			if(str2.equals("ir") || str2.equals("im") || str2.equals("ia") || str2.equals("im") || str2.equals("gov")){
+				model.addAttribute("message", "You are not allowed to change this user");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			UserInfo validate_contact = db.getUserInfoByContactNo(UI.getContactNo());
+			
+			if(validate_contact != null && validate_contact.getUniqId().equals(unique_id) != true){
+				model.addAttribute("message","ContactNo is already present. Please Select another username.");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			UserInfo user_save = db.getUserInfoByUniqId(unique_id);
+			user_save.setFirstName(UI.getFirstName());
+			user_save.setLastName(UI.getLastName());
+			user_save.setAddress(UI.getAddress());
+			user_save.setCity(UI.getCity());
+			user_save.setState(UI.getState());
+			user_save.setCountry(UI.getCountry());
+			user_save.setZipcode(UI.getZipcode());
+			user_save.setContactNo(UI.getContactNo());
+			
+			
+			db.updateUserInfo(user_save);
+			
+			model.addAttribute("deleteOp", new UserInfo() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
+			model.addAttribute("username", new Login() );
 			
 			
 			/**
@@ -290,33 +383,34 @@ public List<Transactions> displaytransaction(HttpSession session){
 			 */
 						UserInfo UIO = new UserInfo();
 						//DatabaseConnectors dbcon = new DatabaseConnectors();
-						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						UIO = db.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
 						
 						String utype = null;
 						String str1 = (String)session.getAttribute("uniqueid");
 						System.out.println(str1);
-						String str2 = str1.substring(0,2);
+						String str22 = str1.substring(0,2);
 						
-						if(str2.equals("ei"))
+						if(str22.equals("ei"))
 						{
 							utype = "Single User";
 						}
-						else if(str2.equals("em"))
+						else if(str22.equals("em"))
 						{
 							utype = "Merchant";
 						}
-						else if(str2.equals("ir"))
+						else if(str22.equals("ir"))
 						{
 							utype = "Internal User";
 						}
-						else if(str2.equals("im"))
+						else if(str22.equals("im"))
 						{
 							utype = "Manager";
 						}
-						else if(str2.equals("admin"))
+						else if(str22.equals("admin"))
 						{
 							utype = "Administrator";
 						}
+						
 						List<Transactions> pending = displaytransaction(session);
 						if(pending == null){
 							model.addAttribute("transactionOp",null);
@@ -325,6 +419,7 @@ public List<Transactions> displaytransaction(HttpSession session){
 						
 						model.addAttribute("transactionOp", pending);
 						}
+						
 						model.addAttribute("firstName",UIO.getFirstName());
 						model.addAttribute("lastName",UIO.getLastName());
 						model.addAttribute("Userame",UIO.getUsername());
@@ -344,11 +439,52 @@ public List<Transactions> displaytransaction(HttpSession session){
 
 		@RequestMapping(value = "/create_user", method = RequestMethod.POST)
 		public String create_user_post(@ModelAttribute("createOp") UserInfo UI, Model model, HttpSession session) {
-			logger.info("In create user POST");
+logger.info("In create user POST");
 			
 			logger.info("UI.getAddress() - " + UI.getAddress());
 			logger.info("UI.getAddress() - " + UI.getFirstName());
 			logger.info("UI.getAddress() - " + UI.getLastName());
+		
+			UserInfo validate_username = db.getUserInfoByUsername(UI.getUsername());
+			UserInfo validate_email = db.getUserInfoByEmailId(UI.getEmailId());
+			UserInfo validate_contact = db.getUserInfoByContactNo(UI.getContactNo());
+			UserInfo validate_idfnno = db.getUserInfoByIdfnNo(UI.getIdentificationNo());
+			
+			if(validate_username != null){
+				model.addAttribute("message","Username is already present. Please Select another username.");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			if(validate_email != null){
+				model.addAttribute("message","EmailId is already present. Please Select another username.");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			if(validate_contact != null){
+				model.addAttribute("message","ContactNo is already present. Please Select another username.");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
+			
+			if(validate_idfnno != null){
+				model.addAttribute("message","IdentificationNo is already present. Please Select another username.");
+				model.addAttribute("deleteOp", new UserInfo() );
+				model.addAttribute("modifyOp", new UserInfo() );
+				model.addAttribute("createOp", new UserInfo() );
+				model.addAttribute("username", new Login() );
+				return "managerHomePage";
+			}
 
 			BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 			Login uloginset = new Login();
@@ -378,12 +514,10 @@ public List<Transactions> displaytransaction(HttpSession session){
 			dbcon.saveLogin(uloginset);
 			System.out.println("ended the create");
 			
-			
-			
-			
-			model.addAttribute("deleteOp", new ExternalUser() );
+			model.addAttribute("deleteOp", new UserInfo() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
+			model.addAttribute("username", new Login() );
 			
 			/**
 			 * To display user profile			

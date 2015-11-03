@@ -214,11 +214,11 @@
     						</div>
     						<form:form class="form-horizontal" action="delete_user_internal" commandName="deleteOp_internal" method="POST">
   								<div class="form-group">
-    								<label for="Uniuqe id" class="col-sm-2 control-label">Unique ID</label>
+    								<label for="Uniuqe id" class="col-sm-2 control-label">User Name to Delete</label>
     								<div class="col-sm-8">
     									<div class="input-group">
   											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      										<form:input path="uniqId" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
+      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
       									</div>
     								</div>
   								</div>
@@ -298,7 +298,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>      									
      								</div>
     							</div>
     							
@@ -411,7 +411,7 @@
     									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
       									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
       									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>      									
      								</div>
     							</div>
     							
@@ -421,7 +421,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-earphone"></span></span>
-      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true"/>
+      									<form:input path="contactNo" type="tel" class="form-control" id="inputContact" placeholder="XXXXXXXXXX" required="true" pattern="^\d{10}$"/>
       								</div>
     							</div>
   						</div>
@@ -446,7 +446,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>
-      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN" required="true"/>
+      									<form:input type="number" path="identificationNo" value="null" class="form-control" id="inputContact_create" placeholder="Enter SSN" required="true" pattern="^\d{9}$" />
       								</div>
     							</div>
   						</div>
