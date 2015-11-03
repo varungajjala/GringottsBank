@@ -41,7 +41,7 @@ public class ManagerController {
 	public String mangrUserHomePageGet(Locale locale, ModelMap model, HttpSession session) {
 			logger.info("In user account op GET");
 			
-			model.addAttribute("deleteOp", new ExternalUser() );
+			model.addAttribute("deleteOp", new UserInfo() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			model.addAttribute("username", new Login() );
@@ -602,7 +602,7 @@ logger.info("In create user POST");
 			eu.setAuthtrans("n");
 			db.updateExternalUser(eu);
 			
-			model.addAttribute("deleteOp", new ExternalUser() );
+			model.addAttribute("deleteOp", new UserInfo() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			model.addAttribute("username", new Login() );

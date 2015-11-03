@@ -229,7 +229,7 @@
     								<div class="col-sm-8">
     									<div class="input-group">
   											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true" maxlength="16"/>
+      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="User Name" required="true" maxlength="16"/>
       									</div>
     								</div>
   								</div>

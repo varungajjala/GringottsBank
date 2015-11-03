@@ -76,6 +76,7 @@ public class AdminController {
 			if(session.getAttribute("uniqueid") == null){
 				return "redirect:";
 			}
+			//System.out.println("unique id is" + session.getAttribute("uniqueid"));
 			
 			/**
 			 * To display user profile			
@@ -105,7 +106,7 @@ public class AdminController {
 						{
 							utype = "Manager";
 						}
-						else if(str2.equals("admin"))
+						else if(str2.equals("ia"))
 						{
 							utype = "Administrator";
 						}
