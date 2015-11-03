@@ -229,7 +229,7 @@
     								<div class="col-sm-8">
     									<div class="input-group">
   											<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true"/>
+      										<form:input path="username" type="text" class="form-control" id="u_id_1" placeholder="Unique ID" required="true" maxlength="16"/>
       									</div>
     								</div>
   								</div>
@@ -256,7 +256,7 @@
 	    							<div class="col-sm-8">
 	    								<div class="input-group">
 	  										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-	      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+	      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true" maxlength="16"/>
 	      								</div>
 	    							</div>
 	  						</div>
@@ -267,7 +267,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true"/>
+      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true" maxlength="20"/>
       								</div>
     							</div>
   						</div>
@@ -276,7 +276,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true"/>
+      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true" maxlength="16"/>
       								</div>
     							</div>
   						</div>
@@ -308,10 +308,10 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
-        								<form:input path="address" type="text" class="form-control" id="inputAddressStreet" placeholder="Street Address"/>
-    									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
-      									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
-      									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
+        								<form:input path="address" type="text" class="form-control" id="inputAddressStreet" placeholder="Street Address" maxlength="32"/>
+    									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City" maxlength="32"/>
+      									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State" maxlength="32"/>
+      									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country" maxlength="32"/>
        									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>      									
      								</div>
     							</div>
@@ -374,7 +374,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>      									
-      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true"/>
+      									<form:input path="firstName" type="text" class="form-control" id="lastName" placeholder="Firstname" required="true" maxlength="20"/>
       								</div>
     							</div>
   						</div>
@@ -383,7 +383,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true"/>
+      									<form:input path="lastName" type="text" class="form-control" id="firstName" placeholder="Lastname" required="true" maxlength="16"/>
       								</div>
     							</div>
   						</div>
@@ -392,7 +392,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon">@</span>
-      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email" required="true"/>
+      									<form:input path="emailId" type="email" class="form-control" id="email" placeholder="Email" required="true" maxlength="32"/>
       								</div>
     							</div>
   						</div>
@@ -401,7 +401,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true"/>
+      									<form:input path="username" type="text" class="form-control" id="inputUsername" placeholder="Username" required="true" maxlength="16"/>
       								</div>
     							</div>
   						</div>
@@ -410,7 +410,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-      									<form:input path="passwd" type="password" class="form-control" id="inputPassword" placeholder="Enter Password" required="true"/>
+      									<form:input path="passwd" type="password" class="form-control" id="inputPassword" placeholder="Enter Password" required="true" minlength="6" maxlength="16" />
       								</div>
     							</div>
   						</div>
@@ -420,11 +420,11 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-map-marker"></span></span>
-        								<form:input path="address" type="text" class="form-control" id="inputAddressStreet" placeholder="Street Address"/>
-    									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City"/>
-      									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State"/>
-      									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country"/>
-       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true"/>      									
+        								<form:input path="address" type="text" class="form-control" id="inputAddressStreet" placeholder="Street Address" maxlength="32"/>
+    									<form:input path="city" type="text" class="form-control" id="inputAddressCity" placeholder="City" maxlength="32"/>
+      									<form:input path="state" type="text" class="form-control" id="inputAddressState" placeholder="State" maxlength="32"/>
+      									<form:input path="country" type="text" class="form-control" id="inputAddressCountry" placeholder="Country" maxlength="32"/>
+       									<form:input path="zipcode" type="number" class="form-control" id="inputZipcode" value = "null" placeholder="zipcode" required="true" pattern="^\d{5}$" min="1000" max="99999"/>      									
      								</div>
     							</div>
     							
@@ -455,7 +455,7 @@
     							</div>
   						</div>
 						<div class="form-group" id="dvPII" >
-    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII)</label>
+    						<label for="inputContact" class="col-sm-2 control-label">Identification Number(PII - 9 digit)</label>
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-option-vertical"></span></span>

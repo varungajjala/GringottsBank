@@ -54,7 +54,7 @@
     							<div class="col-sm-8">
     								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-user"></span></span>
-      									<form:input path = "userId" type="text" class="form-control" id="inputEmail3" placeholder="Username"/>
+      									<form:input path = "userId" type="text" class="form-control" id="inputEmail3" placeholder="Username" maxlength="16"/>
       								</div>
     							</div>
   						</div>
@@ -63,7 +63,7 @@
    							<div class="col-sm-8">
    								<div class="input-group">
   										<span class="input-group-addon"><span class="glyphicon glyphicon-asterisk"></span></span>
-     									<form:input path = "passwd" type="password" class="form-control" id="inputPassword3" placeholder="Password"/>
+     									<form:input path = "passwd" type="password" class="form-control" id="inputPass" placeholder="Password" minlength="6" maxlength="16"/>
    			 					</div>
    			 				</div>
   						</div>

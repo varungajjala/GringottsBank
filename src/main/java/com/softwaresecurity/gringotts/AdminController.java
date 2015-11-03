@@ -301,7 +301,7 @@ logger.info("In modify user POST");
 			user_save.setContactNo(UI.getContactNo());
 			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
-			dbcon.saveUserInfo(user_save);
+			dbcon.updateUserInfo(user_save);
 			
 			model.addAttribute("deleteOp_internal", new UserInfo() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
