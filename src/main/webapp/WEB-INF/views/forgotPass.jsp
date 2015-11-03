@@ -56,10 +56,11 @@
 					</form:form>		
   				</div>
 			</div>
-  		
+  			<div><p>${message}</p></div>
   		
   		</div>
   		<div class="col-md-2"></div>
+  		
 	</div>
 
     

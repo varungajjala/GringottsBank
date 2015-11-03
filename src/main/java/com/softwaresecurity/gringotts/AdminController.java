@@ -14,7 +14,7 @@ import java.io.OutputStream;
 import java.rmi.server.UnicastRemoteObject;
 import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
-	
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
@@ -59,6 +59,14 @@ public class AdminController {
 			/* Code to access PII of all users */
 			List<UserInfo> obj= displayuserInfo(session);
 			model.addAttribute("displayUsers",obj);
+			
+			List<Login> userlogin = displayUsers();
+			if(userlogin.size() == 0){
+				model.addAttribute("displayUsersOp",null);
+			}else{
+				model.addAttribute("displayUsersOp",userlogin);
+			}
+			
 			/*System.out.println(obj.get(0).getFirstName());
 			System.out.println(obj.get(0).getIdentificationNo());
 			System.out.println(obj.get(0).getUsername());
@@ -138,7 +146,7 @@ public class AdminController {
 	
 		
 		@RequestMapping(value = "/delete_user_internal", method = RequestMethod.POST)
-		public String delete_user_post(@ModelAttribute("deleteOp_internal") ExternalUser EU, ModelMap model) {
+		public String delete_user_post(@ModelAttribute("deleteOp_internal") ExternalUser EU, ModelMap model,HttpSession session) {
 			logger.info("In delete User POST");
 			
 			logger.info("EU.getUniqId()" + EU.getUniqId());
@@ -151,6 +159,60 @@ public class AdminController {
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
 			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("Username",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
+						
+						List<Login> userlogin = displayUsers();
+						if(userlogin.size() == 0){
+							model.addAttribute("displayUsersOp",null);
+						}else{
+							model.addAttribute("displayUsersOp",userlogin);
+						}
+			
 			logger.info("leaving delete User POST");
 			
 			return "adminHomePage";
@@ -158,7 +220,7 @@ public class AdminController {
 		
 		
 		@RequestMapping(value = "/modify_user_internal", method = RequestMethod.POST)
-		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model) {
+		public String modify_user_post(@ModelAttribute("modifyOp_internal") UserInfo UI, Model model, HttpSession session) {
 			logger.info("In modify user POST");
 			
 			String unique_id = databaseConnector.getUniqIdByUsername(UI.getUsername());
@@ -198,12 +260,66 @@ public class AdminController {
 			user_save.setZipcode(UI.getZipcode());
 			user_save.setContactNo(UI.getContactNo());
 			
+			List<Login> userlogin = displayUsers();
+			if(userlogin.size() == 0){
+				model.addAttribute("displayUsersOp",null);
+			}else{
+				model.addAttribute("displayUsersOp",userlogin);
+			}
+			
 			DatabaseConnectors dbcon = new DatabaseConnectors();
 			dbcon.updateUserInfo(user_save);
 			
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						
+						System.out.println(str1);
+						String str22 = str1.substring(0,2);
+						
+						if(str22.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str22.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str22.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str22.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str22.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Username",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
 			
 			
 			
@@ -212,7 +328,7 @@ public class AdminController {
 		
 		
 		@RequestMapping(value = "/create_user_internal", method = RequestMethod.POST)
-		public String create_user_post(@ModelAttribute("createOp_internal") UserInfo UI, Model model) {
+		public String create_user_post(@ModelAttribute("createOp_internal") UserInfo UI, Model model, HttpSession session) {
 			logger.info("In create user POST");
 			
 			logger.info("UI.getAddress() - " + UI.getAddress());
@@ -257,6 +373,60 @@ public class AdminController {
 			model.addAttribute("deleteOp_internal", new ExternalUser() );
 			model.addAttribute("modifyOp_internal", new UserInfo() );
 			model.addAttribute("createOp_internal", new UserInfo() );
+			
+			List<Login> userlogin = displayUsers();
+			if(userlogin.size() == 0){
+				model.addAttribute("displayUsersOp",null);
+			}else{
+				model.addAttribute("displayUsersOp",userlogin);
+			}
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						
+						System.out.println(str1);
+						String str22 = str1.substring(0,2);
+						
+						if(str22.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str22.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str22.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str22.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str22.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Username",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
 			
 			return "adminHomePage";
 		}
@@ -331,6 +501,28 @@ public class AdminController {
 						return;
 	}
 
+		public List<Login> displayUsers(){
+			logger.info("Inside display users get");
+			
+			
+			List<Login> allUsers = new ArrayList<Login>();
+			allUsers = databaseConnector.getAllInternalLogins();
+			
+			if(allUsers.size() == 0){
+				System.out.println("here");
+				return null;
+				
+			}
+			
+			System.out.println("Leaving Varun");
+			
+			logger.info("Length of list :",allUsers.size());
+		
+			logger.info("Leaving get users op POST");
+			
+			
+			return allUsers;
+		}
 
 
 		

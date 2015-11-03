@@ -132,7 +132,7 @@ public class ManagerController {
 		
 		
 		@RequestMapping(value = "/delete_user", method = RequestMethod.POST)
-		public String delete_user_post(@ModelAttribute("deleteOp") ExternalUser EU, ModelMap model) {
+		public String delete_user_post(@ModelAttribute("deleteOp") ExternalUser EU, ModelMap model, HttpSession session) {
 			logger.info("In delete User POST");
 			
 			logger.info("EU.getUniqId()" + EU.getUniqId());
@@ -144,6 +144,59 @@ public class ManagerController {
 			model.addAttribute("deleteOp", new ExternalUser() );
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("Userame",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
+						
 			
 			logger.info("leaving delete User POST");
 			
@@ -219,7 +272,7 @@ public List<Transactions> displaytransaction(HttpSession session){
 			}		
 
 		@RequestMapping(value = "/modify_user", method = RequestMethod.POST)
-		public String modify_user_post(@ModelAttribute("modifyOp") UserInfo UI, Model model) {
+		public String modify_user_post(@ModelAttribute("modifyOp") UserInfo UI, Model model, HttpSession session) {
 			logger.info("In modify user POST");
 			
 			logger.info("UI.getAddress() - " + UI.getAddress());
@@ -231,12 +284,66 @@ public List<Transactions> displaytransaction(HttpSession session){
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Userame",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
+						
+			
 			return "managerHomePage";
 		}
 		
 
 		@RequestMapping(value = "/create_user", method = RequestMethod.POST)
-		public String create_user_post(@ModelAttribute("createOp") UserInfo UI, Model model) {
+		public String create_user_post(@ModelAttribute("createOp") UserInfo UI, Model model, HttpSession session) {
 			logger.info("In create user POST");
 			
 			logger.info("UI.getAddress() - " + UI.getAddress());
@@ -278,6 +385,58 @@ public List<Transactions> displaytransaction(HttpSession session){
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Userame",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
+			
 			return "managerHomePage";
 		}
 		
@@ -314,7 +473,57 @@ public List<Transactions> displaytransaction(HttpSession session){
 			model.addAttribute("createOp", new UserInfo() );
 			model.addAttribute("username", new Login() );
 		
-			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						//DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = db.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Userame",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
 			
 			
 			return "managerHomePage";
@@ -326,7 +535,7 @@ public List<Transactions> displaytransaction(HttpSession session){
 			
 			
 			List<Login> allUsers = new ArrayList<Login>();
-			allUsers = db.getAllLogins();
+			allUsers = db.getAllExternalLogins();
 			
 			if(allUsers.size() == 0){
 				return null;

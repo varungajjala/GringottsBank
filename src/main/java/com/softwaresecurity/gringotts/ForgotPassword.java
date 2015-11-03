@@ -69,6 +69,10 @@ public class ForgotPassword {
 //		System.out.println("uniq id:"+(String)session2.getAttribute("uniqID"));
 		
 		String uniqueID = d2.getUniqIdByUsername((String)session2.getAttribute("uname"));
+		if(uniqueID.equals("")){
+			model.addAttribute("message", "User does not exist");
+			return "forgotPass";
+		}
 		System.out.println("unique id is:"+uniqueID);
 		UserInfo foremail = d2.getUserInfoByUniqId(uniqueID);
 		

@@ -101,10 +101,20 @@ public class DatabaseConnectors {
 		 return null;
 	}
 	
-	public List<Login> getAllLogins() {
+	public List<Login> getAllExternalLogins() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
-		List<Login> results = (List<Login>) session.createCriteria(Login.class).list();
+		List<Login> results = (List<Login>) session.createCriteria(Login.class).add( Restrictions.or(Restrictions.like("role", "ei"),Restrictions.like("role", "em"))).list();
+		 if(results != null) {
+			 return (List<Login>)results;
+		 }
+	 return null;
+}
+	
+	public List<Login> getAllInternalLogins() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		@SuppressWarnings("unchecked")
+		List<Login> results = (List<Login>) session.createCriteria(Login.class).add( Restrictions.or(Restrictions.like("role", "ir"),Restrictions.like("role", "im"))).list();
 		 if(results != null) {
 			 return (List<Login>)results;
 		 }

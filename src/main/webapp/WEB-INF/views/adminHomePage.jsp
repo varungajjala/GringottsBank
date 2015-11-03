@@ -51,6 +51,7 @@
   						<li><a href="#Tab5" data-toggle="tab">Delete User</a></li>
   						<li><a href="#Tab6" data-toggle="tab">Modify User</a></li>
   						<li><a href="#Tab7" data-toggle="tab">Create User</a></li>
+  						<li><a href="#Tab8" data-toggle="tab">Internal User Login</a></li>
   						
 					</ul>
 				</div>
@@ -458,6 +459,38 @@
 					</form:form>
         				</div>
         				
+        				<div class="tab-pane" id="Tab8">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							
+    							
+								<h3>All User Logins and Unique Id</h3>
+								
+								
+    							<table align="center" border="1">
+    							<tr>
+    							
+    				
+    							<th align="center">User Name</th>
+       							<th align="center">Unique Id</th>
+    							<th align="center">Role</th>
+    							</tr>
+  
+  								<c:if test="${displayUsersOp != null}">  						
+      							<c:forEach items="${displayUsersOp}" var="displayUsersOp">     
+    							<tr>
+  								
+  								 <td align="center"><c:out value="${displayUsersOp.getUserId()}"/></td>
+  								 <td align="center"><c:out value="${displayUsersOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${displayUsersOp.getRole()}"/></td>
+  								 </tr>
+								</c:forEach>
+								</c:if>
+								
+    							</table>
+    							
+    						</div>
+    						
+        				</div>
  
   					</div>
 				</div>

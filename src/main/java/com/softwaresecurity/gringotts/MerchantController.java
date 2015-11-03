@@ -222,6 +222,51 @@ public class MerchantController {
 			
 			databaseConnector.updateUserInfo(UI);
 			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UIO = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UIO = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						
+						model.addAttribute("firstName",UIO.getFirstName());
+						model.addAttribute("lastName",UIO.getLastName());
+						model.addAttribute("Username",UIO.getUsername());
+						model.addAttribute("email",UIO.getEmailId());
+						model.addAttribute("streetAddress",UIO.getAddress());
+						model.addAttribute("city",UIO.getCity());
+						model.addAttribute("state",UIO.getState());
+						model.addAttribute("country",UIO.getCountry());
+						model.addAttribute("zip",UIO.getZipcode());
+						model.addAttribute("contactNo",UIO.getContactNo());
+						model.addAttribute("userType",utype);
+			
 			return "redirect:merchantHomePage";
 		}
 		@RequestMapping(value = "/authorizeCustomerTransaction", method = RequestMethod.GET)
@@ -253,6 +298,9 @@ public class MerchantController {
 				}
 				databaseConnector.removeTempTransaction(approve);	
 			}
+			
+			
+			
 			return "redirect:";
 			
 		}

@@ -53,11 +53,18 @@
   						<li><a href="#Tab8" data-toggle="tab">Request Payment</a></li>
   						<li><a href="#Tab9" data-toggle="tab">Update Profile</a></li>
   						<li><a href="#Tab10" data-toggle="tab">Customer Transaction Approvals</a></li>
+  						<li><a href="#Tab11" data-toggle="tab">Authorize Viewing Transactions</a></li>
   						
 					</ul>
 					
         				</div>
         			<div id="my-tab-content" class="tab-content">	
+        			
+        				<div class="tab-pane" id="Tab11">
+        					<form:form class="form-horizontal" action="authorizeViewTransaction" method="POST">
+  								<button type="submit">Authorize View Transactions</button>
+							</form:form>
+        				</div>
         				<div class="tab-pane active" id="Tab1">
         					<div class="page-header" style="margin-top: 5px;" align="center">
     							<h3>Accounts</h3>

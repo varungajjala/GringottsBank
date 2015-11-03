@@ -208,7 +208,7 @@ public class InternalUserController {
 
 		
 			@RequestMapping(value = "/authorization", method = RequestMethod.GET)
-		public String authorizeTransactions(HttpServletRequest request, HttpSession session){
+		public String authorizeTransactions(HttpServletRequest request, HttpSession session, ModelMap model){
 			
 				
 				
@@ -224,12 +224,90 @@ public class InternalUserController {
 				else
 					rejectTransaction(session);
 				}
+				
+				/**
+				 * To display user profile			
+				 */
+							UserInfo UI = new UserInfo();
+							DatabaseConnectors dbcon = new DatabaseConnectors();
+							UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+							
+							String utype = null;
+							String str1 = (String)session.getAttribute("uniqueid");
+							System.out.println(str1);
+							String str2 = str1.substring(0,2);
+							
+							if(str2.equals("ei"))
+							{
+								utype = "Single User";
+							}
+							else if(str2.equals("em"))
+							{
+								utype = "Merchant";
+							}
+							else if(str2.equals("ir"))
+							{
+								utype = "Internal User";
+							}
+							else if(str2.equals("im"))
+							{
+								utype = "Manager";
+							}
+							else if(str2.equals("admin"))
+							{
+								utype = "Administrator";
+							}
+							List<Transactions> pending;
+							pending = displaytransaction(session);
+							if(pending == null){
+								model.addAttribute("transactionOp",null);
+							}
+							else{
+							
+							model.addAttribute("transactionOp", pending);
+							}
+
+							obj = getuserInfo(session);
+							model.addAttribute("displayPiiUsers",obj);
+
+							List<Transactions> deleteTrans = db.getTransactionsByStatus();
+							if(deleteTrans == null){
+								model.addAttribute("deleteOp", null);
+							}
+							else{
+							model.addAttribute("deleteOp", deleteTrans);
+							}
+							
+							model.addAttribute("username", new Login() );
+							
+							List<Login> users = displayUsers();
+							
+							if(users.size() != 0){
+								model.addAttribute("displayUsersOp", users);
+							}else{
+								model.addAttribute("displayUsersOp", null);
+							}
+
+							model.addAttribute("modifyOp",new Transactions());
+							model.addAttribute("createOp",new Transactions());
+							model.addAttribute("firstName",UI.getFirstName());
+							model.addAttribute("lastName",UI.getLastName());
+							model.addAttribute("Username",UI.getUsername());
+							model.addAttribute("email",UI.getEmailId());
+							model.addAttribute("streetAddress",UI.getAddress());
+							model.addAttribute("city",UI.getCity());
+							model.addAttribute("state",UI.getState());
+							model.addAttribute("country",UI.getCountry());
+							model.addAttribute("zip",UI.getZipcode());
+							model.addAttribute("contactNo",UI.getContactNo());
+							model.addAttribute("userType",utype);
+				
 				return "redirect:";
 				
 			}
 		
 			@RequestMapping(value = "/approveUserAccount", method = RequestMethod.GET)
-			public String authorizePII(HttpServletRequest request, HttpSession session){
+			public String authorizePII(HttpServletRequest request, HttpSession session, ModelMap model){
 				
 				int size = Integer.parseInt(request.getParameter("size"));
 					for(int i=0;i<size;i++){
@@ -245,7 +323,86 @@ public class InternalUserController {
 							db.deleteUserProfileByUniqId(uniqId);
 						}
 					}
-					return "redirect:";
+					
+					
+					/**
+					 * To display user profile			
+					 */
+								UserInfo UI = new UserInfo();
+								DatabaseConnectors dbcon = new DatabaseConnectors();
+								UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+								
+								String utype = null;
+								String str1 = (String)session.getAttribute("uniqueid");
+								System.out.println(str1);
+								String str2 = str1.substring(0,2);
+								
+								if(str2.equals("ei"))
+								{
+									utype = "Single User";
+								}
+								else if(str2.equals("em"))
+								{
+									utype = "Merchant";
+								}
+								else if(str2.equals("ir"))
+								{
+									utype = "Internal User";
+								}
+								else if(str2.equals("im"))
+								{
+									utype = "Manager";
+								}
+								else if(str2.equals("admin"))
+								{
+									utype = "Administrator";
+								}
+								List<Transactions> pending;
+								pending = displaytransaction(session);
+								if(pending == null){
+									model.addAttribute("transactionOp",null);
+								}
+								else{
+								
+								model.addAttribute("transactionOp", pending);
+								}
+
+								obj = getuserInfo(session);
+								model.addAttribute("displayPiiUsers",obj);
+
+								List<Transactions> deleteTrans = db.getTransactionsByStatus();
+								if(deleteTrans == null){
+									model.addAttribute("deleteOp", null);
+								}
+								else{
+								model.addAttribute("deleteOp", deleteTrans);
+								}
+								
+								model.addAttribute("username", new Login() );
+								
+								List<Login> users = displayUsers();
+								
+								if(users.size() != 0){
+									model.addAttribute("displayUsersOp", users);
+								}else{
+									model.addAttribute("displayUsersOp", null);
+								}
+
+								model.addAttribute("modifyOp",new Transactions());
+								model.addAttribute("createOp",new Transactions());
+								model.addAttribute("firstName",UI.getFirstName());
+								model.addAttribute("lastName",UI.getLastName());
+								model.addAttribute("Username",UI.getUsername());
+								model.addAttribute("email",UI.getEmailId());
+								model.addAttribute("streetAddress",UI.getAddress());
+								model.addAttribute("city",UI.getCity());
+								model.addAttribute("state",UI.getState());
+								model.addAttribute("country",UI.getCountry());
+								model.addAttribute("zip",UI.getZipcode());
+								model.addAttribute("contactNo",UI.getContactNo());
+								model.addAttribute("userType",utype);
+								
+								return "redirect:";
 					
 				}
 				
@@ -299,6 +456,83 @@ public class InternalUserController {
 				logger.info("actual balance",actual.getBalance());
 			}
 			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending;
+						pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+
+						obj = getuserInfo(session);
+						model.addAttribute("displayPiiUsers",obj);
+
+						List<Transactions> deleteTrans = db.getTransactionsByStatus();
+						if(deleteTrans == null){
+							model.addAttribute("deleteOp", null);
+						}
+						else{
+						model.addAttribute("deleteOp", deleteTrans);
+						}
+						
+						model.addAttribute("username", new Login() );
+						
+						List<Login> users = displayUsers();
+						
+						if(users.size() != 0){
+							model.addAttribute("displayUsersOp", users);
+						}else{
+							model.addAttribute("displayUsersOp", null);
+						}
+
+						model.addAttribute("modifyOp",new Transactions());
+						model.addAttribute("createOp",new Transactions());
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("Username",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
+			
 			return "redirect:";
 		}
 		
@@ -330,6 +564,83 @@ public class InternalUserController {
 			}
 			}
 			
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending;
+						pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+
+						obj = getuserInfo(session);
+						model.addAttribute("displayPiiUsers",obj);
+
+						List<Transactions> deleteTrans = db.getTransactionsByStatus();
+						if(deleteTrans == null){
+							model.addAttribute("deleteOp", null);
+						}
+						else{
+						model.addAttribute("deleteOp", deleteTrans);
+						}
+						
+						model.addAttribute("username", new Login() );
+						
+						List<Login> users = displayUsers();
+						
+						if(users.size() != 0){
+							model.addAttribute("displayUsersOp", users);
+						}else{
+							model.addAttribute("displayUsersOp", null);
+						}
+
+						model.addAttribute("modifyOp",new Transactions());
+						model.addAttribute("createOp",new Transactions());
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("Username",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
 			return "redirect:";
 		}
 		
@@ -455,6 +766,9 @@ public class InternalUserController {
 		}
 			model.addAttribute("message", "Completed transaction successfully");
 			logger.info("Leaving create transaction POST");
+			
+			
+			
 			return "redirect:";
 		
 			
@@ -492,6 +806,75 @@ public class InternalUserController {
 			model.addAttribute("modifyOp", new UserInfo() );
 			model.addAttribute("createOp", new UserInfo() );
 			model.addAttribute("username", new Login() );
+			
+			/**
+			 * To display user profile			
+			 */
+						UserInfo UI = new UserInfo();
+						DatabaseConnectors dbcon = new DatabaseConnectors();
+						UI = dbcon.getUserInfoByUniqId((String)session.getAttribute("uniqueid"));
+						
+						String utype = null;
+						String str1 = (String)session.getAttribute("uniqueid");
+						System.out.println(str1);
+						String str2 = str1.substring(0,2);
+						
+						if(str2.equals("ei"))
+						{
+							utype = "Single User";
+						}
+						else if(str2.equals("em"))
+						{
+							utype = "Merchant";
+						}
+						else if(str2.equals("ir"))
+						{
+							utype = "Internal User";
+						}
+						else if(str2.equals("im"))
+						{
+							utype = "Manager";
+						}
+						else if(str2.equals("admin"))
+						{
+							utype = "Administrator";
+						}
+						List<Transactions> pending;
+						pending = displaytransaction(session);
+						if(pending == null){
+							model.addAttribute("transactionOp",null);
+						}
+						else{
+						
+						model.addAttribute("transactionOp", pending);
+						}
+
+						obj = getuserInfo(session);
+						model.addAttribute("displayPiiUsers",obj);
+
+						List<Transactions> deleteTrans = db.getTransactionsByStatus();
+						if(deleteTrans == null){
+							model.addAttribute("deleteOp", null);
+						}
+						else{
+						model.addAttribute("deleteOp", deleteTrans);
+						}
+						
+						
+
+						model.addAttribute("modifyOp",new Transactions());
+						model.addAttribute("createOp",new Transactions());
+						model.addAttribute("firstName",UI.getFirstName());
+						model.addAttribute("lastName",UI.getLastName());
+						model.addAttribute("Username",UI.getUsername());
+						model.addAttribute("email",UI.getEmailId());
+						model.addAttribute("streetAddress",UI.getAddress());
+						model.addAttribute("city",UI.getCity());
+						model.addAttribute("state",UI.getState());
+						model.addAttribute("country",UI.getCountry());
+						model.addAttribute("zip",UI.getZipcode());
+						model.addAttribute("contactNo",UI.getContactNo());
+						model.addAttribute("userType",utype);
 		
 		
 			
@@ -504,7 +887,7 @@ public class InternalUserController {
 			
 			
 			List<Login> allUsers = new ArrayList<Login>();
-			allUsers = db.getAllLogins();
+			allUsers = db.getAllExternalLogins();
 			
 			if(allUsers.size() == 0){
 				return null;
