@@ -16,6 +16,7 @@ import java.text.DateFormat;
 //import com.softwaresecurity.gringotts.RegistrationInput;
 	
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Locale;
 
@@ -273,15 +274,23 @@ public class AdminController {
 		        // get absolute path of the application
 			    String fullpath;
 				ServletContext context = session.getServletContext();
-				String OS = System.getProperty("os.name").toLowerCase();
+				/*String OS = System.getProperty("os.name").toLowerCase();
 		        String realContextPath= System.getProperty("user.dir");
                 if (OS.indexOf("mac") >= 0) {
 					  fullpath = realContextPath+"/log.txt";
 				}
-                else  {
+                else {
 			          fullpath = realContextPath+"\\"+"log.txt";
 					}
-		       
+		       */
+			    String OS = System.getProperty("os.name").toLowerCase();
+			    String realContextPath= System.getProperty("catalina.home");
+			    if (OS.indexOf("mac") >= 0) {
+					  fullpath = realContextPath+"/log.txt";
+				}
+              else {
+			          fullpath = realContextPath+"\\"+"log.txt";
+					}
 		        System.out.println(fullpath);   
 		        File downloadFile = new File(fullpath);
 		        FileInputStream inputStream = new FileInputStream(downloadFile);
