@@ -95,10 +95,32 @@ public class ExternalUserController {
 			List<Transactions> obj= displaytransaction(session);
 			if(obj == null){
 				model.addAttribute("transactionOp",null);
+				model.addAttribute("userOp", null);
+				model.addAttribute("authorizeOp", null);
 			}
 			else{
 			model.addAttribute("transactionOp",obj);
+			List<Transactions> deleteOp = new ArrayList<Transactions>();
+			List<Transactions> authorizeOp = new ArrayList<Transactions>();
+			
+			for(int i=0;i<obj.size();i++){
+				System.out.println("status"+obj.get(i).getInternalStatus());
+				if(obj.get(i).getInternalStatus()==null || !obj.get(i).getUniqId().equals((String)session.getAttribute("uniqueid")))
+					continue;
+				if(obj.get(i).getInternalStatus().equals("deleted")){
+					deleteOp.add(obj.get(i));
+				}
+				else if(obj.get(i).getInternalStatus().equals("modified") || obj.get(i).getInternalStatus().equals("created") )
+				{
+					authorizeOp.add(obj.get(i));
+				}
+					
 			}
+			model.addAttribute("userOp", deleteOp);
+			model.addAttribute("authorizeOp", authorizeOp);
+			}
+			
+			
 			logger.info("Trans Obj:",transObj);
 			logger.info("Current Balance"+extUser.getBalance());
 			
@@ -1152,6 +1174,86 @@ public class ExternalUserController {
 				databaseConnector.updateUserInfo(UI);
 				return "redirect:extUserHomePage";
 			}
+			
+			@RequestMapping(value = "/deleteauthorization", method = RequestMethod.GET)
+			public String deleteTransactions(HttpServletRequest request, HttpSession session){
+				
+					
+					logger.info("inside delete");
+					int size = Integer.parseInt(request.getParameter("size"));
+					long[] correspondingID = new long[size];
+					List<Transactions> transList = displaytransaction(session);
+					for(int i=0;i<transList.size();i++){
+						System.out.println("status"+transList.get(i).getInternalStatus());
+						if(transList.get(i).getInternalStatus()==null || !transList.get(i).getUniqId().equals((String)session.getAttribute("uniqueid")))
+							transList.remove(i);
+						if(!transList.get(i).getInternalStatus().equals("deleted"))
+							transList.remove(i);
+						}
+					for(int i=0;i<size;i++){
+						Transactions temp = transList.get(i);
+						correspondingID[i] = temp.getId();
+					}
+					
+					
+					for(int i=0;i<size;i++){
+					String action = request.getParameter("radioValues"+i);
+					//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
+					
+					//System.out.println("Inside authorize transactions");
+					
+					if(action.contains("delete"))
+						databaseConnector.deleteTransactionByExternalUser(correspondingID[i]);
+					
+					}
+					return "redirect:extUserHomePage";
+					
+				}
+			
+			@RequestMapping(value = "/authorize", method = RequestMethod.GET)
+			public String createTransactions(HttpServletRequest request, HttpSession session){
+				
+					
+					
+					int size = Integer.parseInt(request.getParameter("size"));
+					//int size = Integer.parseInt(request.getParameter("size"));
+					long[] correspondingID = new long[size];
+					List<Transactions> transList = displaytransaction(session);
+					for(int i=0;i<transList.size();i++){
+						System.out.println("status"+transList.get(i).getInternalStatus());
+						if(transList.get(i).getInternalStatus()==null || !transList.get(i).getUniqId().equals((String)session.getAttribute("uniqueid")))
+							transList.remove(i);
+						if(!transList.get(i).getInternalStatus().equals("created"))
+								transList.remove(i);
+						if(!transList.get(i).getInternalStatus().equals("created"))
+								transList.remove(i);
+					}
+					for(int i=0;i<size;i++){
+						Transactions temp = transList.get(i);
+						correspondingID[i] = temp.getId();
+					}
+					for(int i=0;i<size;i++){
+					String action = request.getParameter("radioValues"+i);
+					//System.out.println("radioValues"+i+" "+request.getParameter("radioValues"+i)+" he"+i);
+					
+					//System.out.println("Inside authorize transactions");
+					
+					if(action.contains("approve")){
+						
+						Transactions temp = databaseConnector.getTransactionsById(correspondingID[i]);
+						temp.setInternalStatus("approved");
+						
+						databaseConnector.updateTransaction(temp);
+					}
+					else{
+						Transactions temp = databaseConnector.getTransactionsById(correspondingID[i]);
+						temp.setInternalStatus("User reject");
+						databaseConnector.updateTransaction(temp);
+					}
+					}
+					return "redirect:extUserHomePage";
+					
+				}
 			
 			
 			

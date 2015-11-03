@@ -477,5 +477,14 @@ public List<TempTransactions> getTempTransactionsByAccountNo(int accountNo) {
 	 return null;
 }
 
+public void deleteTransactionByExternalUser(long correspondingID){
+	Session session = HibernateUtil.getSessionFactory().openSession();
+	String hql = "delete from Transactions where Id= :Id";
+	session.beginTransaction();
+	session.createQuery(hql).setString("Id", correspondingID+"").executeUpdate();
+	session.getTransaction().commit();
+	session.close();
+}
+
 
 }

@@ -26,6 +26,9 @@
         <property name="status" type="string">
             <column name="status" not-null="true"/>
         </property>
+        <property name="internalStatus" type="string">
+            <column name="internalstatus" />
+        </property>
         <property name="date" type="timestamp">
         </property>
     </class>

@@ -57,7 +57,9 @@
   						<li><a href="#Tab7" data-toggle="tab">Pay Merchant</a></li>
   						<li><a href="#Tab8" data-toggle="tab">Update Profile</a></li>
   						<li><a href="#Tab9" data-toggle="tab">Authorize Viewing Transactions</a></li>
-  						
+
+  						<li><a href="#Tab10" data-toggle="tab">Delete Transaction</a></li>
+  						<li><a href="#Tab11" data-toggle="tab">Authorize Transaction</a></li>			
 					</ul>
 					
         		</div>
@@ -554,7 +556,102 @@
     						</div>
   						</div>
 	    			</form:form>
-	    		</div>				
+	    		</div>		
+	    		
+	    		<div class="tab-pane" id="Tab10">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Delete Transaction</h3>
+    							
+    							<table  border="1">
+    							<tr>
+    							
+    							<th align="center">Unique ID</th>
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Delete</th>
+    							<th align="center">Keep</th>
+    							</tr>
+    							<% int i = 0; %>
+    							<c:if test="${userOp != null}">  
+    							<form:form action="deleteauthorization" commandName="userOp" method="GET">
+    							
+    							<c:forEach items="${userOp}" var="userOp">     
+    							<tr>
+    							 
+  								 
+  								 <td align="center"><c:out value="${userOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${userOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${userOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${userOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${userOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${userOp.getTransactionAmount()}"/></td>
+  								 
+  								
+  								<td><input type="radio" name="radioValues<%=i %>" value="delete<%=i %>"/></td>
+  								<td><input type="radio" checked name="radioValues<%=i %>" value="ignore<%=i %>" checked="checked"/></td>						 
+  								 </tr>
+  								 <% i = i+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=i %> name="size"/>
+								<button type="submit">Submit For Deletion</button>
+								
+								</form:form>
+								</c:if>
+    							</table>
+    							
+    						</div>
+    						</div>
+        				
+        				
+        				<div class="tab-pane" id="Tab11">
+        					<div class="page-header" style="margin-top: 5px;" align="center">
+    							<h3>Authorize Transaction</h3>
+    							
+    							<table align="center" border="1">
+    							<tr>
+    							
+    							<th align="center">Unique ID</th>
+    							<th align="center">Transaction Type</th>
+       							<th align="center">Description</th>
+    							<th align="center">Balance</th>
+    							<th align="center">Date</th>
+    							<th align="center">Transaction Amount</th>
+    							<th align="center">Status</th>
+    							<th align="center">Approve</th>
+    							<th align="center">Reject</th>
+    							</tr>
+    							<%int j = 0; %>
+    							<c:if test="${authorizeOp != null}">  
+    							<form:form action="authorize" commandName="authorizeOp" method="GET">
+    							
+    							<c:forEach items="${authorizeOp}" var="authorizeOp">     
+    							<tr>
+  								 
+  								 <td align="center"><c:out value="${authorizeOp.getUniqId()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getTransactionType()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getDescription()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getBalance()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getDate()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getTransactionAmount()}"/></td>
+  								 <td align="center"><c:out value="${authorizeOp.getInternalStatus()}"/></td>
+  								<td><input type="radio"  value="approve"<%=j %> name="radioValues<%=j %>"/></td>	
+  								<td><input type="radio" checked value="reject"<%=j %> name="radioValues<%=j %>"/></td>					 
+  								 </tr>
+  								 <% j = j+1; %> 
+								</c:forEach>
+								<input type="hidden" value=<%=j %> name="size"/>
+								<button type="submit">Submit For Approval</button>
+								
+								</form:form>
+								</c:if>
+    							</table>
+    							
+    						</div>
+    						
+        				</div>		
     			</div>
     		</div>
     		
