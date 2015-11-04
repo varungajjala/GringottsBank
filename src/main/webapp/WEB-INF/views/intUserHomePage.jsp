@@ -44,7 +44,7 @@
   				<div class="panel-body" >
   					<ul class="nav nav-tabs" data-tabs="tabs">
   						<li class="active"><a href="#Tab1" data-toggle="tab">Profile</a></li>
-  						<li><a href="#Tab2" data-toggle="tab">Manage Users</a></li>
+  						<!-- <li><a href="#Tab2" data-toggle="tab">Manage Users</a></li> -->
   						<li><a href="#Tab3" data-toggle="tab">Authorize Payments</a></li>
   						<li><a href="#Tab4" data-toggle="tab">Approve User Accounts</a></li>
 
@@ -430,7 +430,7 @@
     							<table align="center" border="1">
     							<tr>
     							
-    				
+    							<th align="center">Transaction Id</th>
     							<th align="center">Transaction Type</th>
        							<th align="center">Description</th>
     							<th align="center">Balance</th>
@@ -442,7 +442,7 @@
   								<c:if test="${usertransactionOp != null}">  						
       							<c:forEach items="${usertransactionOp}" var="usertransactionOp">     
     							<tr>
-  								
+  									<td align="center"><c:out value="${usertransactionOp.getId()}"/></td>
   								 <td align="center"><c:out value="${usertransactionOp.getTransactionType()}"/></td>
   								 <td align="center"><c:out value="${usertransactionOp.getDescription()}"/></td>
   								 <td align="center"><c:out value="${usertransactionOp.getBalance()}"/></td>

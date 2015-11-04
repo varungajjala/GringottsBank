@@ -34,7 +34,7 @@
 	<!-- initialize keyboard (required) -->
 	<script>
 		$(function(){
-			$('#inputPassword3').keyboard();
+			$('#inputPass').keyboard();
 		});
 	</script>
   </head>

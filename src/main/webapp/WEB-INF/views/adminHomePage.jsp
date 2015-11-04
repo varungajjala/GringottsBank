@@ -45,7 +45,7 @@
   				<div class="panel-body" >
   					<ul class="nav nav-tabs" data-tabs="tabs">
   						<li class="active"><a href="#Tab1" data-toggle="tab">Profile</a></li>
-  						<li><a href="#Tab2" data-toggle="tab">User Requests</a></li>
+  						<!-- <li><a href="#Tab2" data-toggle="tab">User Requests</a></li> -->
   						<li><a href="#Tab3" data-toggle="tab">View System Log</a></li>
   						<li><a href="#Tab4" data-toggle="tab">View PII</a></li>
   						<li><a href="#Tab5" data-toggle="tab">Delete User</a></li>

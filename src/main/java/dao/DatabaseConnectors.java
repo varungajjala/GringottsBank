@@ -86,15 +86,18 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
 				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 session.close();
 		 if(login != null) {
 			 return login.getUniqId();
 		 }
+		 
 		 return "";
 	}
 	public Login getLoginByUsername(String username) {
 			Session session = HibernateUtil.getSessionFactory().openSession();
 			Login login = (Login) session.createCriteria(Login.class)
 				 .add( Restrictions.like("userId", username)).uniqueResult();
+			session.close();
 		 if(login != null) {
 			 return login;
 		 }
@@ -105,6 +108,7 @@ public class DatabaseConnectors {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
 		List<Login> results = (List<Login>) session.createCriteria(Login.class).add( Restrictions.or(Restrictions.like("role", "ei"),Restrictions.like("role", "em"))).list();
+		session.close();
 		 if(results != null) {
 			 return (List<Login>)results;
 		 }
@@ -115,6 +119,7 @@ public class DatabaseConnectors {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		@SuppressWarnings("unchecked")
 		List<Login> results = (List<Login>) session.createCriteria(Login.class).add( Restrictions.or(Restrictions.like("role", "ir"),Restrictions.like("role", "im"))).list();
+		session.close();
 		 if(results != null) {
 			 return (List<Login>)results;
 		 }
@@ -125,6 +130,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
 				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 session.close();
 		 if(login != null) {
 			 return login.getPasswd();
 		 }
@@ -135,6 +141,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login) session.createCriteria(Login.class)
 				 .add( Restrictions.like("userId", username)).uniqueResult();
+		 session.close();
 		 if(login != null) {
 			 return login.getRole();
 		 }
@@ -144,6 +151,7 @@ public class DatabaseConnectors {
 	public int checkLogin(String userid, String passwd){
 		String passFromDb = getPasswdByUsername(userid);
 		//if (passFromDb != "" && passFromDb.equals(passwd)){
+		
 		if (passFromDb !=""&& BCrypt.checkpw(passwd, passFromDb)){
 			return 1;
 		}
@@ -162,6 +170,7 @@ public class DatabaseConnectors {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		 OtpTransactions tempTransactions = (OtpTransactions)session.createCriteria(OtpTransactions.class)
 				 .add(Restrictions.eq("id", id)).uniqueResult();
+		 session.close();
 		 return tempTransactions;
 	}
 	public OtpTransactions getOtpTransactionsByUniqId(String uniqId) {
@@ -169,6 +178,7 @@ public class DatabaseConnectors {
 		 @SuppressWarnings("unchecked")
 		OtpTransactions results = (OtpTransactions) session.createCriteria(OtpTransactions.class)
 				 .add( Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 if(results != null) {
 			 return results;
 		 }
@@ -179,6 +189,7 @@ public class DatabaseConnectors {
 		 @SuppressWarnings("unchecked")
 		List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class)
 				 .add( Restrictions.like("uniqId", uniqId)).addOrder(Order.desc("date")).list();
+		 session.close();
 		 if(results != null) {
 			 return (List<Transactions>)results;
 		 }
@@ -191,6 +202,7 @@ public class DatabaseConnectors {
 		List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class).list();
 		 System.out.println("result"+results.size());
 		 System.out.println("result obj:"+results.toString());
+		 session.close();
 		 if(results != null) {
 			System.out.println("Returning temp transactions");
 			 return (List<Transactions>)results;
@@ -229,6 +241,7 @@ public class DatabaseConnectors {
 		 @SuppressWarnings("unchecked")
 		List<Transactions> results = (List<Transactions>) session.createCriteria(Transactions.class)
 				 .add( Restrictions.like("status", "pending")).addOrder(Order.desc("date")).list();
+		 session.close();
 		 if(results != null) {
 			 return (List<Transactions>)results;
 		 }
@@ -239,6 +252,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 @SuppressWarnings("unchecked")
 		List<TempTransactions> results = (List<TempTransactions>) session.createCriteria(TempTransactions.class).list();
+		 session.close();
 		 System.out.println("result"+results.size());
 		 System.out.println("result obj:"+results.toString());
 		 if(results != null) {
@@ -260,6 +274,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 return userInfo;
 	 }
 	 
@@ -267,6 +282,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("contactNo", contactNo)).uniqueResult();
+		 session.close();
 		 return userInfo;
 	 }
 	 
@@ -274,6 +290,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("emailId", emailid)).uniqueResult();
+		 session.close();
 		 return userInfo;
 	 }
 	 
@@ -281,12 +298,14 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("username", username)).uniqueResult();
+		 session.close();
 		 return userInfo;
 	 }
 	 public UserInfo getUserInfoByIdfnNo(String idfnno) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 UserInfo userInfo = (UserInfo)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("identificationNo", idfnno)).uniqueResult();
+		 session.close();
 		 return userInfo;
 	 }
 	 /* Get user info */
@@ -295,6 +314,7 @@ public class DatabaseConnectors {
 		 @SuppressWarnings("unchecked")
 		 List<UserInfo> userInfo = (List<UserInfo>)session.createCriteria(UserInfo.class)
 				 .list();
+		 session.close();
 		 System.out.println("list size is "+userInfo.size());
 		 return userInfo;
 	 }
@@ -304,6 +324,7 @@ public class DatabaseConnectors {
 		 @SuppressWarnings("unchecked")
 		 List<UserInfo> userInfo = (List<UserInfo>)session.createCriteria(UserInfo.class)
 				 .add(Restrictions.like("govapproval","approved" )).list();
+		 session.close();
 		 System.out.println("list size is "+userInfo.size());
 		 return userInfo;
 	 }
@@ -312,18 +333,21 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 TempTransactions tempTransactions = (TempTransactions)session.createCriteria(TempTransactions.class)
 				 .add(Restrictions.eq("id", id)).uniqueResult();
+		 session.close();
 		 return tempTransactions;
 	 }
 	 public TempUserInfo getTempUserInfoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 TempUserInfo tempUserInfo = (TempUserInfo)session.createCriteria(TempUserInfo.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 return tempUserInfo;
 	 }
 	 public long getAccountNoByUniqId(String uniqId) {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 if( externalUser != null ) {
 			 return externalUser.getAccountno();
 		 }
@@ -333,6 +357,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 if( externalUser != null ) {
 			 return externalUser.getBalance();
 		 }
@@ -342,6 +367,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 InternalUser internalUser = (InternalUser)session.createCriteria(InternalUser.class)
 				 .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+		 session.close();
 		 if( internalUser != null ) {
 			 return internalUser.getEmpId();
 		 }
@@ -358,6 +384,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 Login login = (Login)session.createCriteria(Login.class)
 				 .add(Restrictions.like("username", username)).uniqueResult();
+		 session.close();
 		 if( login != null ) {
 			 return login.getAttempt();
 		 }
@@ -397,6 +424,7 @@ public class DatabaseConnectors {
 		 Session session = HibernateUtil.getSessionFactory().openSession();
 		 OneTimePass otp = (OneTimePass)session.createCriteria(OneTimePass.class)
 				 .add(Restrictions.like("username", username)).uniqueResult();
+		 session.close();
 		 return otp;
 	 }
 	 
@@ -411,6 +439,7 @@ public class DatabaseConnectors {
      Session session = HibernateUtil.getSessionFactory().openSession();
      ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
              .add(Restrictions.like("uniqId", uniqId)).uniqueResult();
+     session.close();
      return externalUser;
  }
  public void deleteOtpByUsername(String username)
@@ -427,6 +456,7 @@ public class DatabaseConnectors {
      Session session = HibernateUtil.getSessionFactory().openSession();
      ExternalUser externalUser = (ExternalUser)session.createCriteria(ExternalUser.class)
              .add(Restrictions.like("accountno",accountno )).uniqueResult();
+     session.close();
      return externalUser;
  }
  
@@ -434,6 +464,7 @@ public class DatabaseConnectors {
      Session session = HibernateUtil.getSessionFactory().openSession();
      Transactions trans = (Transactions)session.createCriteria(Transactions.class)
              .add(Restrictions.like("id",id )).uniqueResult();
+     session.close();
      return trans;
  }
  
@@ -443,6 +474,7 @@ public class DatabaseConnectors {
 	 String hql = "delete from OtpTransactions where uniqid= :uniqueid";
 	 session.createQuery(hql).setString("uniqueid", uniqueid).executeUpdate();
 	 session.getTransaction().commit();
+	 session.close();
  }
  public void saveOtpTransactionToTransactionById(String uniqueid){
 	 OtpTransactions oT = getOtpTransactionsByUniqId(uniqueid);
@@ -461,6 +493,7 @@ public class DatabaseConnectors {
 	 transaction.setDate(oT.getDate());
 	 deleteOtpTransactionById(uniqueid);
 	 saveTransaction(transaction); 
+	 
  }
 public List<TempTransactions> getTempTransactionsByAccountNo(int accountNo) {
 	// TODO Auto-generated method stub
@@ -470,6 +503,7 @@ public List<TempTransactions> getTempTransactionsByAccountNo(int accountNo) {
 	.add(Restrictions.eq("accountno",accountNo)).list();
 	 System.out.println("result"+results.size());
 	 System.out.println("result obj:"+results.toString());
+	 session.close();
 	 if(results != null) {
 		System.out.println("Returning temp transactions");
 		 return (List<TempTransactions>)results;

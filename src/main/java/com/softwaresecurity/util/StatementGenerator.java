@@ -109,19 +109,23 @@ public class StatementGenerator {
    insertCell(table, "Transaction ID", Element.ALIGN_LEFT, 1, bfBold12);
    insertCell(table, "Transaction Type", Element.ALIGN_LEFT, 1, bfBold12);
    insertCell(table, "Description", Element.ALIGN_LEFT, 1, bfBold12);
+  // insertCell(table, "Transaction Amount", Element.ALIGN_LEFT, 1, bfBold12);
    insertCell(table, "Balance", Element.ALIGN_LEFT, 1, bfBold12);
    table.setHeaderRows(1);
  
    //insert an empty row
    insertCell(table, "", Element.ALIGN_LEFT, 5, bfBold12);
    //create section heading by cell merging
-   String str;
+   String str,str3;
    //just some random data to fill 
    for(Transactions t1 : results){
        insertCell(table,t1.getDate().toString(), Element.ALIGN_LEFT, 1, bf12);
-       insertCell(table,t1.getUniqId(), Element.ALIGN_LEFT, 1, bf12);
+       str3=Long.toString(t1.getId());
+       insertCell(table,str3, Element.ALIGN_LEFT, 1, bf12);
        insertCell(table,t1.getTransactionType(), Element.ALIGN_LEFT, 1, bf12);
        insertCell(table,t1.getDescription(), Element.ALIGN_LEFT, 1, bf12);
+	 //  str2=Float.toString(t1.getTransactionAmount());
+	 //  insertCell(table,str2, Element.ALIGN_LEFT, 1, bf12);
        str=Float.toString(t1.getBalance());
        insertCell(table,str, Element.ALIGN_LEFT, 1, bf12);
          }

@@ -20,6 +20,6 @@
   </head>
   <body>
 		<h1>Your Password got updated successfully !!!</h1>
-		<h2><a href="/gringotts/">Go back to home</a></h2>
+		<h2><a href="/">Go back to home</a></h2>
   </body>
 </html>

@@ -47,6 +47,26 @@ private DatabaseConnectors db = new DatabaseConnectors();
 	 */
 	@RequestMapping(value = "/GovHomePage", method = RequestMethod.GET)
 	public String govHome(Locale locale, ModelMap model, HttpSession session) {
+		if(session.getAttribute("uniqueid") == null){
+			return "redirect:";
+		}
+		
+		if(session.getAttribute("role") != null){
+			String role = session.getAttribute("role").toString();
+			if(role.equals("ei")){
+				return "redirect:extUserHomePage";
+			}else if(role.equals("em")){
+				return "redirect:merchantHomePage";
+			}else if(role.equals("im")){
+				return "redirect:managerHomePage";
+			}else if(role.equals("ir")){
+				return "redirect:intUserHomePage";
+			}else if(role.equals("admin")){
+				return "redirect:adminHomePage";
+			}else if(role.equals("gov")){
+				return "GovHomePage";
+			}
+		}
 		List<UserInfo> obj= getuserInfo(session);
 		model.addAttribute("displayPiiUsers",obj);
 		model.addAttribute("piiauthorization", new UserInfo());

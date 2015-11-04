@@ -210,7 +210,7 @@ logger.info("In delete User POST");
 						{
 							utype = "Manager";
 						}
-						else if(str22.equals("admin"))
+						else if(str22.equals("ia"))
 						{
 							utype = "Administrator";
 						}
@@ -339,7 +339,7 @@ logger.info("In modify user POST");
 						{
 							utype = "Manager";
 						}
-						else if(str22.equals("admin"))
+						else if(str22.equals("ia"))
 						{
 							utype = "Administrator";
 						}
@@ -403,7 +403,7 @@ logger.info("In modify user POST");
 							{
 								utype = "Manager";
 							}
-							else if(str22.equals("admin"))
+							else if(str22.equals("ia"))
 							{
 								utype = "Administrator";
 							}
